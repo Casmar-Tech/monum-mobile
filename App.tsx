@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
+import {Users} from './components/Users';
 
 export const App = () => {
   return (
     <View>
-      <Text>Hola Pau, que guapo que ets :) </Text>
+      <Users />
     </View>
   );
 };
