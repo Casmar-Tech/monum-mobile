@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "pkief.material-icon-theme",
     "formulahendry.auto-close-tag",
     "formulahendry.auto-complete-tag",
     "formulahendry.auto-rename-tag",
@@ -27,7 +28,6 @@
     "charliermarsh.ruff",
     "emeraldwalk.runonsave",
     "simonsiefke.svg-preview",
-    "vscode-icons-team.vscode-icons",
     "redhat.vscode-yaml",
     "kisstkondoros.vscode-gutter-preview",
     "graphql.vscode-graphql",

@@ -471,6 +471,8 @@
 				DEVELOPMENT_TEAM = L34XTA6TPT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = monum/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = monum;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -498,6 +500,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L34XTA6TPT;
 				INFOPLIST_FILE = monum/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = monum;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
