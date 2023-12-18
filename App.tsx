@@ -1,13 +1,6 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Users} from './components/Users';
+import {CounterScreen} from './src/screens/CounterScreen';
 
 export const App = () => {
-  return (
-    <View>
-      <Users />
-    </View>
-  );
+  return <CounterScreen />;
 };
-
-export default App;
