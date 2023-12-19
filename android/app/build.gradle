@@ -74,9 +74,10 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.monum"
+    namespace "es.monum.mobile"
     defaultConfig {
-        applicationId "com.monum"
+        applicationId "es.monum.mobile"
+        resConfigs "en", "es"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

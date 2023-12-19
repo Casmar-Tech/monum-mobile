@@ -1,4 +1,4 @@
-package com.monum
+package es.monum.mobile
 
 import android.os.Bundle // imported for react-native-splash-screen
 
