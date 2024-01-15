@@ -3,7 +3,8 @@
 # react-native-config codegen
 ios/tmp.xcconfig
 
-
+# plist
+ios/GoogleService-Info.plist
 
 # OSX
 #
