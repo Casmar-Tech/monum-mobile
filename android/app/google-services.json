@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "948005549464",
+    "project_id": "monum-mobile-a8ea7",
+    "storage_bucket": "monum-mobile-a8ea7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948005549464:android:30079c4e3523d509a4a7ed",
+        "android_client_info": {
+          "package_name": "es.monum.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948005549464-pkpvnpruu0k36fcor6ojmurqiae0k689.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.monum.mobile",
+            "certificate_hash": "e45239939571b5065f0511dfaec5957262de1652"
+          }
+        },
+        {
+          "client_id": "948005549464-frfd797jqc2sg0052tcjhurukv0oi2ve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgcquPTwJU_vnTs91b54frDsZyaDagmpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948005549464-frfd797jqc2sg0052tcjhurukv0oi2ve.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "948005549464-kq2ko427ero9oc8tbg0nmgjt2l86btj5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "es.monum.mobile",
+                "app_store_id": "6474858222"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

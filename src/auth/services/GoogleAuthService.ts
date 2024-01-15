@@ -9,7 +9,7 @@ class GoogleAuthService {
   public async configureGoogleSignIn() {
     GoogleSignin.configure({
       webClientId:
-        '944908105248-u4k7dp5du3a3ahcg1u6a284u0mri26av.apps.googleusercontent.com',
+        '948005549464-frfd797jqc2sg0052tcjhurukv0oi2ve.apps.googleusercontent.com',
     });
   }
 
