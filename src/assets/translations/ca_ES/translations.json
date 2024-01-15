@@ -1,0 +1,62 @@
+{
+  "errors": {
+    "auth": {
+      "random": "Ha succeït un error inesperat. Si us plau, torna-ho a intentar més tard.",
+      "incorrectPassword": "El correu electrònic o nom d'usuari i la contrasenya introduïts no coincideixen amb cap compte dels nostres registres. Si us plau, verifica les dades i prova de nou.",
+      "passwordNotStrong": "La contrasenya ha de tenir un mínim de 8 caràcters, incloure majúscules, minúscules, números i símbols, i no pot contenir paraules comunes o seqüències previsibles.",
+      "userAlreadyExists": "Aquest correu electrònic ja està registrat a l'aplicació. Si us plau, utilitza una altra adreça o recupera la teva contrasenya si no recordes la informació d'accés."
+    },
+    "profile": {
+      "incorrectPassword": "La contrasenya antiga que has introduït no coincideix amb la teva contrasenya actual. Si us plau, intenta-ho de nou.",
+      "passwordNotStrong": "La contrasenya ha de tenir un mínim de 8 caràcters, incloure majúscules, minúscules, números i símbols, i no pot contenir paraules comunes o seqüències previsibles."
+    }
+  },
+  "authScreens": {
+    "loginWithGoogle": "Continuar amb Google",
+    "loginWithCredentials": "Continuar amb un altre correu",
+    "notRegistered": "Encara no estàs registrat?",
+    "register": "Registra't",
+    "signup": "Registrar-se",
+    "emailOrUsername": "Correu electrònic o nom d'usuari",
+    "password": "Contrasenya",
+    "confirmedPassword": "Confirmar contrasenya",
+    "forgotPassword": "Has oblidat la contrasenya?",
+    "username": "Nom d'usuari",
+    "email": "Correu electrònic",
+    "footerText": "Monum S.L @2023",
+    "access": "Accedir"
+  },
+  "placeDetailExpanded": {
+    "mediaIntro": "Què coneixeràs?"
+  },
+  "profile": {
+    "language": "Idioma",
+    "logout": "Tancar sessió",
+    "update": "Actualitzar",
+    "createdAt": "Creat el",
+    "errorUpdating": "Error al actualitzar el perfil",
+    "errorGetting": "Error al obtenir el perfil",
+    "changePassword": "Canviar contrasenya",
+    "introChangePassword": "Emplena els camps per a configurar la teva nova contrasenya",
+    "currentPassword": "Contrasenya actual",
+    "newPassword": "Nova contrasenya",
+    "confirmNewPassword": "Confirmar nova contrasenya"
+  },
+  "languages": {
+    "en_US": "Anglès (EUA)",
+    "es_ES": "Espanyol (España)",
+    "fr_FR": "Francès (França)"
+  },
+  "routes": {
+    "search": "Cerca",
+    "errorGettingAvailableCities": "Error al obtenir les ciutats disponibles",
+    "stops": "aturades",
+    "audio": "audio",
+    "audios": "audios"
+  },
+  "actionSheets": {
+    "directionSheet": {
+      "title": "Obrir amb"
+    }
+  }
+}

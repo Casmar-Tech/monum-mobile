@@ -45,12 +45,10 @@ Upload the AAB to the Play Store Console.
 Finish the config in the Play Store Console.
 
 ## For iOS:
-Go to Xcode, and in the menu bar: `Product > Scheme > Edit Scheme...`<br>
-Make sure that the `Build Configuration` is set to `Release`.<br>
-
+Go to Xcode, and in the menu bar: `Product > Scheme > Edit Scheme...`, make sure that the `Build Configuration` is set to `Release`.<br>
 Then, update the project version and build number in Xcode:<br>
-Select the `monum`project in the left hand menu, then select the `monum` target.<br>
-Then go to the `General` tab, and update the `Version` and `Build` fields from the `Identity` section.<br>
++ Select the `monum`project in the left hand menu, then select the `monum` target.<br>
++ Then go to the `General` tab, and update the `Version` and `Build` fields from the `Identity` section.<br>
 Then go to `Product > Destination` and make sure that `iPhone 15 Pro` is selected.<br>
 Build the app: `Product > Build`.<br>
 Then go to `Product > Destination` and make sure that `Any iOS Device (arm64)` is selected.<br>

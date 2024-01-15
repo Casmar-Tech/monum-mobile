@@ -1,0 +1,62 @@
+{
+  "errors": {
+    "auth": {
+      "random": "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.",
+      "incorrectPassword": "El correo electrónico o nombre de usuario y la contraseña introducidos no coinciden con ninguna cuenta de nuestros registros. Por favor, verifica los datos e inténtalo de nuevo.",
+      "passwordNotStrong": "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos, y no puede contener palabras comunes o secuencias predecibles.",
+      "userAlreadyExists": "Este correo electrónico ya está registrado en la aplicación. Por favor, utiliza otra dirección o recupera tu contraseña si no recuerdas tus datos de acceso."
+    },
+    "profile": {
+      "incorrectPassword": "La contraseña antigua que has introducido no coincide con tu contraseña actual. Por favor, inténtalo de nuevo.",
+      "passwordNotStrong": "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos, y no puede contener palabras comunes o secuencias predecibles."
+    }
+  },
+  "authScreens": {
+    "loginWithGoogle": "Continuar con Google",
+    "loginWithCredentials": "Continuar con otro correo",
+    "notRegistered": "¿Aún no tienes cuenta?",
+    "register": "Regístrate",
+    "signup": "Regístrarse",
+    "emailOrUsername": "Email o nombre de usuario",
+    "password": "Contraseña",
+    "confirmedPassword": "Confirmar contraseña",
+    "forgotPassword": "¿Has olvidado tu contraseña?",
+    "username": "Nombre de usuario",
+    "email": "Email",
+    "footerText": "Monum S.L @2023",
+    "access": "Acceder"
+  },
+  "placeDetailExpanded": {
+    "mediaIntro": "¿Qué vas a conocer?"
+  },
+  "profile": {
+    "language": "Idioma",
+    "logout": "Cerrar sesión",
+    "update": "Actualizar",
+    "createdAt": "Creado el",
+    "errorUpdating": "Error al actualizar el perfil",
+    "errorGetting": "Error al obtener el perfil",
+    "changePassword": "Cambiar contraseña",
+    "introChangePassword": "Rellena los campos para configurar tu nueva contraseña",
+    "currentPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "confirmedNewPassword": "Confirmar nueva contraseña"
+  },
+  "languages": {
+    "en_US": "Inglés (EE.UU.)",
+    "es_ES": "Español (España)",
+    "fr_FR": "Francés (Francia)"
+  },
+  "routes": {
+    "search": "Buscar",
+    "errorGettingAvailableCities": "Error al obtener las ciudades disponibles",
+    "stops": "paradas",
+    "audio": "audio",
+    "audios": "audios"
+  },
+  "actionSheets": {
+    "directionSheet": {
+      "title": "Abrir con"
+    }
+  }
+}

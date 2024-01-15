@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* monumTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* monumTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-monum.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-monum.a */; };
+		11627EC42B52A98100DD7467 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11627EC32B52A98100DD7467 /* GoogleService-Info.plist */; };
+		11627EC52B52A98100DD7467 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11627EC32B52A98100DD7467 /* GoogleService-Info.plist */; };
 		11839FCC2B30708D00F3517A /* monum_icon_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 11839FCB2B30708D00F3517A /* monum_icon_round.png */; };
 		11839FCD2B30708D00F3517A /* monum_icon_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 11839FCB2B30708D00F3517A /* monum_icon_round.png */; };
 		11839FCF2B3070F400F3517A /* green_text_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 11839FCE2B3070F400F3517A /* green_text_logo.png */; };
@@ -18,8 +20,11 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		6D05AC33475B476BB60DCCEB /* Montserrat-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1A0B03D08E6410D8D043762 /* Montserrat-VariableFont_wght.ttf */; };
+		72341F0F2292403996E26789 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF65186D7539417E9379FF0F /* Montserrat-SemiBold.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-monum-monumTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-monum-monumTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		ECA3FF7CFAA14858A5CFF750 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38F38BB9DBB840898264BAF5 /* Montserrat-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +41,7 @@
 		00E356EE1AD99517003FC87E /* monumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = monumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* monumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = monumTests.m; sourceTree = "<group>"; };
+		11627EC32B52A98100DD7467 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		11839FCB2B30708D00F3517A /* monum_icon_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monum_icon_round.png; sourceTree = "<group>"; };
 		11839FCE2B3070F400F3517A /* green_text_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_text_logo.png; sourceTree = "<group>"; };
 		11D9B5202B51893B00ABD6F0 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -46,13 +52,16 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = monum/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = monum/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-monum-monumTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-monum-monumTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		38F38BB9DBB840898264BAF5 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-monum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum.debug.xcconfig"; path = "Target Support Files/Pods-monum/Pods-monum.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-monum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum.release.xcconfig"; path = "Target Support Files/Pods-monum/Pods-monum.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-monum-monumTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum-monumTests.debug.xcconfig"; path = "Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-monum.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-monum.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = monum/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-monum-monumTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum-monumTests.release.xcconfig"; path = "Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests.release.xcconfig"; sourceTree = "<group>"; };
+		E1A0B03D08E6410D8D043762 /* Montserrat-VariableFont_wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-VariableFont_wght.ttf"; path = "../src/assets/fonts/Montserrat-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EF65186D7539417E9379FF0F /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../src/assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +136,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				11627EC32B52A98100DD7467 /* GoogleService-Info.plist */,
 				11D9B5202B51893B00ABD6F0 /* Config.xcconfig */,
 				13B07FAE1A68108700A75B9A /* monum */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -134,6 +144,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				D23C0EE3703E4A7696C7100E /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -158,6 +169,16 @@
 				89C6BE57DB24E9ADA2F236DE /* Pods-monum-monumTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		D23C0EE3703E4A7696C7100E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				38F38BB9DBB840898264BAF5 /* Montserrat-Regular.ttf */,
+				EF65186D7539417E9379FF0F /* Montserrat-SemiBold.ttf */,
+				E1A0B03D08E6410D8D043762 /* Montserrat-VariableFont_wght.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +271,7 @@
 				11839FCD2B30708D00F3517A /* monum_icon_round.png in Resources */,
 				11D9B5222B51893B00ABD6F0 /* Config.xcconfig in Resources */,
 				11839FD02B3070F400F3517A /* green_text_logo.png in Resources */,
+				11627EC52B52A98100DD7467 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +284,10 @@
 				11839FCC2B30708D00F3517A /* monum_icon_round.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				11839FCF2B3070F400F3517A /* green_text_logo.png in Resources */,
+				11627EC42B52A98100DD7467 /* GoogleService-Info.plist in Resources */,
+				ECA3FF7CFAA14858A5CFF750 /* Montserrat-Regular.ttf in Resources */,
+				72341F0F2292403996E26789 /* Montserrat-SemiBold.ttf in Resources */,
+				6D05AC33475B476BB60DCCEB /* Montserrat-VariableFont_wght.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,7 +512,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = L34XTA6TPT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = monum/Info.plist;
@@ -516,7 +542,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = L34XTA6TPT;
 				INFOPLIST_FILE = monum/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = monum;
