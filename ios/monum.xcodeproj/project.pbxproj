@@ -11,6 +11,8 @@
 		0C80B921A6F3F58F76C31292 /* libPods-monum.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-monum.a */; };
 		1123A4A92B55E5DB0003A6CB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1123A4A82B55E5DB0003A6CB /* GoogleService-Info.plist */; };
 		1123A4AA2B55E5DB0003A6CB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1123A4A82B55E5DB0003A6CB /* GoogleService-Info.plist */; };
+		116F081E2B59A236004CA4E6 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116F081D2B59A236004CA4E6 /* dummy.swift */; };
+		116F081F2B59A236004CA4E6 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116F081D2B59A236004CA4E6 /* dummy.swift */; };
 		11839FCC2B30708D00F3517A /* monum_icon_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 11839FCB2B30708D00F3517A /* monum_icon_round.png */; };
 		11839FCD2B30708D00F3517A /* monum_icon_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 11839FCB2B30708D00F3517A /* monum_icon_round.png */; };
 		11839FCF2B3070F400F3517A /* green_text_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 11839FCE2B3070F400F3517A /* green_text_logo.png */; };
@@ -42,6 +44,9 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* monumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = monumTests.m; sourceTree = "<group>"; };
 		1123A4A82B55E5DB0003A6CB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		116F081B2B59A236004CA4E6 /* monum-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "monum-Bridging-Header.h"; sourceTree = "<group>"; };
+		116F081C2B59A236004CA4E6 /* monumTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "monumTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		116F081D2B59A236004CA4E6 /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
 		11839FCB2B30708D00F3517A /* monum_icon_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monum_icon_round.png; sourceTree = "<group>"; };
 		11839FCE2B3070F400F3517A /* green_text_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_text_logo.png; sourceTree = "<group>"; };
 		11D9B5202B51893B00ABD6F0 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -136,6 +141,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				116F081D2B59A236004CA4E6 /* dummy.swift */,
 				1123A4A82B55E5DB0003A6CB /* GoogleService-Info.plist */,
 				11D9B5202B51893B00ABD6F0 /* Config.xcconfig */,
 				13B07FAE1A68108700A75B9A /* monum */,
@@ -145,6 +151,8 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
 				D23C0EE3703E4A7696C7100E /* Resources */,
+				116F081B2B59A236004CA4E6 /* monum-Bridging-Header.h */,
+				116F081C2B59A236004CA4E6 /* monumTests-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -238,10 +246,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 1520;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1520;
 					};
 				};
 			};
@@ -443,6 +452,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				116F081F2B59A236004CA4E6 /* dummy.swift in Sources */,
 				00E356F31AD99517003FC87E /* monumTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -452,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				116F081E2B59A236004CA4E6 /* dummy.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,7 +482,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-monum-monumTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = L34XTA6TPT;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -491,6 +504,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = es.monum.mobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "monumTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/monum.app/monum";
 			};
 			name = Debug;
@@ -499,7 +515,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-monum-monumTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = L34XTA6TPT;
 				INFOPLIST_FILE = monumTests/Info.plist;
@@ -516,6 +534,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = es.monum.mobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "monumTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/monum.app/monum";
 			};
 			name = Release;
@@ -526,7 +546,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L34XTA6TPT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = monum/Info.plist;
@@ -544,6 +564,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = es.monum.mobile;
 				PRODUCT_NAME = monum;
+				SWIFT_OBJC_BRIDGING_HEADER = "monum-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -556,7 +577,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L34XTA6TPT;
 				INFOPLIST_FILE = monum/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = monum;
@@ -573,6 +594,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = es.monum.mobile;
 				PRODUCT_NAME = monum;
+				SWIFT_OBJC_BRIDGING_HEADER = "monum-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
