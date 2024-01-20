@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "948005549464-kumj640leh6j35f35234i40r05vb1v4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.monum.mobile",
+            "certificate_hash": "00510ed7f3e7e0cc5575bec1b08d865af8bacbd2"
+          }
+        },
+        {
           "client_id": "948005549464-pkpvnpruu0k36fcor6ojmurqiae0k689.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

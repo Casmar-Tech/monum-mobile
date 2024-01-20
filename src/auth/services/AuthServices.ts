@@ -7,7 +7,6 @@ import {
   REGISTER_USER,
 } from '../../graphql/queries/userQueries';
 import Config from 'react-native-config';
-// import {ApolloClient} from '@apollo/client';
 
 interface LoginGoogle {
   email: string;
