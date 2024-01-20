@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "948005549464-hanvvds59srk0j8hccq5od4vctou0vbf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.monum.mobile",
+            "certificate_hash": "8759334ed4d608b7fce780bc85e4f36137b4391c"
+          }
+        },
+        {
           "client_id": "948005549464-pkpvnpruu0k36fcor6ojmurqiae0k689.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
