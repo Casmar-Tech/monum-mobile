@@ -1,12 +1,6 @@
 import Geolocation from '@react-native-community/geolocation';
-import Mapbox, {Camera, MarkerView} from '@rnmapbox/maps';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import Mapbox, {Camera} from '@rnmapbox/maps';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 
 import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
@@ -14,7 +8,7 @@ import {MarkerComponent} from '../components/Marker';
 import MapPlaceDetail from '../components/placeDetail/MapPlaceDetail';
 import MapServices from '../services/MapServices';
 import IPlace from '../../../shared/interfaces/IPlace';
-import {IMarker} from 'src/shared/interfaces/IMarker';
+import {IMarker} from '../../../shared/interfaces/IMarker';
 import TextSearchMap from '../components/TextSearchMap';
 import CurrentPositionMarker from '../components/CurrentPositionMarker';
 Mapbox.setAccessToken(
@@ -102,11 +96,11 @@ export default function MapScreen({
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         // setCenterCoordinates([longitude, latitude]);
-        setCenterCoordinates([2.15, 41.38]); // Barcelona
+        setCenterCoordinates([2.820167, 41.977381]); // Barcelona
       },
       error => {
         console.log('Error obtaining geolocation:', error);
-        setCenterCoordinates([2.15, 41.38]);
+        setCenterCoordinates([2.820167, 41.977381]);
       },
       {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     ),

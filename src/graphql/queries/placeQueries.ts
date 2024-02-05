@@ -26,8 +26,8 @@ export const GET_MARKERS = gql`
 `;
 
 export const GET_PLACE_INFO = gql`
-  query Place($placeId: ID!) {
-    place(id: $placeId) {
+  query Place($placeId: ID!, $imageSize: ImageSize) {
+    place(id: $placeId, imageSize: $imageSize) {
       address {
         city
         coordinates {

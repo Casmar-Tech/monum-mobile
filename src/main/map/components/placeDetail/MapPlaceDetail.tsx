@@ -163,11 +163,9 @@ export default function MapPlaceDetail({
       if (placeInfo) {
         const fetchPlace = async () => {
           const placeData = await MapServices.getPlaceInfo(placeId);
+          console.log('placeData', placeData);
           setPlace(placeData);
-          const placeMedia = await MapServices.getPlaceMedia(
-            placeId,
-            userLanguage,
-          );
+          const placeMedia = await MapServices.getPlaceMedia(placeId);
           setPlaceMedia(placeMedia);
           position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT, {
             duration: 300,

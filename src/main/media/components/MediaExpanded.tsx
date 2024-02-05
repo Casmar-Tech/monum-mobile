@@ -1,5 +1,11 @@
 import {t} from 'i18next';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Dimensions,
   Image,
@@ -30,13 +36,13 @@ import media_expanded_pause from '../../../assets/images/icons/media_expanded_pa
 import IPlace from '../../../shared/interfaces/IPlace';
 import {Slider} from '@rneui/themed';
 import TrackPlayer, {Progress, State} from 'react-native-track-player';
+import {Easing} from 'react-native';
 
 export function secondsToMinutes(seconds: number) {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   const paddedMinutes = String(minutes);
   const paddedSeconds = String(remainingSeconds.toFixed(0)).padStart(2, '0');
-
   return `${paddedMinutes}.${paddedSeconds}`;
 }
 
@@ -146,8 +152,8 @@ export default function MediaExpanded({
                 </View>
               </View>
               <View style={styles.infoContainer}>
-                <View style={styles.basicInfoConatiner}>
-                  <Text style={styles.mediaTitle}>{trackTitle}</Text>
+                <View style={styles.basicInfoContainer}>
+                  <Text style={[styles.mediaTitle]}>{trackTitle}</Text>
                   <Text style={styles.placeName}>{place.name}</Text>
                 </View>
               </View>
@@ -316,10 +322,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   infoContainer: {backgroundColor: 'white', paddingHorizontal: 12},
-  basicInfoConatiner: {
+  basicInfoContainer: {
     paddingVertical: 10,
-    justifyContent: 'space-between',
-    height: 50,
+    height: 70,
   },
   mediaTitle: {
     fontSize: 16,

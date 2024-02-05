@@ -42,8 +42,10 @@ export default function PlaceMediaPill({
       }}>
       <View style={styles.placeMediaPillContainer}>
         <View style={styles.placeMediaPill}>
-          <View>
-            <Text style={styles.placeMediaPillTitle}>{media.title}</Text>
+          <View style={{width: '90%'}}>
+            <Text style={styles.placeMediaPillTitle} numberOfLines={1}>
+              {media.title}
+            </Text>
             <Text style={styles.placeMediaPillDuration}>
               {`${(media.duration ? media.duration / 60 : 0).toFixed(0)} min`}
             </Text>
