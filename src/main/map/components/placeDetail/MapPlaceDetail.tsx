@@ -1,11 +1,6 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import {Dimensions, Platform, StyleSheet, View} from 'react-native';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -24,14 +19,13 @@ import place_pre_detail_importance_2 from '../../../../assets/images/icons/place
 import place_pre_detail_importance_3 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_3.png';
 import place_pre_detail_importance_4 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_4.png';
 import place_pre_detail_importance_5 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_5.png';
+import place_pre_detail_importance_star from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_star.png';
 import IMedia from '../../../../shared/interfaces/IMedia';
 import IPlace from '../../../../shared/interfaces/IPlace';
 
 import MapPlaceDetailExpanded from './MapPlaceDetailExpanded';
 import MapPlaceDetailReduced from './MapPlaceDetailReduced';
 import MapServices from '../../services/MapServices';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../../redux/store';
 
 const {height} = Dimensions.get('screen');
 
@@ -45,6 +39,7 @@ interface MapPlaceDetailProps {
   setTabBarVisible: Dispatch<SetStateAction<boolean>>;
   place: IPlace | null;
   setPlace: Dispatch<SetStateAction<IPlace | null>>;
+  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
   showPlaceDetailExpanded: boolean;
   setShowPlaceDetailExpanded: Dispatch<SetStateAction<boolean>>;
 }
@@ -59,6 +54,7 @@ export default function MapPlaceDetail({
   setTabBarVisible,
   place,
   setPlace,
+  setMediaPlace,
   showPlaceDetailExpanded,
   setShowPlaceDetailExpanded,
 }: MapPlaceDetailProps) {
@@ -70,9 +66,6 @@ export default function MapPlaceDetail({
   const [closeDetail, setCloseDetail] = useState(false);
   const [placeMedia, setPlaceMedia] = useState<IMedia[] | undefined>(undefined);
   const position = useSharedValue(height);
-
-  const userLanguage =
-    useSelector((state: RootState) => state.user.language) || 'en_US';
 
   const importanceIcon = () => {
     switch (place?.importance) {
@@ -86,6 +79,8 @@ export default function MapPlaceDetail({
         return place_pre_detail_importance_4;
       case 5:
         return place_pre_detail_importance_5;
+      case 6:
+        return place_pre_detail_importance_star;
       default:
         return place_pre_detail_importance_1;
     }
@@ -158,15 +153,14 @@ export default function MapPlaceDetail({
 
   useEffect(() => {
     if (placeId) {
-      console.log('place', place);
       const placeInfo = {};
       if (placeInfo) {
         const fetchPlace = async () => {
           const placeData = await MapServices.getPlaceInfo(placeId);
           console.log('placeData', placeData);
           setPlace(placeData);
-          const placeMedia = await MapServices.getPlaceMedia(placeId);
-          setPlaceMedia(placeMedia);
+          const placeMedias = await MapServices.getPlaceMedia(placeId);
+          setPlaceMedia(placeMedias);
           position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT, {
             duration: 300,
           });
@@ -199,7 +193,7 @@ export default function MapPlaceDetail({
               placeMedia={placeMedia}
               importanceIcon={importanceIcon()}
               place={place}
-              setPlace={setPlace}
+              setMediaPlace={setMediaPlace}
               setShowPlaceDetailExpanded={setShowPlaceDetailExpanded}
             />
           ) : (

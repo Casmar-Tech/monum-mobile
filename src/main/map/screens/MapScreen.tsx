@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Geolocation from '@react-native-community/geolocation';
 import Mapbox, {Camera} from '@rnmapbox/maps';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
@@ -19,6 +20,8 @@ interface MapScreenProps {
   setTabBarVisible: Dispatch<SetStateAction<boolean>>;
   setPlace: Dispatch<SetStateAction<IPlace | null>>;
   place: IPlace | null;
+  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
+  mediaPlace: IPlace | null;
   showPlaceDetailExpanded: boolean;
   setShowPlaceDetailExpanded: Dispatch<SetStateAction<boolean>>;
   markerSelected: string | null;
@@ -31,6 +34,7 @@ export default function MapScreen({
   setTabBarVisible,
   setPlace,
   place,
+  setMediaPlace,
   showPlaceDetailExpanded,
   setShowPlaceDetailExpanded,
   markerSelected,
@@ -95,8 +99,7 @@ export default function MapScreen({
       position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        // setCenterCoordinates([longitude, latitude]);
-        setCenterCoordinates([2.820167, 41.977381]); // Barcelona
+        setCenterCoordinates([longitude, latitude]);
       },
       error => {
         console.log('Error obtaining geolocation:', error);
@@ -159,6 +162,7 @@ export default function MapScreen({
           setMarkerSelected={setMarkerSelected}
           setTabBarVisible={setTabBarVisible}
           setPlace={setPlace}
+          setMediaPlace={setMediaPlace}
           place={place}
           showPlaceDetailExpanded={showPlaceDetailExpanded}
           setShowPlaceDetailExpanded={setShowPlaceDetailExpanded}
@@ -174,5 +178,5 @@ const styles = StyleSheet.create({
     height: Dimensions.get('screen').height,
     width: Dimensions.get('screen').width,
   },
-  mapView: {flex: 1, color: 'white', intensity: 0.4},
+  mapView: {flex: 1, color: 'white'},
 });

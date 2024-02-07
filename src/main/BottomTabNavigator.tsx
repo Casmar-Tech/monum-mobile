@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useRef, useState} from 'react';
-import {StyleSheet, Image, StatusBar, Platform} from 'react-native';
+import {StyleSheet, Image, StatusBar} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import bottom_bar_list_inactive from '../assets/images/icons/bottom_bar_list_inactive.png';
@@ -36,6 +36,7 @@ function BottomTabNavigator() {
   const [isTabBarVisible, setTabBarVisible] = useState(true);
   const [markerSelected, setMarkerSelected] = useState<string | null>(null);
   const [place, setPlace] = useState<IPlace | null>(null);
+  const [mediaPlace, setMediaPlace] = useState<IPlace | null>(null);
   const [showPlaceDetailExpanded, setShowPlaceDetailExpanded] = useState(false);
 
   const mapRef = useRef<MapView>(null);
@@ -104,6 +105,8 @@ function BottomTabNavigator() {
               setTabBarVisible={setTabBarVisible}
               setPlace={setPlace}
               place={place}
+              setMediaPlace={setMediaPlace}
+              mediaPlace={mediaPlace}
               showPlaceDetailExpanded={showPlaceDetailExpanded}
               setShowPlaceDetailExpanded={setShowPlaceDetailExpanded}
               markerSelected={markerSelected}
@@ -122,9 +125,9 @@ function BottomTabNavigator() {
           {() => <ProfileNavigator />}
         </Tab.Screen>
       </Tab.Navigator>
-      {place &&
+      {mediaPlace &&
         ((markerSelected && showPlaceDetailExpanded) || !markerSelected) && (
-          <MediaComponent place={place} />
+          <MediaComponent mediaPlace={mediaPlace} />
         )}
     </NavigationContainer>
   );

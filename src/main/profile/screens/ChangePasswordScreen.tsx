@@ -1,5 +1,5 @@
 import {StackNavigationProp} from '@react-navigation/stack';
-import {Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import {StyleSheet, View} from 'react-native';
 import {ProfileStackParamList} from '../navigator/ProfileNavigator';
 import media_bubble_back from '../../../assets/images/icons/media_bubble_back.png';
@@ -25,6 +25,7 @@ type UpdatePasswordScreenProps = {
 export default function UpdatePasswordScreen({
   navigation,
 }: UpdatePasswordScreenProps) {
+  const safeArea = useSafeAreaInsets();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -41,7 +42,7 @@ export default function UpdatePasswordScreen({
   if (loadingUpdatedPassword) return <LoadingSpinner />;
 
   return (
-    <View style={[styles.page, {paddingTop: useSafeAreaInsets().top + 20}]}>
+    <View style={[styles.page, {paddingTop: safeArea.top + 20}]}>
       <View style={styles.container}>
         <View style={styles.profilePhotoContainer}>
           <TouchableOpacity
@@ -112,7 +113,7 @@ export default function UpdatePasswordScreen({
             });
             navigation.goBack();
           }}
-          style={{marginBottom: useSafeAreaInsets().bottom + 100}}
+          style={{marginBottom: safeArea.bottom + 100}}
           disabled={isDisabled()}
         />
       </View>

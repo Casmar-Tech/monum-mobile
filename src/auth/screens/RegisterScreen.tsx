@@ -1,5 +1,4 @@
 // import axios from 'axios';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {t} from 'i18next';
 import React, {useRef, useState} from 'react';
 import {
@@ -15,7 +14,6 @@ import background_monuments from '../../assets/images/backgrounds/background_mon
 import password_eye from '../../assets/images/icons/password_eye.png';
 import password_eye_crossed from '../../assets/images/icons/password_eye_crossed.png';
 import logo_white from '../../assets/images/logos/logo_white.png';
-import {RootStackParamList} from '../navigator/AuthNavigator';
 import {styles} from '../styles/LoginStyles';
 import PrimaryButton from '../components/PrimaryButton';
 import AuthServices from '../services/AuthServices';
@@ -24,16 +22,7 @@ import {setAuthToken, setUser} from '../../redux/states/user';
 import {useDispatch} from 'react-redux';
 import ErrorComponent from '../components/ErrorComponent';
 
-type RegisterScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Register'
->;
-
-type Props = {
-  navigation: RegisterScreenNavigationProp;
-};
-
-export default function RegisterScreen({navigation}: Props) {
+export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);

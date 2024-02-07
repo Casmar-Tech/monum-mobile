@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import IUser from '../../../shared/interfaces/IUser';
@@ -18,9 +19,8 @@ import SecondaryButton from '../components/SecondaryButton';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 import ErrorComponent from '../../../shared/components/ErrorComponent';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../auth/navigator/AuthNavigator';
 import {Language} from '../../../shared/types/Language';
+import client from '../../../graphql/connection';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
 
@@ -29,6 +29,8 @@ type Props = {
 };
 
 export default function ProfileScreen({navigation}: Props) {
+  const onRetry = useQuery(GET_USER_BY_ID);
+  const safeArea = useSafeAreaInsets();
   const dispatch = useDispatch();
   // Acceder al estado global para ver si 'user' ya existe
   const user = useSelector((state: RootState) => state.user);
@@ -92,6 +94,23 @@ export default function ProfileScreen({navigation}: Props) {
     }));
   };
 
+  const handleUpdatePress = async () => {
+    try {
+      await updateUser({
+        variables: {
+          updateUserInput: {
+            id: provisionalUser.id,
+            username: provisionalUser.username,
+            language: provisionalUser.language,
+          },
+        },
+      });
+      await client.resetStore();
+    } catch (error) {
+      console.error('Error al actualizar el usuario:', error);
+    }
+  };
+
   const labelText = (userParam: string) => {
     switch (userParam) {
       case 'username':
@@ -108,7 +127,7 @@ export default function ProfileScreen({navigation}: Props) {
     return (
       <ErrorComponent
         errorMessage={t('profile.errorGetting')}
-        onRetry={() => useQuery(GET_USER_BY_ID)}
+        onRetry={() => onRetry}
       />
     );
 
@@ -130,9 +149,8 @@ export default function ProfileScreen({navigation}: Props) {
         }
       />
     );
-
   return (
-    <View style={[styles.page, {paddingTop: useSafeAreaInsets().top + 20}]}>
+    <View style={[styles.page, {paddingTop: safeArea.top + 20}]}>
       <View style={styles.profilePhotoContainer}>
         <ProfilePhotoComponent
           url={user.photo}
@@ -161,20 +179,7 @@ export default function ProfileScreen({navigation}: Props) {
             style={{marginTop: 20}}
           />
         )}
-        <PrimaryButton
-          text={t('profile.update')}
-          onPress={async () => {
-            return await updateUser({
-              variables: {
-                updateUserInput: {
-                  id: provisionalUser.id,
-                  username: provisionalUser.username,
-                  language: provisionalUser.language,
-                },
-              },
-            });
-          }}
-        />
+        <PrimaryButton text={t('profile.update')} onPress={handleUpdatePress} />
 
         <Text style={styles.textCreatedAt}>{`${t(
           'profile.createdAt',
@@ -191,8 +196,7 @@ export default function ProfileScreen({navigation}: Props) {
         style={[
           styles.logoutButtonContainer,
           {
-            bottom:
-              useSafeAreaInsets().bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT + 40,
+            bottom: safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT + 40,
           },
         ]}>
         <SecondaryButton

@@ -1,11 +1,9 @@
 import React from 'react';
 import {
-  Dimensions,
   GestureResponderEvent,
   Image,
   StyleSheet,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 

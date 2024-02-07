@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import IRouteOfCity from 'src/shared/interfaces/IRouteOfCity';
+import IRouteOfCity from '../../../shared/interfaces/IRouteOfCity';
 import {t} from 'i18next';
 import RatingPill from './RatingPill';
 

@@ -1,6 +1,7 @@
 import {t} from 'i18next';
-import React, {Dispatch, SetStateAction, useRef} from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {
+  Dimensions,
   Image,
   ImageSourcePropType,
   StyleSheet,
@@ -18,6 +19,9 @@ import IPlace from '../../../../shared/interfaces/IPlace';
 import ShowRatingStars from '../ShowRatingStars';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import PlaceMediaPill from './PlaceMediaPill';
+import Carousel from 'react-native-reanimated-carousel';
+import {useSharedValue} from 'react-native-reanimated';
+import {PaginationItem} from '../../../media/components/PaginationItem';
 
 const BORDER_RADIUS = 24;
 
@@ -25,7 +29,7 @@ interface MapPlaceDetailExpandedProps {
   placeMedia: IMedia[];
   importanceIcon: ImageSourcePropType;
   place: IPlace;
-  setPlace: Dispatch<SetStateAction<IPlace | null>>;
+  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
   setShowPlaceDetailExpanded: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -33,19 +37,64 @@ export default function MapPlaceDetailExpanded({
   placeMedia,
   importanceIcon,
   place,
-  setPlace,
+  setMediaPlace,
 }: MapPlaceDetailExpandedProps) {
+  const progressValue = useSharedValue<number>(0);
+  const imagesUrl = place.imagesUrl || [];
+  const width = Dimensions.get('window').width;
+  const heightImage = 200;
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={{
-            uri: Array.isArray(place.imagesUrl) ? `${place.imagesUrl[0]}` : '',
-          }}
-          resizeMode="cover"
-          style={styles.image}
-        />
-      </View>
+      <Carousel
+        loop
+        style={{
+          borderTopLeftRadius: BORDER_RADIUS,
+          borderTopRightRadius: BORDER_RADIUS,
+        }}
+        width={width}
+        height={heightImage}
+        data={imagesUrl}
+        scrollAnimationDuration={1000}
+        panGestureHandlerProps={{
+          activeOffsetX: [-10, 10],
+        }}
+        onProgressChange={(_, absoluteProgress) =>
+          (progressValue.value = absoluteProgress)
+        }
+        renderItem={({index}) => (
+          <View style={styles.imageContainer}>
+            <Image
+              source={{
+                uri: imagesUrl[index],
+              }}
+              resizeMode="cover"
+              style={styles.image}
+            />
+          </View>
+        )}
+      />
+      {!!progressValue && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 200 - 20,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: 100,
+            alignSelf: 'center',
+          }}>
+          {imagesUrl.map((_, index) => {
+            return (
+              <PaginationItem
+                animValue={progressValue}
+                index={index}
+                key={index}
+                length={imagesUrl.length}
+              />
+            );
+          })}
+        </View>
+      )}
       <View style={styles.arrowContainer}>
         <LinearGradient
           start={{x: 0, y: 0}}
@@ -87,7 +136,6 @@ export default function MapPlaceDetailExpanded({
                   width: 40,
                   height: 40,
                   marginRight: 10,
-
                   justifyContent: 'flex-end',
                   alignItems: 'center',
                 }}>
@@ -136,7 +184,7 @@ export default function MapPlaceDetailExpanded({
               key={i}
               media={media}
               place={place}
-              setPlace={setPlace}
+              setPlace={setMediaPlace}
               placeMedia={placeMedia}
             />
           ))}
@@ -152,8 +200,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     height: 200,
-    borderTopLeftRadius: BORDER_RADIUS,
-    borderTopRightRadius: BORDER_RADIUS,
     alignItems: 'center',
     justifyContent: 'center',
   },

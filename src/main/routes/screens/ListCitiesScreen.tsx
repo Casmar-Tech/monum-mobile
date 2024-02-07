@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useQuery} from '@apollo/client';
 import TextSearch from '../components/TextSearch';
 import {t} from 'i18next';
@@ -10,7 +9,7 @@ import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 import ErrorComponent from '../../../shared/components/ErrorComponent';
 import ICity from '../../../shared/interfaces/ICity';
 import {useSelector} from 'react-redux';
-import {RootState} from 'src/redux/store';
+import {RootState} from '../../../redux/store';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RoutesStackParamList} from '../navigator/RoutesNavigator';
 import ListCityPill from '../components/ListCityPill';
@@ -25,6 +24,7 @@ type Props = {
 };
 
 export default function ListCitiesScreen({navigation}: Props) {
+  const safeAreaInsets = useSafeAreaInsets();
   const user = useSelector((state: RootState) => state.user);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
   const [cities, setCities] = useState<ICity[]>([]);
@@ -63,7 +63,7 @@ export default function ListCitiesScreen({navigation}: Props) {
               scrollEventThrottle={16}
               style={{
                 width: '100%',
-                marginBottom: useSafeAreaInsets().bottom + 30,
+                marginBottom: safeAreaInsets.bottom + 30,
                 marginTop: 15,
               }}
               showsVerticalScrollIndicator={false}>

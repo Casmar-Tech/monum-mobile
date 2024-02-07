@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ListCitiesScreen from '../screens/ListCitiesScreen';
 import ListRoutesScreen from '../screens/ListRoutesScreen';
 import ICity from '../../../shared/interfaces/ICity';
-import {ParamListBase, RouteProp} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 import IRouteComplete from '../../../shared/interfaces/IFullRoute';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
 import Mapbox, {Camera} from '@rnmapbox/maps';
