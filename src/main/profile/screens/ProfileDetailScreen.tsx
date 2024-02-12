@@ -21,6 +21,7 @@ import ErrorComponent from '../../../shared/components/ErrorComponent';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Language} from '../../../shared/types/Language';
 import client from '../../../graphql/connection';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
 
@@ -201,7 +202,8 @@ export default function ProfileScreen({navigation}: Props) {
         ]}>
         <SecondaryButton
           text={t('profile.logout')}
-          onPress={() => {
+          onPress={async () => {
+            (await GoogleSignin.isSignedIn()) && (await GoogleSignin.signOut());
             dispatch(setUser(null));
             dispatch(removeAuthToken());
           }}

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -29,7 +29,7 @@ import MapServices from '../../services/MapServices';
 
 const {height} = Dimensions.get('screen');
 
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
+const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 const BOTTOM_TAB_HEIGHT = 130;
 const MAX_MARGIN_TOP = 50;
 

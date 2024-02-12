@@ -182,6 +182,7 @@ export default function MapPlaceDetailExpanded({
           {placeMedia?.map((media, i) => (
             <PlaceMediaPill
               key={i}
+              index={i}
               media={media}
               place={place}
               setPlace={setMediaPlace}

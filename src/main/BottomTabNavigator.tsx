@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useRef, useState} from 'react';
-import {StyleSheet, Image, StatusBar} from 'react-native';
+import {StyleSheet, Image, StatusBar, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import bottom_bar_list_inactive from '../assets/images/icons/bottom_bar_list_inactive.png';
@@ -15,7 +15,7 @@ import RoutesNavigator from './routes/navigator/RoutesNavigator';
 import ProfileNavigator from './profile/navigator/ProfileNavigator';
 import {Camera, MapView} from '@rnmapbox/maps';
 
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
+const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 
 // Define un tipo para las rutas
 export type RootBottomTabList = {

@@ -13,15 +13,7 @@ export default function ListCityPill({
   imageUrl,
 }: ListCityPillProps) {
   return (
-    <TouchableOpacity
-      onPress={() => onPress(cityName)}
-      style={{
-        paddingHorizontal: 15,
-        shadowColor: '#000',
-        shadowOffset: {width: 0, height: 4},
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-      }}>
+    <TouchableOpacity onPress={() => onPress(cityName)} style={styles.button}>
       <View style={styles.container}>
         <Image
           source={{uri: `${imageUrl}?auto=compress&fit=crop&h=1200`}}
@@ -43,17 +35,24 @@ export default function ListCityPill({
 const BORDER_RADIUS = 12;
 
 const styles = StyleSheet.create({
-  container: {
+  button: {
     borderRadius: BORDER_RADIUS,
+    marginHorizontal: 15,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    marginBottom: 15,
+    elevation: 10,
+  },
+  container: {
     paddingHorizontal: 15,
     height: 60,
-    marginBottom: 15,
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
   },
   image: {
     position: 'absolute',

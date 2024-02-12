@@ -11,6 +11,7 @@ interface PlaceMediaPillProps {
   place: IPlace;
   placeMedia: IMedia[];
   setPlace: (place: IPlace) => void;
+  index: number;
 }
 
 export default function PlaceMediaPill({
@@ -18,6 +19,7 @@ export default function PlaceMediaPill({
   place,
   placeMedia,
   setPlace,
+  index,
 }: PlaceMediaPillProps) {
   return (
     <TouchableOpacity
@@ -34,6 +36,7 @@ export default function PlaceMediaPill({
               rating: media.rating,
             })),
           );
+          await TrackPlayer.skip(index);
           await TrackPlayer.setRepeatMode(RepeatMode.Queue);
           await TrackPlayer.play();
         } catch (e) {

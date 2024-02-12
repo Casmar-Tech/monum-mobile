@@ -58,8 +58,8 @@ export const LOGIN_GOOGLE_USER = gql`
 `;
 
 export const GET_USER_BY_ID = gql`
-  query User($userId: String!) {
-    user(id: $userId) {
+  query User {
+    user {
       id
       email
       username
