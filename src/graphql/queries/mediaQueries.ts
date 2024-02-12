@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const GET_PLACE_MEDIA = gql`
-  query Medias($placeId: ID!, $language: Language) {
-    medias(placeId: $placeId, language: $language) {
+  query Medias($placeId: ID!) {
+    medias(placeId: $placeId) {
       id
       title
       rating

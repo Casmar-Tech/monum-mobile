@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {RouteDetailScreenProps} from '../navigator/RoutesNavigator';
 import Mapbox, {Camera, MapView} from '@rnmapbox/maps';
@@ -29,7 +30,6 @@ export default function RouteDetailScreen({
   const mapRef = params.mapRef;
   const route = params.route;
   const scrollViewRef = useRef<ScrollView>(null);
-  const [key, setKey] = useState(0);
   const [centerCamera, setCenterCamera] = useState(false);
 
   const [originalData, setOriginalData] = useState<any | null>(null);
@@ -265,7 +265,7 @@ export default function RouteDetailScreen({
           textSearch={textSearch}
         />
         <ScrollView
-          key={key}
+          key={0}
           style={{
             paddingTop: 5,
             width: '100%',

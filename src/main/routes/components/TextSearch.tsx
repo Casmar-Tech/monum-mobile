@@ -9,7 +9,6 @@ import {
 import routes_text_search from '../../../assets/images/icons/routes_text_search.png';
 import {t} from 'i18next';
 import LinearGradient from 'react-native-linear-gradient';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface TextSearchProps {
   textSearch: string | undefined;

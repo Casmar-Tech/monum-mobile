@@ -11,10 +11,10 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 
 interface MediaBubbleProps {
-  place: IPlace;
+  mediaPlace: IPlace;
 }
 
-export default function MediaComponent({place}: MediaBubbleProps) {
+export default function MediaComponent({mediaPlace}: MediaBubbleProps) {
   const [expandedDetail, setExpandedDetail] = useState(false);
 
   const progress = useProgress();
@@ -59,7 +59,7 @@ export default function MediaComponent({place}: MediaBubbleProps) {
     statePlayer !== State.None &&
     (expandedDetail ? (
       <MediaExpanded
-        place={place}
+        mediaPlace={mediaPlace}
         setExpandedDetail={setExpandedDetail}
         trackRating={trackRating}
         trackTitle={trackTitle}
@@ -69,7 +69,7 @@ export default function MediaComponent({place}: MediaBubbleProps) {
       />
     ) : (
       <MediaBubble
-        place={place}
+        mediaPlace={mediaPlace}
         setExpandedDetail={setExpandedDetail}
         trackTitle={trackTitle}
         progress={progress}

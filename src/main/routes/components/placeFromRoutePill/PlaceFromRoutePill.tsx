@@ -1,5 +1,5 @@
 import {Image, ScrollView, Text, View, ViewStyle} from 'react-native';
-import IPlaceFromRoute from 'src/shared/interfaces/IPlaceFromRoute';
+import IPlaceFromRoute from '../../../../shared/interfaces/IPlaceFromRoute';
 import RatingPill from '../RatingPill';
 import route_detail_contract_place from '../../../../assets/images/icons/route_detail_contract_place.png';
 import route_detail_expand_place from '../../../../assets/images/icons/route_detail_expand_place.png';
@@ -13,7 +13,7 @@ import {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import RoutePlaceMediaPill from './RoutePlaceMediaPill';
-import IMedia from 'src/shared/interfaces/IMedia';
+import IMedia from '../../../../shared/interfaces/IMedia';
 import {t} from 'i18next';
 
 type PlaceFromRoutePillProps = IPlaceFromRoute & {

@@ -16,10 +16,6 @@ class MapServices {
     sortOrder: 'asc' | 'desc',
   ): Promise<MarkerResponse[]> {
     try {
-      console.log('textSearch:', textSearch);
-      console.log('centerCoordinates:', centerCoordinates);
-      console.log('sortField:', sortField);
-      console.log('sortOrder:', sortOrder);
       const response = await client.query({
         query: GET_MARKERS,
         variables: {
@@ -40,7 +36,7 @@ class MapServices {
     try {
       const response = await client.query({
         query: GET_PLACE_INFO,
-        variables: {placeId},
+        variables: {placeId, imageSize: 'original'},
       });
       return response.data?.place || null;
     } catch (error) {
@@ -49,11 +45,11 @@ class MapServices {
     }
   }
 
-  public async getPlaceMedia(placeId: string, language?: string) {
+  public async getPlaceMedia(placeId: string) {
     try {
       const response = await client.query({
         query: GET_PLACE_MEDIA,
-        variables: {placeId, language},
+        variables: {placeId},
       });
       return response.data?.medias || [];
     } catch (error) {

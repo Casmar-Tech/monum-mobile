@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {t} from 'i18next';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {Dispatch, SetStateAction, useEffect} from 'react';
 import {
   Dimensions,
   Image,
@@ -30,20 +31,21 @@ import media_expanded_pause from '../../../assets/images/icons/media_expanded_pa
 import IPlace from '../../../shared/interfaces/IPlace';
 import {Slider} from '@rneui/themed';
 import TrackPlayer, {Progress, State} from 'react-native-track-player';
+import Carousel from 'react-native-reanimated-carousel';
+import {PaginationItem} from './PaginationItem';
 
 export function secondsToMinutes(seconds: number) {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   const paddedMinutes = String(minutes);
   const paddedSeconds = String(remainingSeconds.toFixed(0)).padStart(2, '0');
-
   return `${paddedMinutes}.${paddedSeconds}`;
 }
 
 const {height} = Dimensions.get('window');
 
 interface MediaExpandedProps {
-  place: IPlace;
+  mediaPlace: IPlace;
   setExpandedDetail: Dispatch<SetStateAction<boolean>>;
   statePlayer: State;
   currentTrack: number;
@@ -57,7 +59,7 @@ type GestureContext = {
 };
 
 export default function MediaExpanded({
-  place,
+  mediaPlace,
   setExpandedDetail,
   statePlayer,
   currentTrack,
@@ -65,7 +67,10 @@ export default function MediaExpanded({
   trackTitle,
   progress,
 }: MediaExpandedProps) {
+  const topSafeAreaInsets = useSafeAreaInsets().top;
+  const imagesUrl = mediaPlace.imagesUrl || [];
   const position = useSharedValue(height);
+  const progressValue = useSharedValue<number>(0);
   const panGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     GestureContext
@@ -99,56 +104,88 @@ export default function MediaExpanded({
   useEffect(() => {
     position.value = withTiming(0, {duration: 300});
   }, []);
-
+  const width = Dimensions.get('window').width;
   return (
     statePlayer !== State.None && (
       <View style={styles.container}>
         <PanGestureHandler onGestureEvent={panGestureEvent}>
           <Animated.View style={[styles.animatedContainer, animatedStyle]}>
             <View style={{flex: 1}}>
-              <View style={[styles.imageContainer, {height: height * 0.65}]}>
-                <Image
-                  source={{
-                    uri: Array.isArray(place.imagesUrl)
-                      ? place.imagesUrl[0]
-                      : '',
-                  }}
-                  resizeMode="cover"
-                  style={styles.image}
+              <Carousel
+                loop
+                width={width}
+                height={height * 0.65}
+                data={imagesUrl}
+                scrollAnimationDuration={1000}
+                panGestureHandlerProps={{
+                  activeOffsetX: [-10, 10],
+                }}
+                onProgressChange={(_, absoluteProgress) =>
+                  (progressValue.value = absoluteProgress)
+                }
+                renderItem={({index}) => (
+                  <View>
+                    <Image
+                      source={{
+                        uri: imagesUrl[index],
+                      }}
+                      resizeMode="cover"
+                      style={styles.image}
+                    />
+                  </View>
+                )}
+              />
+              {!!progressValue && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: height * 0.65 - 20,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: 100,
+                    alignSelf: 'center',
+                  }}>
+                  {imagesUrl.map((_, index) => {
+                    return (
+                      <PaginationItem
+                        animValue={progressValue}
+                        index={index}
+                        key={index}
+                        length={imagesUrl.length}
+                      />
+                    );
+                  })}
+                </View>
+              )}
+              <View style={styles.arrowContainer}>
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 0, y: 1}}
+                  colors={['rgba(3, 32, 0, 1)', 'rgba(3, 32, 0, 0)']}
+                  style={styles.linearGradient}
                 />
-                <View style={styles.arrowContainer}>
-                  <LinearGradient
-                    start={{x: 0, y: 0}}
-                    end={{x: 0, y: 1}}
-                    colors={['rgba(3, 32, 0, 1)', 'rgba(3, 32, 0, 0)']}
-                    style={styles.linearGradient}
-                  />
+                <Image
+                  source={place_detail_arrow_bottom_white}
+                  style={[styles.arrowIcon, {top: 10 + topSafeAreaInsets}]}
+                  resizeMode="contain"
+                />
+              </View>
+              <View style={styles.mediaPillRatingContainer}>
+                <Text style={styles.mediaPillRating}>
+                  {`${trackRating.toFixed(1)}`}
+                </Text>
+                <View>
                   <Image
-                    source={place_detail_arrow_bottom_white}
-                    style={[
-                      styles.arrowIcon,
-                      {top: 10 + useSafeAreaInsets().top},
-                    ]}
+                    source={place_detail_media_rating_star}
+                    style={{width: 10, height: 10}}
                     resizeMode="contain"
                   />
                 </View>
-                <View style={styles.mediaPillRatingContainer}>
-                  <Text style={styles.mediaPillRating}>
-                    {`${trackRating.toFixed(1)}`}
-                  </Text>
-                  <View>
-                    <Image
-                      source={place_detail_media_rating_star}
-                      style={{width: 10, height: 10}}
-                      resizeMode="contain"
-                    />
-                  </View>
-                </View>
               </View>
               <View style={styles.infoContainer}>
-                <View style={styles.basicInfoConatiner}>
-                  <Text style={styles.mediaTitle}>{trackTitle}</Text>
-                  <Text style={styles.placeName}>{place.name}</Text>
+                <View style={styles.basicInfoContainer}>
+                  <Text style={[styles.mediaTitle]}>{trackTitle}</Text>
+                  <Text style={styles.placeName}>{mediaPlace.name}</Text>
                 </View>
               </View>
               <View style={styles.mediaPlayerContainer}>
@@ -240,7 +277,9 @@ export default function MediaExpanded({
                 <Text style={styles.placeMediaIntroText}>
                   {t('placeDetailExpanded.mediaIntro')}
                 </Text>
-                <Text style={styles.descriptionText}>{place.description}</Text>
+                <Text style={styles.descriptionText}>
+                  {mediaPlace.description}
+                </Text>
               </View>
             </View>
           </Animated.View>
@@ -267,9 +306,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 10,
   },
-  imageContainer: {
-    marginBottom: 13,
-  },
+  imageContainer: {},
   image: {
     top: 0,
     width: '100%',
@@ -298,9 +335,8 @@ const styles = StyleSheet.create({
     width: 30,
   },
   mediaPillRatingContainer: {
-    position: 'absolute',
-    bottom: -13,
-    left: 12,
+    marginLeft: 12,
+    marginTop: -13,
     height: 26,
     width: 44,
     backgroundColor: '#3F713B',
@@ -316,10 +352,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   infoContainer: {backgroundColor: 'white', paddingHorizontal: 12},
-  basicInfoConatiner: {
+  basicInfoContainer: {
     paddingVertical: 10,
-    justifyContent: 'space-between',
-    height: 50,
+    height: 70,
   },
   mediaTitle: {
     fontSize: 16,

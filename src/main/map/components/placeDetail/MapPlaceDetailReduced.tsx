@@ -54,7 +54,7 @@ export default function MapPlaceDetailReduced({
                 <Image
                   source={{
                     uri: Array.isArray(place.imagesUrl)
-                      ? `${place.imagesUrl[0]}?auto=compress&cs=tinysrgb&dpr=2&h=100&w=100`
+                      ? `${place.imagesUrl[0]}`
                       : '',
                   }}
                   style={styles.image}

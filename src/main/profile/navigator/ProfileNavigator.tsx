@@ -4,8 +4,7 @@ import {
 } from '@react-navigation/stack';
 import ProfileScreen from '../screens/ProfileDetailScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
-import {RootStackParamList} from 'src/auth/navigator/AuthNavigator';
-import {RouteProp} from '@react-navigation/native';
+import {RootStackParamList} from '../../../auth/navigator/AuthNavigator';
 
 export type ProfileStackParamList = {
   ProfileDetail: {

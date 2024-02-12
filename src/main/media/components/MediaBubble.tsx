@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {
   Dimensions,
@@ -40,7 +41,7 @@ type GestureContext = {
 };
 
 interface MediaBubbleProps {
-  place: IPlace;
+  mediaPlace: IPlace;
   setExpandedDetail: Dispatch<SetStateAction<boolean>>;
   statePlayer: State;
   currentTrack: number;
@@ -49,13 +50,14 @@ interface MediaBubbleProps {
 }
 
 export default function MediaBubble({
-  place,
+  mediaPlace,
   setExpandedDetail,
   statePlayer,
   currentTrack,
   trackTitle,
   progress,
 }: MediaBubbleProps) {
+  const bottomSafeAreaInsets = useSafeAreaInsets().bottom;
   const [closeBubble, setCloseBubble] = useState(false);
 
   const position = useSharedValue(width / 2);
@@ -115,8 +117,7 @@ export default function MediaBubble({
             styles.animatedContainer,
             animatedStyle,
             {
-              bottom:
-                useSafeAreaInsets().bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT + 20,
+              bottom: bottomSafeAreaInsets + BOTTOM_TAB_NAVIGATOR_HEIGHT + 20,
             },
           ]}>
           <TouchableWithoutFeedback onPress={() => setExpandedDetail(true)}>
@@ -124,8 +125,8 @@ export default function MediaBubble({
               <View style={styles.mediaBubbleImageContainer}>
                 <Image
                   source={{
-                    uri: Array.isArray(place.imagesUrl)
-                      ? place.imagesUrl[0]
+                    uri: Array.isArray(mediaPlace.imagesUrl)
+                      ? mediaPlace.imagesUrl[0]
                       : '',
                   }}
                   style={styles.mediaBubbleImage}
@@ -143,7 +144,7 @@ export default function MediaBubble({
                     resizeMode="contain"
                   />
                   <Text style={styles.mediaBubbleLocationText}>
-                    {place?.address?.city}
+                    {mediaPlace?.address?.city}
                   </Text>
                 </View>
               </View>

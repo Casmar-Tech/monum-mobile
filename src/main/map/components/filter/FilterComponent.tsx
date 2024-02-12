@@ -1,9 +1,8 @@
-import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {NativeScrollEvent, ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import FilterArrow from './FilterArrow';
-import FilterPill from './FilterPill';
 
 export default function FilterComponent() {
   const scrollRef = useRef<ScrollView>(null);

@@ -1,5 +1,6 @@
-import {ScrollView, Text, View} from 'react-native';
-import {RootState} from 'src/redux/store';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {ScrollView, View} from 'react-native';
+import {RootState} from '../../../redux/store';
 import {useSelector} from 'react-redux';
 import {ListRoutesScreenProps} from '../navigator/RoutesNavigator';
 import {useQuery} from '@apollo/client';
@@ -19,6 +20,7 @@ export default function ListRoutesScreen({
   route,
   navigation,
 }: ListRoutesScreenProps) {
+  const safeAreaInsets = useSafeAreaInsets();
   const city = route.params.city;
   const user = useSelector((state: RootState) => state.user);
   const [routes, setRoutes] = useState<IRouteOfCity[]>([]);
@@ -71,7 +73,7 @@ export default function ListRoutesScreen({
               scrollEventThrottle={16}
               style={{
                 width: '100%',
-                marginBottom: useSafeAreaInsets().bottom + 30,
+                marginBottom: safeAreaInsets.bottom + 30,
                 marginTop: 15,
                 backgroundColor: 'white',
               }}

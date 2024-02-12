@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   View,
   Image,
@@ -8,7 +9,6 @@ import {
 } from 'react-native';
 import routes_text_search from '../../../assets/images/icons/routes_text_search.png';
 import {t} from 'i18next';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useEffect, useState} from 'react';
 import MapServices from '../services/MapServices';
 import {TouchableOpacity} from 'react-native';
