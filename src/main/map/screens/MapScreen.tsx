@@ -48,7 +48,6 @@ export default function MapScreen({
   >(undefined);
   const [markers, setMarkers] = useState<IMarker[]>([]);
   const [textSearch, setTextSearch] = useState<string | undefined>('');
-  const [onSubmitEditing, setOnSubmitEditing] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const toggleDropdown = (visible: boolean) => {
@@ -76,11 +75,9 @@ export default function MapScreen({
         })),
       );
     };
-    if (onSubmitEditing) {
-      fetchMarkers();
-      setOnSubmitEditing(false);
-    }
-  }, [onSubmitEditing]);
+
+    fetchMarkers();
+  }, [textSearch]);
 
   useEffect(() => {
     if (markerSelected) {
@@ -153,7 +150,6 @@ export default function MapScreen({
         <TextSearchMap
           textSearch={textSearch}
           setTextSearch={setTextSearch}
-          onSubmitEditing={() => setOnSubmitEditing(true)}
           isDropdownVisible={isDropdownVisible}
           toggleDropdown={toggleDropdown}
         />

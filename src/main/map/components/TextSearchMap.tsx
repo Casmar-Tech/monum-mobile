@@ -18,7 +18,6 @@ import {Platform} from 'react-native';
 interface TextSearchMapProps {
   textSearch: string | undefined;
   setTextSearch: (string: string | undefined) => void;
-  onSubmitEditing: () => void;
   isDropdownVisible: boolean;
   toggleDropdown: (visible: boolean) => void;
 }
@@ -26,7 +25,6 @@ interface TextSearchMapProps {
 export default function TextSearchMap({
   textSearch,
   setTextSearch,
-  onSubmitEditing,
   isDropdownVisible,
   toggleDropdown,
 }: TextSearchMapProps) {
@@ -45,6 +43,8 @@ export default function TextSearchMap({
     };
     textSearch && fetchSuggestions();
   }, [textSearch]);
+
+  console.log('suggestions', Platform.OS, suggestions);
 
   return (
     <View
@@ -74,7 +74,6 @@ export default function TextSearchMap({
           value={textSearch}
           onChangeText={setTextSearch}
           style={styles.textInput}
-          onSubmitEditing={onSubmitEditing}
           onFocus={() => toggleDropdown(true)} // Mostrar el desplegable cuando el TextInput está enfocado
           onBlur={() => toggleDropdown(false)} // Ocultar el desplegable cuando el TextInput pierde el foco
         />
@@ -86,7 +85,7 @@ export default function TextSearchMap({
           shadowOpacity: 0.2,
           shadowRadius: 4,
           elevation: 10,
-          zIndex: -1,
+          zIndex: 1,
         }}>
         <ScrollView
           style={{
@@ -98,13 +97,12 @@ export default function TextSearchMap({
           }}>
           {suggestions.map((suggestion, i) => (
             <TouchableOpacity
+              key={i}
               onPress={() => {
                 setTextSearch(suggestion);
-                onSubmitEditing();
                 toggleDropdown(false);
               }}>
               <View
-                key={i}
                 style={{
                   paddingTop: i === 0 ? 10 : 0,
                   borderTopColor: i === 0 ? 'white' : 'rgba(0,0,0,0.2)',
@@ -119,6 +117,7 @@ export default function TextSearchMap({
                     fontSize: 14,
                     paddingHorizontal: 30,
                     paddingVertical: 10,
+                    color: 'black',
                   }}>
                   {suggestion}
                 </Text>
@@ -145,6 +144,8 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 4,
+    elevation: 10,
+    zIndex: 2,
   },
   linearGradient: {
     position: 'absolute',

@@ -17,7 +17,6 @@ import place_detail_direction_white from '../../../../assets/images/icons/place_
 import IMedia from '../../../../shared/interfaces/IMedia';
 import IPlace from '../../../../shared/interfaces/IPlace';
 import ShowRatingStars from '../ShowRatingStars';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import PlaceMediaPill from './PlaceMediaPill';
 import Carousel from 'react-native-reanimated-carousel';
 import {useSharedValue} from 'react-native-reanimated';
@@ -80,7 +79,7 @@ export default function MapPlaceDetailExpanded({
             top: 200 - 20,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            width: 100,
+            width: imagesUrl.length * 20 <= 100 ? imagesUrl.length * 20 : 100,
             alignSelf: 'center',
           }}>
           {imagesUrl.map((_, index) => {
@@ -177,7 +176,7 @@ export default function MapPlaceDetailExpanded({
         </View>
         <ScrollView
           scrollEventThrottle={16}
-          style={{width: '100%', marginBottom: useSafeAreaInsets().bottom + 30}}
+          style={{width: '100%'}}
           showsVerticalScrollIndicator={false}>
           {placeMedia?.map((media, i) => (
             <PlaceMediaPill

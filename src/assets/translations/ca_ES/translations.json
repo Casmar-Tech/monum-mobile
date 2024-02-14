@@ -45,7 +45,8 @@
   "languages": {
     "en_US": "Anglès (EUA)",
     "es_ES": "Espanyol (España)",
-    "fr_FR": "Francès (França)"
+    "fr_FR": "Francès (França)",
+    "ca_ES": "Catalan (España)"
   },
   "routes": {
     "search": "Cerca",

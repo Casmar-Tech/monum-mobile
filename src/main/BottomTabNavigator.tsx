@@ -33,6 +33,7 @@ export type BottomTabBarIconProps = {
 const Tab = createBottomTabNavigator<RootBottomTabList>();
 
 function BottomTabNavigator() {
+  const bottomSafeArea = useSafeAreaInsets().bottom;
   const [isTabBarVisible, setTabBarVisible] = useState(true);
   const [markerSelected, setMarkerSelected] = useState<string | null>(null);
   const [place, setPlace] = useState<IPlace | null>(null);
@@ -80,12 +81,12 @@ function BottomTabNavigator() {
           tabBarStyle: [
             styles.map,
             {
-              display: isTabBarVisible ? 'flex' : 'none',
-              height: useSafeAreaInsets().bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT,
+              height: bottomSafeArea + BOTTOM_TAB_NAVIGATOR_HEIGHT,
             },
           ],
           tabBarShowLabel: false,
           headerShown: false,
+          tabBarHideOnKeyboard: true,
         }}>
         <Tab.Screen
           name="Routes"
@@ -99,6 +100,13 @@ function BottomTabNavigator() {
           name="Map"
           options={{
             tabBarIcon: ({focused}) => renderTabBarIcon({focused, name: 'Map'}),
+            tabBarStyle: [
+              styles.map,
+              {
+                display: isTabBarVisible ? 'flex' : 'none',
+                height: bottomSafeArea + BOTTOM_TAB_NAVIGATOR_HEIGHT,
+              },
+            ],
           }}>
           {() => (
             <MapScreen
@@ -139,7 +147,6 @@ const styles = StyleSheet.create({
     height: 30,
   },
   map: {
-    position: 'absolute',
     backgroundColor: 'white',
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},

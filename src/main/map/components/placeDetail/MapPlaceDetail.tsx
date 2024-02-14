@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     width: '100%',
+    zIndex: 3,
   },
   animatedContainer: {
     borderTopLeftRadius: 24,

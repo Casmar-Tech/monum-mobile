@@ -22,6 +22,7 @@ export default function LanguageSelector({
     setAvailableLanguages([
       {label: t('languages.en_US'), value: 'en_US'},
       {label: t('languages.es_ES'), value: 'es_ES'},
+      {label: t('languages.ca_ES'), value: 'ca_ES'},
       {label: t('languages.fr_FR'), value: 'fr_FR'},
     ]);
     setValue(language);
@@ -35,6 +36,7 @@ export default function LanguageSelector({
   >([
     {label: t('languages.en_US'), value: 'en_US'},
     {label: t('languages.es_ES'), value: 'es_ES'},
+    {label: t('languages.ca_ES'), value: 'ca_ES'},
     {label: t('languages.fr_FR'), value: 'fr_FR'},
   ]);
 
