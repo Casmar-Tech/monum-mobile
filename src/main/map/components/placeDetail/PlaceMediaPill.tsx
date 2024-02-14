@@ -21,6 +21,7 @@ export default function PlaceMediaPill({
   setPlace,
   index,
 }: PlaceMediaPillProps) {
+  const isLastPill = index === placeMedia.length - 1;
   return (
     <TouchableOpacity
       onPress={async () => {
@@ -43,7 +44,11 @@ export default function PlaceMediaPill({
           console.log(e);
         }
       }}>
-      <View style={styles.placeMediaPillContainer}>
+      <View
+        style={[
+          styles.placeMediaPillContainer,
+          {marginBottom: isLastPill ? 100 : 0},
+        ]}>
         <View style={styles.placeMediaPill}>
           <View style={{width: '90%'}}>
             <Text style={styles.placeMediaPillTitle} numberOfLines={1}>

@@ -45,7 +45,8 @@
   "languages": {
     "en_US": "English (United States)",
     "es_ES": "Spanish (Spain)",
-    "fr_FR": "French (France)"
+    "fr_FR": "French (France)",
+    "ca_ES": "Catalan (Spain)"
   },
   "routes": {
     "search": "Search",
