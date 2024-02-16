@@ -63,8 +63,11 @@ export default function MapPlaceDetailReduced({
               )}
             </View>
             <View style={styles.textInformationContainer}>
-              <Text style={styles.textPlaceName}>{place?.name}</Text>
+              <Text numberOfLines={2} style={styles.textPlaceName}>
+                {place?.name}
+              </Text>
               <Text
+                numberOfLines={1}
                 style={
                   styles.textPlaceAddress
                 }>{`${place?.address.city}, ${place?.address.country}`}</Text>

@@ -157,7 +157,6 @@ export default function MapPlaceDetail({
       if (placeInfo) {
         const fetchPlace = async () => {
           const placeData = await MapServices.getPlaceInfo(placeId);
-          console.log('placeData', placeData);
           setPlace(placeData);
           const placeMedias = await MapServices.getPlaceMedia(placeId);
           setPlaceMedia(placeMedias);

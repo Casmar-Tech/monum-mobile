@@ -53,10 +53,7 @@ export default function MapPlaceDetailExpanded({
         width={width}
         height={heightImage}
         data={imagesUrl}
-        scrollAnimationDuration={1000}
-        panGestureHandlerProps={{
-          activeOffsetX: [-10, 10],
-        }}
+        scrollAnimationDuration={500}
         onProgressChange={(_, absoluteProgress) =>
           (progressValue.value = absoluteProgress)
         }
@@ -109,8 +106,10 @@ export default function MapPlaceDetailExpanded({
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.basicInfoConatiner}>
-          <View>
-            <Text style={styles.placeName}>{place?.name}</Text>
+          <View style={{maxWidth: '70%'}}>
+            <Text numberOfLines={2} style={styles.placeName}>
+              {place?.name}
+            </Text>
             <Text
               style={
                 styles.placeAddress

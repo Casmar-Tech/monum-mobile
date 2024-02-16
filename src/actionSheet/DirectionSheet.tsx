@@ -26,7 +26,6 @@ export default function DirectionSheet(
         alwaysIncludeGoogle: true, // optional, true will always add Google Maps to iOS and open in Safari, even if app is not installed (default: false)
         appsWhiteList: ['google-maps'], // optionally you can set which apps to show (default: will show all supported apps installed on device)
       });
-      console.log(result);
       setAvailableApps(result);
     })();
   });

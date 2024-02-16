@@ -29,7 +29,6 @@ export default function ListRoutesScreen({
   const {loading, error, data, refetch} = useQuery(GET_ROUTES_OF_CITY, {
     variables: {
       cityId: city.id,
-      language: user.language,
       textSearch: textSearch || '',
     },
   });
@@ -82,7 +81,10 @@ export default function ListRoutesScreen({
                 <ListRoutePill
                   route={route}
                   key={i}
-                  onPress={() => navigation.navigate('RouteDetail', {route})}
+                  onPress={() => {
+                    console.log('route', route);
+                    navigation.navigate('RouteDetail', {route});
+                  }}
                 />
               ))}
             </ScrollView>
@@ -99,7 +101,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-
     alignItems: 'center',
     backgroundColor: 'white',
     width: '100%',
