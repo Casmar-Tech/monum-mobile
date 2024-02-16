@@ -32,7 +32,7 @@ Change the version code or version name in the `android/app/build.gradle` file.
 defaultConfig {
     ...
     versionCode 1 // <-- Change this
-    versionName "1.0" // <-- Change this (if needed)
+    versionName "0.1.0" // <-- Change this (if needed)
     ...
 }
 ```
