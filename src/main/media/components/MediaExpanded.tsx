@@ -116,10 +116,7 @@ export default function MediaExpanded({
                 width={width}
                 height={height * 0.65}
                 data={imagesUrl}
-                scrollAnimationDuration={1000}
-                panGestureHandlerProps={{
-                  activeOffsetX: [-10, 10],
-                }}
+                scrollAnimationDuration={500}
                 onProgressChange={(_, absoluteProgress) =>
                   (progressValue.value = absoluteProgress)
                 }

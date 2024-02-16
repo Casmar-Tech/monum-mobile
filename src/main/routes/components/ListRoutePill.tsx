@@ -1,7 +1,8 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, Pressable, View} from 'react-native';
 import IRouteOfCity from '../../../shared/interfaces/IRouteOfCity';
 import {t} from 'i18next';
 import RatingPill from './RatingPill';
+import {useState} from 'react';
 
 interface ListRoutePillProps {
   route: IRouteOfCity;
@@ -9,12 +10,21 @@ interface ListRoutePillProps {
 }
 
 export default function ListRoutePill({route, onPress}: ListRoutePillProps) {
+  const [globalPressed, setGlobalPressed] = useState<boolean>(false);
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
-      style={{elevation: 5, paddingHorizontal: 12}}>
+      style={({pressed}) => {
+        setGlobalPressed(pressed);
+        return [
+          {
+            paddingHorizontal: 12,
+          },
+        ];
+      }}>
       <View style={styles.placeMediaPillContainer}>
-        <View style={styles.placeMediaPill}>
+        <View
+          style={[styles.placeMediaPill, {opacity: globalPressed ? 0.2 : 1}]}>
           <Text style={styles.placeMediaPillTitle}>{route.title}</Text>
           <Text style={styles.placeMediaPillDuration}>
             {`${route.stopsCount} ${t('stops')}`}
@@ -22,10 +32,15 @@ export default function ListRoutePill({route, onPress}: ListRoutePillProps) {
         </View>
         <RatingPill
           number={route.rating || 0}
-          additionalStyle={{position: 'absolute', top: 0, left: 10}}
+          additionalStyle={{
+            position: 'absolute',
+            top: 0,
+            left: 10,
+            opacity: globalPressed ? 0.2 : 1,
+          }}
         />
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
@@ -37,23 +52,23 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
   },
   placeMediaPill: {
     height: 50,
     borderRadius: 12,
     backgroundColor: 'white',
-    elevation: 5,
     marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 10,
+    elevation: 5,
   },
   placeMediaPillTitle: {
     fontSize: 14,
     color: '#032000',
     fontFamily: 'Montserrat-Regular',
+    backgroundColor: 'white',
   },
   placeMediaPillDuration: {
     fontSize: 10,

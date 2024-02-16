@@ -14,6 +14,7 @@ import IPlace from '../shared/interfaces/IPlace';
 import RoutesNavigator from './routes/navigator/RoutesNavigator';
 import ProfileNavigator from './profile/navigator/ProfileNavigator';
 import {Camera, MapView} from '@rnmapbox/maps';
+import {Event, State, useTrackPlayerEvents} from 'react-native-track-player';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 
@@ -39,6 +40,11 @@ function BottomTabNavigator() {
   const [place, setPlace] = useState<IPlace | null>(null);
   const [mediaPlace, setMediaPlace] = useState<IPlace | null>(null);
   const [showPlaceDetailExpanded, setShowPlaceDetailExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('Map');
+  const [statePlayer, setStatePlayer] = useState(State.Paused);
+  useTrackPlayerEvents([Event.PlaybackState], async event => {
+    setStatePlayer(event.state);
+  });
 
   const mapRef = useRef<MapView>(null);
   const cameraRef = useRef<Camera>(null);
@@ -90,14 +96,26 @@ function BottomTabNavigator() {
         }}>
         <Tab.Screen
           name="Routes"
+          listeners={{
+            focus: () => setActiveTab('Routes'),
+          }}
           options={{
             tabBarIcon: ({focused}) =>
               renderTabBarIcon({focused, name: 'Routes'}),
           }}>
-          {() => <RoutesNavigator cameraRef={cameraRef} mapRef={mapRef} />}
+          {() => (
+            <RoutesNavigator
+              cameraRef={cameraRef}
+              mapRef={mapRef}
+              setMediaPlace={setMediaPlace}
+            />
+          )}
         </Tab.Screen>
         <Tab.Screen
           name="Map"
+          listeners={{
+            focus: () => setActiveTab('Map'),
+          }}
           options={{
             tabBarIcon: ({focused}) => renderTabBarIcon({focused, name: 'Map'}),
             tabBarStyle: [
@@ -126,6 +144,9 @@ function BottomTabNavigator() {
         </Tab.Screen>
         <Tab.Screen
           name="Profile"
+          listeners={{
+            focus: () => setActiveTab('Profile'),
+          }}
           options={{
             tabBarIcon: ({focused}) =>
               renderTabBarIcon({focused, name: 'Profile'}),
@@ -134,9 +155,10 @@ function BottomTabNavigator() {
         </Tab.Screen>
       </Tab.Navigator>
       {mediaPlace &&
-        ((markerSelected && showPlaceDetailExpanded) || !markerSelected) && (
-          <MediaComponent mediaPlace={mediaPlace} />
-        )}
+        statePlayer !== State.None &&
+        (activeTab === 'Map'
+          ? (markerSelected && showPlaceDetailExpanded) || !markerSelected
+          : true) && <MediaComponent mediaPlace={mediaPlace} />}
     </NavigationContainer>
   );
 }

@@ -1,7 +1,9 @@
 import IMedia from './IMedia';
+import IPlace from './IPlace';
 
 export default interface IStop {
   order: number;
   optimizedOrder: number;
-  media: IMedia;
+  medias: IMedia[];
+  place: IPlace;
 }

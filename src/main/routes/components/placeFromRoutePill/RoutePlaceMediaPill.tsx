@@ -11,26 +11,27 @@ import {Image} from 'react-native';
 import place_detail_media_rating_star from '../../../../assets/images/icons/place_detail_media_rating_star.png';
 import place_detail_play_media from '../../../../assets/images/icons/place_detail_play_media.png';
 import TrackPlayer, {RepeatMode} from 'react-native-track-player';
+import {Dispatch, SetStateAction} from 'react';
 
 interface RoutePlaceMediaPillProps {
   media: IMedia;
   place: IPlace;
   placeMedia: IMedia[];
-  setPlace: (place: IPlace) => void;
+  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
 }
 
 export default function RoutePlaceMediaPill({
   media,
   place,
   placeMedia,
-  setPlace,
   style,
+  setMediaPlace,
 }: RoutePlaceMediaPillProps & {style?: ViewStyle}) {
   return (
     <TouchableOpacity
       onPress={async () => {
         try {
-          setPlace(place);
+          setMediaPlace(place);
           await TrackPlayer.reset();
           await TrackPlayer.add(
             placeMedia.map(media => ({
@@ -50,8 +51,10 @@ export default function RoutePlaceMediaPill({
       style={style}>
       <View style={styles.placeMediaPillContainer}>
         <View style={styles.placeMediaPill}>
-          <View>
-            <Text style={styles.placeMediaPillTitle}>{media.title}</Text>
+          <View style={{maxWidth: '85%'}}>
+            <Text numberOfLines={1} style={styles.placeMediaPillTitle}>
+              {media.title}
+            </Text>
             <Text style={styles.placeMediaPillDuration}>
               {`${(media.duration ? media.duration / 60 : 0).toFixed(0)} min`}
             </Text>

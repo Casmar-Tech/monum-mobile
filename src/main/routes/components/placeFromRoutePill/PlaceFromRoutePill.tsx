@@ -1,5 +1,4 @@
 import {Image, ScrollView, Text, View, ViewStyle} from 'react-native';
-import IPlaceFromRoute from '../../../../shared/interfaces/IPlaceFromRoute';
 import RatingPill from '../RatingPill';
 import route_detail_contract_place from '../../../../assets/images/icons/route_detail_contract_place.png';
 import route_detail_expand_place from '../../../../assets/images/icons/route_detail_expand_place.png';
@@ -9,15 +8,27 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  forwardRef,
+  useImperativeHandle,
+  useState,
+} from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import RoutePlaceMediaPill from './RoutePlaceMediaPill';
 import IMedia from '../../../../shared/interfaces/IMedia';
 import {t} from 'i18next';
+import IPlace from '../../../../shared/interfaces/IPlace';
+import IStop from '../../../../shared/interfaces/IStop';
+import {SheetManager} from 'react-native-actions-sheet';
+import place_detail_direction_white from '../../../../assets/images/icons/place_detail_direction_white.png';
+import {ImportanceIcon} from './ImportanceIcon';
 
-type PlaceFromRoutePillProps = IPlaceFromRoute & {
+type PlaceFromRoutePillProps = IStop & {
   style?: ViewStyle;
+  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
 };
 
 // Aquí definimos el tipo de la referencia, si tienes métodos específicos que quieres exponer, los añades aquí
@@ -32,11 +43,10 @@ export type PlaceFromRoutePillRef = {
 const PlaceFromRoutePill = forwardRef<
   PlaceFromRoutePillRef,
   PlaceFromRoutePillProps
->(({place, medias, style}, ref) => {
+>(({place, medias, style, setMediaPlace}, ref) => {
   const [expandedPill, setExpandedPill] = useState<boolean>(false);
   const [highlightedPill, setHighlightedPill] = useState<boolean>(false);
   const animationValue = useSharedValue(0);
-  const [mediasToTry, setMediasToTry] = useState<IMedia[]>([]);
 
   useImperativeHandle(ref, () => ({
     isExpanded: expandedPill,
@@ -55,14 +65,6 @@ const PlaceFromRoutePill = forwardRef<
       };
     },
   }));
-
-  useEffect(() => {
-    const m = [];
-    for (let i = 0; i < 5; i++) {
-      m.push(medias[0]);
-    }
-    setMediasToTry(m);
-  }, [medias]);
 
   const toggleExpanded = () => {
     expandedPill ? reducePill() : expandPill();
@@ -120,8 +122,10 @@ const PlaceFromRoutePill = forwardRef<
                 {height: expandedPill ? 32.5 : 25},
                 {backgroundColor: highlightedPill ? '#D6E5D6' : '#ECF3EC'},
               ]}>
-              <View style={{width: '75%'}}>
-                <Text style={styles.placeNameText}>{place.name}</Text>
+              <View style={{width: '55%'}}>
+                <Text numberOfLines={1} style={styles.placeNameText}>
+                  {place.name}
+                </Text>
                 <Text
                   style={styles.placeDescriptionText}
                   numberOfLines={expandedPill ? 3 : 2}>
@@ -130,25 +134,80 @@ const PlaceFromRoutePill = forwardRef<
               </View>
               <View
                 style={{
-                  width: '25%',
+                  width: '45%',
                   flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'space-between',
+                  paddingLeft: 10,
                 }}>
-                <Text style={styles.audiosNumberText}>
-                  {`${medias?.length} ${
-                    medias.length > 1 ? t('routes.audios') : t('routes.audio')
-                  }`}
-                </Text>
-                <Image
-                  source={
-                    expandedPill
-                      ? route_detail_contract_place
-                      : route_detail_expand_place
-                  }
-                  style={{height: 6, width: 10.5, marginHorizontal: 10}}
-                  resizeMode="contain"
-                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'flex-end',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      SheetManager.show('direction-sheet', {
+                        payload: {
+                          coordinates: place?.address?.coordinates,
+                          label: place?.name,
+                        },
+                      });
+                    }}>
+                    <View
+                      style={{
+                        width: 30 * 0.9,
+                        height: 30 * 0.9,
+                        marginRight: 10,
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                      }}>
+                      <View
+                        style={{
+                          width: 30 * 0.9,
+                          height: 30 * 0.9,
+                          backgroundColor: '#3F713B',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: 30 * 0.9,
+                        }}>
+                        <Image
+                          source={place_detail_direction_white}
+                          style={styles.directionIcon}
+                          resizeMode="contain"
+                        />
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                  <View>
+                    <Image
+                      source={ImportanceIcon(place.importance)}
+                      style={styles.importanceIcon}
+                      resizeMode="contain"
+                    />
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                  }}>
+                  <Text style={styles.audiosNumberText}>
+                    {`${medias?.length} ${
+                      medias.length > 1 ? t('routes.audios') : t('routes.audio')
+                    }`}
+                  </Text>
+                  <Image
+                    source={
+                      expandedPill
+                        ? route_detail_contract_place
+                        : route_detail_expand_place
+                    }
+                    style={{height: 6, width: 10.5, marginHorizontal: 10}}
+                    resizeMode="contain"
+                  />
+                </View>
               </View>
             </View>
           </TouchableOpacity>
@@ -174,13 +233,13 @@ const PlaceFromRoutePill = forwardRef<
                   </Text>
                 </View>
                 <ScrollView style={{width: '100%', marginTop: 8}}>
-                  {mediasToTry?.map((media, i) => (
+                  {medias?.map((media: IMedia, i: number) => (
                     <RoutePlaceMediaPill
                       key={i}
                       media={media}
                       place={place}
-                      setPlace={() => {}}
-                      placeMedia={mediasToTry}
+                      placeMedia={medias}
+                      setMediaPlace={setMediaPlace}
                       style={
                         i === 0
                           ? {
@@ -238,6 +297,8 @@ const styles = StyleSheet.create({
     color: '#3F713B',
     fontFamily: 'Montserrat-Regular',
   },
+  directionIcon: {width: 16, height: 16},
+  importanceIcon: {width: 30, height: 30},
   audiosNumberText: {
     fontSize: 10,
     color: '#3F713B',

@@ -197,7 +197,7 @@ export default function ProfileScreen({navigation}: Props) {
         style={[
           styles.logoutButtonContainer,
           {
-            bottom: safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT + 40,
+            bottom: safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT,
           },
         ]}>
         <SecondaryButton

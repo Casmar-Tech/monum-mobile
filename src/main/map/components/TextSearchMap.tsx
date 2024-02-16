@@ -44,8 +44,6 @@ export default function TextSearchMap({
     textSearch && fetchSuggestions();
   }, [textSearch]);
 
-  console.log('suggestions', Platform.OS, suggestions);
-
   return (
     <View
       style={{

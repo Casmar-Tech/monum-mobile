@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {RouteDetailScreenProps} from '../navigator/RoutesNavigator';
-import Mapbox, {Camera, MapView} from '@rnmapbox/maps';
+import Mapbox, {Camera} from '@rnmapbox/maps';
 import React, {useEffect, useRef, useState} from 'react';
 import media_bubble_back from '../../../assets/images/icons/media_bubble_back.png';
 import {useQuery} from '@apollo/client';
@@ -15,7 +15,6 @@ import {IMarker} from '../../../shared/interfaces/IMarker';
 import PlaceFromRoutePill, {
   PlaceFromRoutePillRef,
 } from '../components/placeFromRoutePill/PlaceFromRoutePill';
-import IPlaceFromRoute from '../../../shared/interfaces/IPlaceFromRoute';
 import IStop from '../../../shared/interfaces/IStop';
 import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
 import Geolocation from '@react-native-community/geolocation';
@@ -25,21 +24,22 @@ import LinearGradient from 'react-native-linear-gradient';
 export default function RouteDetailScreen({
   route: {params},
   navigation,
+  setMediaPlace,
 }: RouteDetailScreenProps) {
   const cameraRef = params.cameraRef;
   const mapRef = params.mapRef;
   const route = params.route;
   const scrollViewRef = useRef<ScrollView>(null);
   const [centerCamera, setCenterCamera] = useState(false);
-
   const [originalData, setOriginalData] = useState<any | null>(null);
   const [markers, setMarkers] = useState<IMarker[]>([]);
-  const [placesFromRoute, setPlacesFromRoute] = useState<IPlaceFromRoute[]>();
+  const [placesFromRoute, setPlacesFromRoute] = useState<IStop[]>();
   const [centerCoordinates, setCenterCoordinates] = useState<[number, number]>([
     0, 0,
   ]);
   const [markerSelected, setMarkerSelected] = useState<string | null>(null);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
+
   const {loading, error, data, refetch} = useQuery(GET_ROUTE_DETAIL, {
     variables: {
       routeId: route.id,
@@ -88,45 +88,28 @@ export default function RouteDetailScreen({
       const filteredStops = textSearch
         ? stops.filter(
             (marker: IStop) =>
-              marker?.media?.place?.name
+              marker?.place?.name
                 .toLowerCase()
                 .includes(textSearch.toLowerCase()) ||
-              marker?.media?.place?.description
+              marker?.place?.description
                 .toLowerCase()
                 .includes(textSearch.toLowerCase()),
           )
         : stops;
 
       const markers = filteredStops.map((marker: any) => ({
-        id: marker.media.place.id,
+        id: marker.place.id,
         coordinates: [
-          marker.media.place.address.coordinates.lng,
-          marker.media.place.address.coordinates.lat,
+          marker.place.address.coordinates.lng,
+          marker.place.address.coordinates.lat,
         ],
-        importance: marker.media.place.importance,
+        importance: marker.place.importance,
         setMarkerSelected,
         markerSelected,
       }));
       setMarkers(markers);
 
-      const placesFromRouteData = filteredStops.reduce(
-        (prev: IPlaceFromRoute[], curr: any) => {
-          const placeFromRoute = prev.find(
-            placeFromRoute => placeFromRoute.place.id === curr.media.place.id,
-          );
-          if (placeFromRoute) {
-            placeFromRoute.medias.push(curr.media);
-          } else {
-            prev.push({
-              place: curr.media.place,
-              medias: [curr.media],
-            });
-          }
-          return prev;
-        },
-        [],
-      );
-      setPlacesFromRoute(placesFromRouteData);
+      setPlacesFromRoute(filteredStops);
     }
   }, [textSearch, originalData]);
 
@@ -149,11 +132,9 @@ export default function RouteDetailScreen({
           const pillRef = pillRefs.get(marker.id)?.current;
           height += pillRef?.isExpanded ? 230 : 80;
         }
-        console.log(height);
         pillRefs.get(markerSelected)?.current?.expandPill();
         pillRefs.get(markerSelected)?.current?.highlightPill();
         scrollViewRef.current?.scrollTo({y: height, animated: true});
-        // forceRender();
       }
     }
     scrollMarkers();
@@ -164,8 +145,7 @@ export default function RouteDetailScreen({
       position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        // setCenterCoordinates([longitude, latitude]);
-        setCenterCoordinates([2.15, 41.38]); // Barcelona
+        setCenterCoordinates([longitude, latitude]);
       },
       error => {
         console.log('Error obtaining geolocation:', error);
@@ -269,7 +249,7 @@ export default function RouteDetailScreen({
           style={{
             paddingTop: 5,
             width: '100%',
-            marginBottom: useSafeAreaInsets().bottom + 40,
+            marginBottom: useSafeAreaInsets().bottom,
             marginTop: 10,
             paddingHorizontal: 12,
             backgroundColor: 'white',
@@ -287,6 +267,7 @@ export default function RouteDetailScreen({
                   ? {paddingBottom: 40}
                   : {}
               }
+              setMediaPlace={setMediaPlace}
               {...placeFromRoute}
             />
           ))}

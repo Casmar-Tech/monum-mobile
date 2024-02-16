@@ -16,15 +16,18 @@ export const GET_CITIES = gql`
 `;
 
 export const GET_ROUTES_OF_CITY = gql`
-  query Routes($cityId: ID!, $language: String, $textSearch: String) {
-    routes(cityId: $cityId, language: $language, textSearch: $textSearch) {
+  query Routes($cityId: ID!) {
+    routes(cityId: $cityId) {
       id
       title
       description
       rating
-      cityId
-      language
+      duration
+      optimizedDuration
+      distance
+      optimizedDistance
       stopsCount
+      cityId
     }
   }
 `;
@@ -41,31 +44,40 @@ export const GET_ROUTE_DETAIL = gql`
       distance
       optimizedDistance
       stops {
-        media {
+        place {
           id
-          place {
-            id
-            name
-            address {
-              coordinates {
-                lat
-                lng
-              }
-              street
-              city
-              postalCode
-              province
-              country
+          name
+          address {
+            coordinates {
+              lat
+              lng
             }
-            description
-            importance
-            rating
-            imagesUrl
+            street
+            city
+            postalCode
+            province
+            country
           }
+          description
+          importance
+          rating
+          imagesUrl
+          googleId
+          googleMapsUri
+          internationalPhoneNumber
+          nationalPhoneNumber
+          types
+          primaryType
+          userRatingCount
+          websiteUri
+        }
+        medias {
+          id
           title
-          language
+          text
           rating
           audioUrl
+          voiceId
           duration
         }
         order
@@ -73,7 +85,6 @@ export const GET_ROUTE_DETAIL = gql`
       }
       stopsCount
       cityId
-      language
     }
   }
 `;
