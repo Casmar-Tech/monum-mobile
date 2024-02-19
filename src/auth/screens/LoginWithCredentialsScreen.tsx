@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   TextInput,
+  Animated,
 } from 'react-native';
-
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
 import password_eye from '../../assets/images/icons/password_eye.png';
 import password_eye_crossed from '../../assets/images/icons/password_eye_crossed.png';
@@ -21,7 +21,6 @@ import {styles} from '../styles/LoginStyles';
 import AuthServices from '../services/AuthServices';
 import {useDispatch} from 'react-redux';
 import {setAuthToken, setUser} from '../../redux/states/user';
-import {Animated} from 'react-native';
 import ErrorComponent from '../components/ErrorComponent';
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -136,7 +135,11 @@ export default function LoginScreen({navigation}: Props) {
                 )}
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.forgotPasswordButton}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('PasswordRecovery');
+              }}
+              style={styles.forgotPasswordButton}>
               <Text style={styles.forgotPasswordText}>
                 {t('authScreens.forgotPassword') || 'Forgot password?'}
               </Text>
@@ -155,7 +158,7 @@ export default function LoginScreen({navigation}: Props) {
                   }
                 } catch (error: string | any) {
                   startShake();
-                  setError(error instanceof Error ? error.message : 'random');
+                  setError(error instanceof Error ? error.message : 'RANDOM');
                 }
               }}
             />

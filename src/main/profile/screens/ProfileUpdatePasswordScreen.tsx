@@ -15,16 +15,16 @@ import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   ProfileStackParamList,
-  'ProfileDetail'
+  'ProfileUpdatePassword'
 >;
 
-type UpdatePasswordScreenProps = {
+type ProfileUpdatePasswordScreenProps = {
   navigation: ProfileScreenNavigationProp;
 };
 
-export default function UpdatePasswordScreen({
+export default function ProfileUpdatePasswordScreen({
   navigation,
-}: UpdatePasswordScreenProps) {
+}: ProfileUpdatePasswordScreenProps) {
   const safeArea = useSafeAreaInsets();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -36,7 +36,11 @@ export default function UpdatePasswordScreen({
   ] = useMutation(UPDATE_PASSWORD);
 
   const isDisabled = () => {
-    return newPassword !== confirmNewPassword;
+    return (
+      newPassword !== confirmNewPassword ||
+      newPassword.length < 8 ||
+      confirmNewPassword.length < 8
+    );
   };
 
   if (loadingUpdatedPassword) return <LoadingSpinner />;

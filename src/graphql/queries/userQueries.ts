@@ -97,3 +97,25 @@ export const UPDATE_PASSWORD = gql`
     updatePassword(oldPassword: $oldPassword, newPassword: $newPassword)
   }
 `;
+
+export const RESET_PASSWORD = gql`
+  mutation Mutation($resetPasswordInput: ResetPasswordInput!) {
+    resetPassword(resetPasswordInput: $resetPasswordInput)
+  }
+`;
+
+export const VERIFICATE_CODE = gql`
+  mutation VerificateCode($verificateCodeInput: VerificateCodeInput!) {
+    verificateCode(verificateCodeInput: $verificateCodeInput)
+  }
+`;
+
+export const UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD = gql`
+  mutation UpdatePasswordWithoutOld(
+    $updatePasswordWithoutOldInput: UpdatePasswordWithoutOldInput!
+  ) {
+    updatePasswordWithoutOld(
+      updatePasswordWithoutOldInput: $updatePasswordWithoutOldInput
+    )
+  }
+`;

@@ -1,42 +1,36 @@
-// import axios from 'axios';
-import {t} from 'i18next';
+import {ChangePasswordScreenProps} from '../navigator/AuthNavigator';
 import React, {useRef, useState} from 'react';
+import {styles} from '../styles/LoginStyles';
 import {
   View,
-  Image,
-  TouchableOpacity,
+  Text,
   ImageBackground,
   TextInput,
+  Image,
   Animated,
+  TouchableOpacity,
 } from 'react-native';
-
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
+import {t} from 'i18next';
+import logo_white from '../../assets/images/logos/logo_white.png';
 import password_eye from '../../assets/images/icons/password_eye.png';
 import password_eye_crossed from '../../assets/images/icons/password_eye_crossed.png';
-import logo_white from '../../assets/images/logos/logo_white.png';
-import {styles} from '../styles/LoginStyles';
 import PrimaryButton from '../components/PrimaryButton';
 import AuthServices from '../services/AuthServices';
-import {Text} from 'react-native';
-import {setAuthToken, setUser} from '../../redux/states/user';
-import {useDispatch} from 'react-redux';
 import ErrorComponent from '../components/ErrorComponent';
 
-export default function RegisterScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [confirmedPassword, setConfirmedPassword] = useState('');
-  const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
+export default function ChangePasswordScreen({
+  navigation,
+  route,
+}: ChangePasswordScreenProps) {
+  const {token} = route.params;
+
+  const [newPassword, setNewPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [confirmedNewPassword, setConfirmedNewPassword] = useState('');
+  const [showNewConfirmedPassword, setShowNewConfirmedPassword] =
+    useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmedPasswordVisibility = () => {
-    setShowConfirmedPassword(!showConfirmedPassword);
-  };
 
   const shakeAnimation = useRef(new Animated.Value(0)).current;
 
@@ -65,7 +59,23 @@ export default function RegisterScreen() {
     ]).start();
   };
 
-  const dispatch = useDispatch();
+  const isDisabled = () => {
+    return (
+      newPassword !== confirmedNewPassword ||
+      newPassword.length < 8 ||
+      confirmedNewPassword.length < 8
+    );
+  };
+
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword(!showNewPassword);
+  };
+
+  const toggleNewConfirmedPasswordVisibility = () => {
+    console.log('toggleNewConfirmedPasswordVisibility');
+    setShowNewConfirmedPassword(!showNewConfirmedPassword);
+  };
+
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.backgroundColor} />
@@ -85,42 +95,32 @@ export default function RegisterScreen() {
             />
           </View>
           <View style={styles.buttonContainer}>
-            <TextInput
-              placeholder={t('authScreens.email') || 'Email '}
-              placeholderTextColor="#FFFFFF"
-              style={[
-                styles.inputButton,
-                {
-                  borderColor:
-                    error === 'userAlreadyExists'
-                      ? 'rgb(208, 54, 60)'
-                      : 'white',
-                },
-              ]}
-              value={email}
-              onChangeText={setEmail}
-            />
+            <View style={styles.passwordRecoveryTextContainer}>
+              <Text style={styles.passwordRecoveryTitle}>
+                {t('authScreens.newPassword') || ''}
+              </Text>
+              <Text style={styles.passwordRecoveryText}>
+                {t('authScreens.newPasswordText') || ''}
+              </Text>
+            </View>
             <View style={styles.passwordContainer}>
               <TextInput
-                placeholder={t('authScreens.password') || 'Password'}
+                placeholder={t('authScreens.newPassword') || 'New password'}
                 placeholderTextColor="#FFFFFF"
                 style={[
                   styles.inputButton,
                   {
-                    borderColor:
-                      error === 'passwordNotStrong'
-                        ? 'rgb(208, 54, 60)'
-                        : 'white',
+                    borderColor: error ? 'rgb(208, 54, 60)' : 'white',
                   },
                 ]}
-                secureTextEntry={!showPassword} // Mostrar o ocultar la contraseña según el estado
-                value={password}
-                onChangeText={setPassword}
+                secureTextEntry={!showNewPassword} // Mostrar o ocultar la contraseña según el estado
+                value={newPassword}
+                onChangeText={setNewPassword}
               />
               <TouchableOpacity
                 style={styles.hidePasswordButton}
-                onPress={togglePasswordVisibility}>
-                {showPassword ? (
+                onPress={toggleNewPasswordVisibility}>
+                {showNewPassword ? (
                   <Image
                     source={password_eye}
                     style={styles.hidePasswordButtonIcon}
@@ -138,26 +138,24 @@ export default function RegisterScreen() {
             <View style={styles.passwordContainer}>
               <TextInput
                 placeholder={
-                  t('authScreens.confirmedPassword') || 'Confirm password'
+                  t('authScreens.confirmedNewPassword') ||
+                  'Confirm new password'
                 }
                 placeholderTextColor="#FFFFFF"
                 style={[
                   styles.inputButton,
                   {
-                    borderColor:
-                      error === 'passwordNotStrong'
-                        ? 'rgb(208, 54, 60)'
-                        : 'white',
+                    borderColor: error ? 'rgb(208, 54, 60)' : 'white',
                   },
                 ]}
-                secureTextEntry={!showConfirmedPassword} // Mostrar o ocultar la contraseña según el estado
-                value={confirmedPassword}
-                onChangeText={setConfirmedPassword}
+                secureTextEntry={!showNewConfirmedPassword} // Mostrar o ocultar la contraseña según el estado
+                value={confirmedNewPassword}
+                onChangeText={setConfirmedNewPassword}
               />
               <TouchableOpacity
                 style={styles.hidePasswordButton}
-                onPress={toggleConfirmedPasswordVisibility}>
-                {showPassword ? (
+                onPress={toggleNewConfirmedPasswordVisibility}>
+                {showNewConfirmedPassword ? (
                   <Image
                     source={password_eye}
                     style={styles.hidePasswordButtonIcon}
@@ -173,14 +171,17 @@ export default function RegisterScreen() {
               </TouchableOpacity>
             </View>
             <PrimaryButton
-              disabled={password !== confirmedPassword}
-              text={t('authScreens.signup')}
+              text={t('authScreens.changePassword')}
+              disabled={isDisabled()}
               onPress={async () => {
                 try {
-                  const response = await AuthServices.signup(email, password);
+                  const response = await AuthServices.updatePassword(
+                    newPassword,
+                    token,
+                  );
                   if (response) {
-                    dispatch(setAuthToken(response.token || ''));
-                    dispatch(setUser(response || {}));
+                    setError(null);
+                    navigation.navigate('PasswordChanged');
                   }
                 } catch (error: string | any) {
                   startShake();
@@ -189,13 +190,6 @@ export default function RegisterScreen() {
               }}
             />
             {error && <ErrorComponent text={t(`errors.auth.${error}`)} />}
-          </View>
-          <View style={styles.bottomContainer}>
-            <View style={styles.companyContainer}>
-              <Text style={styles.companyText}>
-                {t('authScreens.footerText')}
-              </Text>
-            </View>
           </View>
         </Animated.View>
       </ImageBackground>
