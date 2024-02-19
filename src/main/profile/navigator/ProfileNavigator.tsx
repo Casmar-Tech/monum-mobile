@@ -3,14 +3,14 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import ProfileScreen from '../screens/ProfileDetailScreen';
-import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import ProfileUpdatePasswordScreen from '../screens/ProfileUpdatePasswordScreen';
 import {RootStackParamList} from '../../../auth/navigator/AuthNavigator';
 
 export type ProfileStackParamList = {
   ProfileDetail: {
     navigationToLogin: RegisterScreenNavigationProp;
   };
-  ChangePassword: undefined;
+  ProfileUpdatePassword: undefined;
 };
 
 type RegisterScreenNavigationProp = StackNavigationProp<
@@ -35,8 +35,8 @@ export default function ProfileNavigator() {
         )}
       </ProfileStack.Screen>
       <ProfileStack.Screen
-        name="ChangePassword"
-        component={ChangePasswordScreen}
+        name="ProfileUpdatePassword"
+        component={ProfileUpdatePasswordScreen}
       />
     </ProfileStack.Navigator>
   );

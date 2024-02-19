@@ -9,7 +9,7 @@ import IRouteComplete from '../../../shared/interfaces/IFullRoute';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
 import Mapbox, {Camera} from '@rnmapbox/maps';
 import IPlace from '../../../shared/interfaces/IPlace';
-import {Dispatch, SetStateAction} from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 
 export type RoutesStackParamList = {
   ListCities: undefined;
@@ -30,8 +30,10 @@ export interface ListRoutesScreenProps {
 
 export interface RouteDetailScreenProps {
   route: RouteProp<RoutesStackParamList, 'RouteDetail'>;
-  navigation: any; // Puedes tipificar esto más precisamente si lo deseas
+  navigation: any;
   setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
+  mapRef: React.RefObject<Mapbox.MapView>;
+  cameraRef: React.RefObject<Camera>;
 }
 const RoutesStack = createStackNavigator<RoutesStackParamList>();
 
@@ -57,11 +59,13 @@ export default function RoutesNavigator({
         )}
       </RoutesStack.Screen>
       <RoutesStack.Screen name="RouteDetail">
-        {({route, navigation}: RouteDetailScreenProps) => (
+        {({route, navigation}) => (
           <RouteDetailScreen
-            route={{...route, params: {...route.params, mapRef, cameraRef}}}
+            route={route}
             navigation={navigation}
             setMediaPlace={setMediaPlace}
+            mapRef={mapRef}
+            cameraRef={cameraRef}
           />
         )}
       </RoutesStack.Screen>

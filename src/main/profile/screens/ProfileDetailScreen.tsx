@@ -175,7 +175,7 @@ export default function ProfileScreen({navigation}: Props) {
           <SecondaryButton
             text={t('profile.changePassword')}
             onPress={() => {
-              navigation.navigate('ChangePassword');
+              navigation.navigate('ProfileUpdatePassword');
             }}
             style={{marginTop: 20}}
           />

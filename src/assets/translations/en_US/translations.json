@@ -1,14 +1,16 @@
 {
   "errors": {
     "auth": {
-      "random": "Something went wrong. Please try again later.",
-      "incorrectPassword": "The email or username and password you entered do not match any account in our records. Please check your details and try again.",
-      "passwordNotStrong": "Your password must be at least 8 characters long, include uppercase and lowercase letters, numbers, and symbols, and cannot contain common words or predictable sequences.",
-      "userAlreadyExists": "This email is already registered in the app. Please use a different email address or recover your password if you have forgotten your login details."
+      "RANDOM": "Something went wrong. Please try again later.",
+      "INCORRECT_PASSWORD": "The email or username and password you entered do not match any account in our records. Please check your details and try again.",
+      "PASSWORD_NOT_STRONG": "Your password must be at least 8 characters long, include uppercase and lowercase letters, numbers, and symbols, and cannot contain common words or predictable sequences.",
+      "USER_ALREADY_EXISTS": "This email is already registered in the app. Please use a different email address or recover your password if you have forgotten your login details.",
+      "FAILED_TO_VERIFICATE_CODE": "The code you entered is not valid. Please check your details and try again.",
+      "TOO_SOON_TO_SEND_ANOTHER_EMAIL": "You have requested a new code too soon. Please wait a few seconds and try again."
     },
     "profile": {
-      "incorrectPassword": "The old password you entered does not match your current password. Please try again.",
-      "passwordNotStrong": "Your password must be at least 8 characters long, include uppercase and lowercase letters, numbers, and symbols, and cannot contain common words or predictable sequences."
+      "INCORRECT_PASSWORD": "The old password you entered does not match your current password. Please try again.",
+      "PASSWORD_NOT_STRONG": "Your password must be at least 8 characters long, include uppercase and lowercase letters, numbers, and symbols, and cannot contain common words or predictable sequences."
     }
   },
   "authScreens": {
@@ -24,7 +26,24 @@
     "username": "Username",
     "email": "Email",
     "footerText": "Monum S.L @2023",
-    "access": "Access"
+    "access": "Access",
+    "passwordRecoveryText": "Enter your email address and we will send you a link to reset your password.",
+    "passwordRecoveryTitle": "Have you forgotten your password?",
+    "resetPassword": "Reset password",
+    "verification": "Verification",
+    "emailSent": "We just sent the verification code to",
+    "emailSentCheck": "Check your inbox and enter the code below to continue.",
+    "verify": "Verify",
+    "verificationCode": "Code",
+    "resendCode": "Resend code",
+    "codeResent": "A new code has been sent!",
+    "newPassword": "New password",
+    "confirmedNewPassword": "Confirm new password",
+    "changePassword": "Change password",
+    "newPasswordText": "Enter your new password and confirm it to reset your password.",
+    "passwordChangedTitle": "Password changed successfully!",
+    "passwordChangedMessage": "Your password has been changed successfully. You can now log in with your new password.",
+    "passwordChangedButton": "Log in"
   },
   "placeDetailExpanded": {
     "mediaIntro": "What are you going to learn?"

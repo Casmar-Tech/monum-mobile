@@ -25,9 +25,9 @@ export default function RouteDetailScreen({
   route: {params},
   navigation,
   setMediaPlace,
+  mapRef,
+  cameraRef,
 }: RouteDetailScreenProps) {
-  const cameraRef = params.cameraRef;
-  const mapRef = params.mapRef;
   const route = params.route;
   const scrollViewRef = useRef<ScrollView>(null);
   const [centerCamera, setCenterCamera] = useState(false);

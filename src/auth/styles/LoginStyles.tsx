@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   backgroundContainer: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   logoContainer: {
     paddingTop: 50,
-    flex: 3,
+    height: 250,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -120,7 +120,7 @@ export const styles = StyleSheet.create({
   },
   hidePasswordButton: {
     position: 'absolute',
-    backgroundColor: '#3F713B',
+    backgroundColor: 'transparent',
     right: 10,
   },
   hidePasswordButtonIcon: {
@@ -170,5 +170,47 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     backgroundColor: '#3F713B',
     fontFamily: 'Montserrat-SemiBold',
+  },
+  passwordRecoveryTextContainer: {
+    width: '100%',
+  },
+  passwordRecoveryTitle: {
+    color: 'white',
+    fontFamily:
+      Platform.OS === 'android' ? 'Montserrat-SemiBold' : 'Montserrat',
+    fontWeight: '600',
+    fontSize: 20,
+    justifyContent: 'flex-start',
+    marginBottom: 10,
+  },
+  passwordRecoveryText: {
+    color: 'white',
+    fontFamily: 'Montserrat-Regular',
+    fontSize: 14,
+  },
+  resendCodeButtonContainer: {height: 36, width: '100%', marginBottom: 10},
+  resendButton: {
+    borderColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 16,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#3F713B',
+    width: '35%',
+    position: 'absolute',
+    right: 0,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 10,
+  },
+  codeResentText: {
+    color: 'white',
+    fontSize: 14,
+    fontFamily: 'Montserrat-SemiBold',
+    textAlign: 'center',
   },
 });

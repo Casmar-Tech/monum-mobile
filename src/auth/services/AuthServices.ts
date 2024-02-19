@@ -5,8 +5,10 @@ import {
   LOGIN_GOOGLE_USER,
   LOGIN_USER,
   REGISTER_USER,
+  RESET_PASSWORD,
+  VERIFICATE_CODE,
+  UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD,
 } from '../../graphql/queries/userQueries';
-import Config from 'react-native-config';
 
 interface LoginGoogle {
   email: string;
@@ -51,8 +53,6 @@ class AuthService {
     password: string,
   ): Promise<IUser | null> {
     try {
-      const BASE_URL = Config.API_URL;
-      console.log('BASE_URL', BASE_URL);
       const response = await client.mutate({
         mutation: LOGIN_USER,
         variables: {loginInput: {emailOrUsername, password}},
@@ -95,6 +95,64 @@ class AuthService {
     }
   }
 
+  public async resetPassword(email: string, resend: boolean = false) {
+    try {
+      const response = await client.mutate({
+        mutation: RESET_PASSWORD,
+        variables: {
+          resetPasswordInput: {
+            email,
+            resend,
+          },
+        },
+      });
+      const resetPassword = response.data?.resetPassword;
+      return resetPassword;
+    } catch (error: any) {
+      console.log('Error al reiniciar la contraseña:', JSON.stringify(error));
+      throw new Error(error?.graphQLErrors[0]?.extensions?.code || 'RANDOM');
+    }
+  }
+
+  public async verificateCode(email: string, code: string) {
+    try {
+      const response = await client.mutate({
+        mutation: VERIFICATE_CODE,
+        variables: {
+          verificateCodeInput: {
+            code,
+            email,
+          },
+        },
+      });
+      const verificateCode = response.data?.verificateCode;
+      return verificateCode;
+    } catch (error: any) {
+      console.log('Error al verificar el código:', JSON.stringify(error));
+      throw new Error(error?.graphQLErrors[0]?.extensions?.code || 'RANDOM');
+    }
+  }
+
+  public async updatePassword(newPassword: string, token: string) {
+    try {
+      const response = await client.mutate({
+        mutation: UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD,
+        variables: {
+          updatePasswordWithoutOldInput: {
+            newPassword,
+            token,
+          },
+        },
+      });
+      console.log('response', response);
+      const updatePasswordWithoutOld = response.data?.updatePasswordWithoutOld;
+      return updatePasswordWithoutOld;
+    } catch (error: any) {
+      console.log('Error al verificar el código:', JSON.stringify(error));
+      throw new Error(error?.graphQLErrors[0]?.extensions?.code || 'RANDOM');
+    }
+  }
+
   public async logout() {
     await this.removeAuthToken();
     // Add other steps required for logout, such as clearing the application state
@@ -108,6 +166,12 @@ class AuthService {
       console.error('Error al verificar la autenticación:', error);
       return false;
     }
+  }
+
+  public validateEmail(email: string) {
+    var re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   }
 }
 

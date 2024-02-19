@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginTop: -30,
   },
 });
 
