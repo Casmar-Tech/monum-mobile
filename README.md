@@ -1,5 +1,43 @@
 # Monum Docs
 
+## Initial Setup
+In your mac, put the following contets on you `~/.netrc` file:
+```bash
+machine api.mapbox.com
+    login mapbox
+    password <FROM_1PASSWORD>
+```
+In XCode, remove all the default downloaded simulators and only leave the `iPhone 15 Pro Max`, to safe space. <br>
+Go to the Firebase console and download the `GoogleService-Info.plist` from the iOS app, and put it in this project inside the `ios` folder. We have to do this because it's a secret file and it's on the gitignore. <br>
+Also, sign in with your Apple Id in XCode so then we will be able to distribute new version of the app to the App Store. <br>
+Then, install some of the dependencies for this project:
+```bash
+brew install watchman
+brew tap homebrew/cask-versions
+brew install --cask zulu17
+```
+Check that indeed the JVM is installed in this path: `/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home`
+And make sure that in your `.zshrc` you have set the `JAVA_HOME` variable:
+```bash
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+```
+Install Android Studio: https://developer.android.com/studio
+And follow this guide: https://reactnative.dev/docs/environment-setup?guide=native&platform=android, specifically the `Android development environment` section to setup correctly Android Studio.
+```bash
+npm i
+npx pod-install
+npm start
+```
+In a new terminal, run:
+```bash
+npm run ios:debug
+```
+And in another terminal, run:
+```bash
+npm run android:debug
+```
+
+
 ## Developing
 ### Install the dependencies
 ```bash
