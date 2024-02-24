@@ -7,7 +7,7 @@ machine api.mapbox.com
     login mapbox
     password <FROM_1PASSWORD>
 ```
-In XCode, remove all the default downloaded simulators and only leave the `iPhone 15 Pro Max`, to safe space. <br>
+In XCode (make sure to open the `monum.xcworkspace` file), remove all the default downloaded simulators and only leave the `iPhone 15 Pro Max`, to safe space. <br>
 Go to the Firebase console and download the `GoogleService-Info.plist` from the iOS app, and put it in this project inside the `ios` folder. We have to do this because it's a secret file and it's on the gitignore. <br>
 Also, sign in with your Apple Id in XCode so then we will be able to distribute new version of the app to the App Store. <br>
 Then, install some of the dependencies for this project:
@@ -22,7 +22,19 @@ And make sure that in your `.zshrc` you have set the `JAVA_HOME` variable:
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 ```
 Install Android Studio: https://developer.android.com/studio
-And follow this guide: https://reactnative.dev/docs/environment-setup?guide=native&platform=android, specifically the `Android development environment` section to setup correctly Android Studio.
+And follow this guide: https://reactnative.dev/docs/environment-setup?guide=native&platform=android, specifically the `Android development environment` section to setup correctly Android Studio. <br><br>
+
+From 1 password, download the `monum-upload-key.keystore` and place the file into `android/app` folder.
+Then in your `~/.gradle/gradle.properties` file, add the following lines:
+```properties
+MYAPP_UPLOAD_STORE_FILE=monum-upload-key.keystore
+MYAPP_UPLOAD_KEY_ALIAS=monum-key
+MYAPP_UPLOAD_STORE_PASSWORD=<FROM-1PASSWORD>
+MYAPP_UPLOAD_KEY_PASSWORD=<FROM-1PASSWORD>
+MAPBOX_DOWNLOADS_TOKEN=<FROM-1PASSWORD>
+```
+
+Then, install the dependencies:
 ```bash
 npm i
 npx pod-install
@@ -36,7 +48,6 @@ And in another terminal, run:
 ```bash
 npm run android:debug
 ```
-
 
 ## Developing
 ### Install the dependencies
