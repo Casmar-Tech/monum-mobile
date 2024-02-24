@@ -62,10 +62,10 @@
     "confirmedNewPassword": "Confirmar nueva contraseña"
   },
   "languages": {
-    "en_US": "Inglés (EE.UU.)",
-    "es_ES": "Español (España)",
-    "fr_FR": "Francés (Francia)",
-    "ca_ES": "Catalan (España)"
+    "en_US": "Inglés",
+    "es_ES": "Español",
+    "fr_FR": "Francés",
+    "ca_ES": "Catalan"
   },
   "routes": {
     "search": "Buscar",
