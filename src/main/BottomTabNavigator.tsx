@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import React, {useRef, useState} from 'react';
-import {StyleSheet, Image, StatusBar, Platform} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {StyleSheet, Image, StatusBar, Platform, Linking} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import bottom_bar_list_inactive from '../assets/images/icons/bottom_bar_list_inactive.png';
