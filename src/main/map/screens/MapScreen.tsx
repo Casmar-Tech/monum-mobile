@@ -1,51 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Geolocation from '@react-native-community/geolocation';
 import Mapbox, {Camera} from '@rnmapbox/maps';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 
 import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
 import {MarkerComponent} from '../components/Marker';
 import MapPlaceDetail from '../components/placeDetail/MapPlaceDetail';
 import MapServices from '../services/MapServices';
-import IPlace from '../../../shared/interfaces/IPlace';
 import {IMarker} from '../../../shared/interfaces/IMarker';
 import TextSearchMap from '../components/TextSearchMap';
 import CurrentPositionMarker from '../components/CurrentPositionMarker';
+import {useApplicationStore} from '../../../zustand/ApplicationStore';
 Mapbox.setAccessToken(
   'pk.eyJ1IjoieHBsb3JlYXIiLCJhIjoiY2xqMmU0Z3NyMGFxeTNwbzByNW90dmdxcSJ9.cMT52Rc64Z05YUGPIutXFw',
 );
 
 interface MapScreenProps {
-  setTabBarVisible: Dispatch<SetStateAction<boolean>>;
-  setPlace: Dispatch<SetStateAction<IPlace | null>>;
-  place: IPlace | null;
-  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
-  mediaPlace: IPlace | null;
-  showPlaceDetailExpanded: boolean;
-  setShowPlaceDetailExpanded: Dispatch<SetStateAction<boolean>>;
-  markerSelected: string | null;
-  setMarkerSelected: Dispatch<SetStateAction<string | null>>;
   cameraRef: React.RefObject<Camera>;
   mapRef: React.RefObject<Mapbox.MapView>;
 }
 
-export default function MapScreen({
-  setTabBarVisible,
-  setPlace,
-  place,
-  setMediaPlace,
-  showPlaceDetailExpanded,
-  setShowPlaceDetailExpanded,
-  markerSelected,
-  setMarkerSelected,
-  cameraRef,
-  mapRef,
-}: MapScreenProps) {
+export default function MapScreen({cameraRef, mapRef}: MapScreenProps) {
+  const markerSelected = useApplicationStore(
+    state => state.application.markerSelected,
+  );
   const [centerCamera, setCenterCamera] = useState(false);
-  const [centerCoordinates, setCenterCoordinates] = useState<
-    [number, number] | undefined
-  >(undefined);
+  const centerCoordinates = useApplicationStore(
+    state => state.application.centerCoordinates,
+  );
+  const setCenterCoordinates = useApplicationStore(
+    state => state.setCenterCoordinates,
+  );
   const [markers, setMarkers] = useState<IMarker[]>([]);
   const [textSearch, setTextSearch] = useState<string | undefined>('');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -70,7 +56,6 @@ export default function MapScreen({
             marker.address.coordinates.lat,
           ] as [number, number],
           importance: marker.importance,
-          setMarkerSelected,
           markerSelected,
         })),
       );
@@ -93,12 +78,12 @@ export default function MapScreen({
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      position => {
+      (position: any) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         setCenterCoordinates([longitude, latitude]);
       },
-      error => {
+      (error: any) => {
         console.log('Error obtaining geolocation:', error);
         setCenterCoordinates([2.820167, 41.977381]);
       },
@@ -132,12 +117,9 @@ export default function MapScreen({
               importance={marker.importance}
               coordinates={marker.coordinates}
               selected={markerSelected === marker.id ? true : false}
-              setMarkerSelected={setMarkerSelected}
             />
           ))}
-          {centerCoordinates && (
-            <CurrentPositionMarker centerCoordinates={centerCoordinates} />
-          )}
+          {centerCoordinates && <CurrentPositionMarker />}
           <Camera
             centerCoordinate={centerCoordinates}
             zoomLevel={10}
@@ -153,16 +135,7 @@ export default function MapScreen({
           isDropdownVisible={isDropdownVisible}
           toggleDropdown={toggleDropdown}
         />
-        <MapPlaceDetail
-          placeId={markerSelected}
-          setMarkerSelected={setMarkerSelected}
-          setTabBarVisible={setTabBarVisible}
-          setPlace={setPlace}
-          setMediaPlace={setMediaPlace}
-          place={place}
-          showPlaceDetailExpanded={showPlaceDetailExpanded}
-          setShowPlaceDetailExpanded={setShowPlaceDetailExpanded}
-        />
+        <MapPlaceDetail />
       </View>
     </View>
   );

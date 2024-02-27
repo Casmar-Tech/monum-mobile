@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -28,9 +28,9 @@ import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
-import IPlace from '../../../shared/interfaces/IPlace';
 import {Slider} from '@rneui/themed';
 import TrackPlayer, {State, Progress} from 'react-native-track-player';
+import {useApplicationStore} from '../../../zustand/ApplicationStore';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
 const width = Dimensions.get('window').width;
@@ -41,22 +41,23 @@ type GestureContext = {
 };
 
 interface MediaBubbleProps {
-  mediaPlace: IPlace;
-  setExpandedDetail: Dispatch<SetStateAction<boolean>>;
-  statePlayer: State;
   currentTrack: number;
   trackTitle: string;
   progress: Progress;
 }
 
 export default function MediaBubble({
-  mediaPlace,
-  setExpandedDetail,
-  statePlayer,
   currentTrack,
   trackTitle,
   progress,
 }: MediaBubbleProps) {
+  const statePlayer = useApplicationStore(
+    state => state.application.statePlayer,
+  );
+  const mediaPlace = useApplicationStore(state => state.application.mediaPlace);
+  const setExpandedMediaDetail = useApplicationStore(
+    state => state.setExpandedMediaDetail,
+  );
   const bottomSafeAreaInsets = useSafeAreaInsets().bottom;
   const [closeBubble, setCloseBubble] = useState(false);
 
@@ -110,6 +111,7 @@ export default function MediaBubble({
   return (
     statePlayer !== State.None &&
     currentTrack !== null &&
+    mediaPlace &&
     trackTitle && (
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View
@@ -120,7 +122,8 @@ export default function MediaBubble({
               bottom: bottomSafeAreaInsets + BOTTOM_TAB_NAVIGATOR_HEIGHT + 20,
             },
           ]}>
-          <TouchableWithoutFeedback onPress={() => setExpandedDetail(true)}>
+          <TouchableWithoutFeedback
+            onPress={() => setExpandedMediaDetail(true)}>
             <View style={styles.mediaBubbleContainer}>
               <View style={styles.mediaBubbleImageContainer}>
                 <Image

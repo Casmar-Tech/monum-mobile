@@ -5,5 +5,4 @@ export interface IMarker {
   coordinates: [number, number];
   importance: number;
   selected?: boolean;
-  setMarkerSelected: Dispatch<SetStateAction<string | null>>;
 }

@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {ScrollView, View} from 'react-native';
-import {RootState} from '../../../redux/store';
-import {useSelector} from 'react-redux';
+import {ScrollView, View, StyleSheet} from 'react-native';
+import React from 'react';
+import {useUserStore} from '../../../zustand/UserStore';
 import {ListRoutesScreenProps} from '../navigator/RoutesNavigator';
 import {useQuery} from '@apollo/client';
 import {GET_ROUTES_OF_CITY} from '../../../graphql/queries/routeQueries';
 import {useEffect, useState} from 'react';
 import IRouteOfCity from '../../../shared/interfaces/IRouteOfCity';
-import {StyleSheet} from 'react-native';
 import DetailCityPill from '../components/DetailCityPill';
 import TextSearch from '../components/TextSearch';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
@@ -22,7 +21,7 @@ export default function ListRoutesScreen({
 }: ListRoutesScreenProps) {
   const safeAreaInsets = useSafeAreaInsets();
   const city = route.params.city;
-  const user = useSelector((state: RootState) => state.user);
+  const user = useUserStore(state => state.user);
   const [routes, setRoutes] = useState<IRouteOfCity[]>([]);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
 
@@ -82,7 +81,6 @@ export default function ListRoutesScreen({
                   route={route}
                   key={i}
                   onPress={() => {
-                    console.log('route', route);
                     navigation.navigate('RouteDetail', {route});
                   }}
                 />

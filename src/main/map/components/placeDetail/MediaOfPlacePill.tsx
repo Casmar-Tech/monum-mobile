@@ -1,40 +1,44 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
+import React from 'react';
 import IMedia from '../../../../shared/interfaces/IMedia';
-import IPlace from '../../../../shared/interfaces/IPlace';
-import {Image} from 'react-native';
 import place_detail_media_rating_star from '../../../../assets/images/icons/place_detail_media_rating_star.png';
 import place_detail_play_media from '../../../../assets/images/icons/place_detail_play_media.png';
 import TrackPlayer, {RepeatMode} from 'react-native-track-player';
+import {useApplicationStore} from '../../../../zustand/ApplicationStore';
 
-interface PlaceMediaPillProps {
-  media: IMedia;
-  place: IPlace;
-  placeMedia: IMedia[];
-  setPlace: (place: IPlace) => void;
+interface MediaOfPlacePillProps {
   index: number;
+  media: IMedia;
 }
 
-export default function PlaceMediaPill({
-  media,
-  place,
-  placeMedia,
-  setPlace,
+export default function MediaOfPlacePill({
   index,
-}: PlaceMediaPillProps) {
-  const isLastPill = index === placeMedia.length - 1;
+  media,
+}: MediaOfPlacePillProps) {
+  const place = useApplicationStore(state => state.application.place);
+  const setMediaPlace = useApplicationStore(state => state.setMediaPlace);
+  const mediasOfPlace = useApplicationStore(
+    state => state.application.mediasOfPlace,
+  );
+  if (!mediasOfPlace || !Array.isArray(mediasOfPlace)) {
+    return null;
+  }
+  const isLastPill =
+    Array.isArray(mediasOfPlace) && index === mediasOfPlace.length - 1;
   return (
     <TouchableOpacity
       onPress={async () => {
+        console.log('mediaOfPlace', place);
         try {
-          setPlace(place);
+          setMediaPlace(place);
           await TrackPlayer.reset();
           await TrackPlayer.add(
-            placeMedia.map(media => ({
-              id: media.id,
-              url: media.audioUrl,
-              title: media.title,
+            mediasOfPlace.map(mediaOfPlace => ({
+              id: mediaOfPlace.id,
+              url: mediaOfPlace.audioUrl,
+              title: mediaOfPlace.title,
               artist: 'Monum',
-              rating: media.rating,
+              rating: mediaOfPlace.rating,
             })),
           );
           await TrackPlayer.skip(index);

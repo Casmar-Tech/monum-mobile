@@ -1,28 +1,24 @@
-import {useState, useEffect} from 'react';
-
+import React, {useState, useEffect} from 'react';
 import MediaExpanded from './MediaExpanded';
 import MediaBubble from './MediaBubble';
-import IPlace from '../../../shared/interfaces/IPlace';
 import TrackPlayer, {
   Event,
   State,
   useProgress,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
+import {useApplicationStore} from '../../../zustand/ApplicationStore';
 
-interface MediaBubbleProps {
-  mediaPlace: IPlace;
-}
-
-export default function MediaComponent({mediaPlace}: MediaBubbleProps) {
-  const [expandedDetail, setExpandedDetail] = useState(false);
+export default function MediaComponent() {
+  const expandedMediaDetail = useApplicationStore(
+    state => state.application.expandedMediaDetail,
+  );
+  const statePlayer = useApplicationStore(
+    state => state.application.statePlayer,
+  );
+  const setStatePlayer = useApplicationStore(state => state.setStatePlayer);
 
   const progress = useProgress();
-
-  const [statePlayer, setStatePlayer] = useState(State.Paused);
-  useTrackPlayerEvents([Event.PlaybackState], async event => {
-    setStatePlayer(event.state);
-  });
 
   const [currentTrack, setCurrentTrack] = useState<number | null>(null);
   const [trackTitle, setTrackTitle] = useState<string>();
@@ -57,23 +53,17 @@ export default function MediaComponent({mediaPlace}: MediaBubbleProps) {
     currentTrack !== null &&
     trackTitle &&
     statePlayer !== State.None &&
-    (expandedDetail ? (
+    (expandedMediaDetail ? (
       <MediaExpanded
-        mediaPlace={mediaPlace}
-        setExpandedDetail={setExpandedDetail}
         trackRating={trackRating}
         trackTitle={trackTitle}
         progress={progress}
-        statePlayer={statePlayer}
         currentTrack={currentTrack}
       />
     ) : (
       <MediaBubble
-        mediaPlace={mediaPlace}
-        setExpandedDetail={setExpandedDetail}
         trackTitle={trackTitle}
         progress={progress}
-        statePlayer={statePlayer}
         currentTrack={currentTrack}
       />
     ))

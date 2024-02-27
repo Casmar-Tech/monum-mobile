@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import {
   PanGestureHandler,
@@ -20,12 +20,11 @@ import place_pre_detail_importance_3 from '../../../../assets/images/icons/place
 import place_pre_detail_importance_4 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_4.png';
 import place_pre_detail_importance_5 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_5.png';
 import place_pre_detail_importance_star from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_star.png';
-import IMedia from '../../../../shared/interfaces/IMedia';
-import IPlace from '../../../../shared/interfaces/IPlace';
 
 import MapPlaceDetailExpanded from './MapPlaceDetailExpanded';
 import MapPlaceDetailReduced from './MapPlaceDetailReduced';
 import MapServices from '../../services/MapServices';
+import {useApplicationStore} from '../../../../zustand/ApplicationStore';
 
 const {height} = Dimensions.get('screen');
 
@@ -33,38 +32,36 @@ const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 const BOTTOM_TAB_HEIGHT = 130;
 const MAX_MARGIN_TOP = 50;
 
-interface MapPlaceDetailProps {
-  placeId: string | null;
-  setMarkerSelected: Dispatch<SetStateAction<string | null>>;
-  setTabBarVisible: Dispatch<SetStateAction<boolean>>;
-  place: IPlace | null;
-  setPlace: Dispatch<SetStateAction<IPlace | null>>;
-  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
-  showPlaceDetailExpanded: boolean;
-  setShowPlaceDetailExpanded: Dispatch<SetStateAction<boolean>>;
-}
-
 type GestureContext = {
   startY: number;
 };
 
-export default function MapPlaceDetail({
-  placeId,
-  setMarkerSelected,
-  setTabBarVisible,
-  place,
-  setPlace,
-  setMediaPlace,
-  showPlaceDetailExpanded,
-  setShowPlaceDetailExpanded,
-}: MapPlaceDetailProps) {
+export default function MapPlaceDetail() {
+  const markerSelected = useApplicationStore(
+    state => state.application.markerSelected,
+  );
+  const setMarkerSelected = useApplicationStore(
+    state => state.setMarkerSelected,
+  );
+  const setTabBarVisible = useApplicationStore(state => state.setTabBarVisible);
+  const place = useApplicationStore(state => state.application.place);
+  const setPlace = useApplicationStore(state => state.setPlace);
+  const showPlaceDetailExpanded = useApplicationStore(
+    state => state.application.showPlaceDetailExpanded,
+  );
+  const setShowPlaceDetailExpanded = useApplicationStore(
+    state => state.setShowPlaceDetailExpanded,
+  );
+  const mediasOfPlace = useApplicationStore(
+    state => state.application.mediasOfPlace,
+  );
+  const setMediasOfPlace = useApplicationStore(state => state.setMediasOfPlace);
   const BOTTOM_TOTAL_TAB_HEIGHT =
     useSafeAreaInsets().bottom +
     BOTTOM_TAB_NAVIGATOR_HEIGHT +
     BOTTOM_TAB_HEIGHT;
 
   const [closeDetail, setCloseDetail] = useState(false);
-  const [placeMedia, setPlaceMedia] = useState<IMedia[] | undefined>(undefined);
   const position = useSharedValue(height);
 
   const importanceIcon = () => {
@@ -152,14 +149,14 @@ export default function MapPlaceDetail({
   });
 
   useEffect(() => {
-    if (placeId) {
+    if (markerSelected) {
       const placeInfo = {};
       if (placeInfo) {
         const fetchPlace = async () => {
-          const placeData = await MapServices.getPlaceInfo(placeId);
+          const placeData = await MapServices.getPlaceInfo(markerSelected);
           setPlace(placeData);
-          const placeMedias = await MapServices.getPlaceMedia(placeId);
-          setPlaceMedia(placeMedias);
+          const mediasFetched = await MapServices.getPlaceMedia(markerSelected);
+          setMediasOfPlace(mediasFetched);
           position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT, {
             duration: 300,
           });
@@ -167,7 +164,7 @@ export default function MapPlaceDetail({
         fetchPlace();
       }
     }
-  }, [placeId]);
+  }, [markerSelected]);
 
   useEffect(() => {
     if (place && showPlaceDetailExpanded) {
@@ -175,7 +172,7 @@ export default function MapPlaceDetail({
     }
   }, [showPlaceDetailExpanded, place]);
 
-  return placeId ? (
+  return markerSelected ? (
     <View
       style={[
         styles.container,
@@ -187,21 +184,10 @@ export default function MapPlaceDetail({
       ]}>
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View style={[styles.animatedContainer, animatedStyle]}>
-          {showPlaceDetailExpanded && place && Array.isArray(placeMedia) ? (
-            <MapPlaceDetailExpanded
-              placeMedia={placeMedia}
-              importanceIcon={importanceIcon()}
-              place={place}
-              setMediaPlace={setMediaPlace}
-              setShowPlaceDetailExpanded={setShowPlaceDetailExpanded}
-            />
+          {showPlaceDetailExpanded && place && Array.isArray(mediasOfPlace) ? (
+            <MapPlaceDetailExpanded importanceIcon={importanceIcon()} />
           ) : (
-            <MapPlaceDetailReduced
-              importanceIcon={importanceIcon()}
-              setTabBarVisible={setTabBarVisible}
-              setShowPlaceDetailExpanded={setShowPlaceDetailExpanded}
-              place={place}
-            />
+            <MapPlaceDetailReduced importanceIcon={importanceIcon()} />
           )}
         </Animated.View>
       </PanGestureHandler>

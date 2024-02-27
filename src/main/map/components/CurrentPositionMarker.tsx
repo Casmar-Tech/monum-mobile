@@ -1,13 +1,11 @@
 import {MarkerView} from '@rnmapbox/maps';
 import {View} from 'react-native';
+import {useApplicationStore} from '../../../zustand/ApplicationStore';
 
-interface CurrentPositionMarkerProps {
-  centerCoordinates: [number, number];
-}
-
-export default function CurrentPositionMarker({
-  centerCoordinates,
-}: CurrentPositionMarkerProps) {
+export default function CurrentPositionMarker() {
+  const centerCoordinates = useApplicationStore(
+    state => state.application.centerCoordinates,
+  );
   return (
     <MarkerView id={'center'} key={'center'} coordinate={centerCoordinates}>
       <View

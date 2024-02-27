@@ -12,14 +12,17 @@ import map_marker_importance_star from '../../../assets/images/icons/map_marker_
 import map_marker_importance_star_selected from '../../../assets/images/icons/map_marker_importance_star_selected.png';
 import map_marker_importance_selected from '../../../assets/images/icons/map_marker_importance_selected.png';
 import {IMarker} from '../../../shared/interfaces/IMarker';
+import {useApplicationStore} from '../../../zustand/ApplicationStore';
 
 export function MarkerComponent({
   id,
   coordinates,
   importance,
   selected,
-  setMarkerSelected,
 }: IMarker) {
+  const setMarkerSelected = useApplicationStore(
+    state => state.setMarkerSelected,
+  );
   const [icon, setIcon] = useState(map_marker_importance_1);
   const [dimensions, setDimensions] = useState(30);
   // const [backgroundColor, setBackgroundColor] = useState('white');

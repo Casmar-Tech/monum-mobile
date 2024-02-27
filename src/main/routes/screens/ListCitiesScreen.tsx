@@ -8,8 +8,7 @@ import {GET_CITIES} from '../../../graphql/queries/routeQueries';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 import ErrorComponent from '../../../shared/components/ErrorComponent';
 import ICity from '../../../shared/interfaces/ICity';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../redux/store';
+import {useUserStore} from '../../../zustand/UserStore';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RoutesStackParamList} from '../navigator/RoutesNavigator';
 import ListCityPill from '../components/ListCityPill';
@@ -25,7 +24,7 @@ type Props = {
 
 export default function ListCitiesScreen({navigation}: Props) {
   const safeAreaInsets = useSafeAreaInsets();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useUserStore(state => state.user);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
   const [cities, setCities] = useState<ICity[]>([]);
   const {loading, error, data, refetch} = useQuery(GET_CITIES, {

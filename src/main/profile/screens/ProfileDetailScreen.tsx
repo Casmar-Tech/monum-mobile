@@ -1,11 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../../redux/store';
 import IUser from '../../../shared/interfaces/IUser';
 import {useMutation, useQuery} from '@apollo/client';
-import {removeAuthToken, setUser} from '../../../redux/states/user';
 import {
   GET_USER_BY_ID,
   UPDATE_USER,
@@ -22,6 +19,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Language} from '../../../shared/types/Language';
 import client from '../../../graphql/connection';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {undefinedUser, useUserStore} from '../../../zustand/UserStore';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
 
@@ -32,9 +30,11 @@ type Props = {
 export default function ProfileScreen({navigation}: Props) {
   const onRetry = useQuery(GET_USER_BY_ID);
   const safeArea = useSafeAreaInsets();
-  const dispatch = useDispatch();
-  // Acceder al estado global para ver si 'user' ya existe
-  const user = useSelector((state: RootState) => state.user);
+
+  const user = useUserStore(state => state.user);
+  const removeAuthToken = useUserStore(state => state.removeAuthToken);
+  const setUser = useUserStore(state => state.setUser);
+
   const [provisionalUser, setProvisionalUser] = useState<IUser>(user);
 
   const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
@@ -72,17 +72,17 @@ export default function ProfileScreen({navigation}: Props) {
   useEffect(() => {
     if (data && data.user) {
       // Guardar el usuario en el estado global si obtenemos data desde GraphQL
-      dispatch(setUser(data.user));
+      setUser(data.user);
     }
-  }, [data, dispatch, setProvisionalUser]);
+  }, [data, setProvisionalUser]);
 
   useEffect(() => {
     if (dataUpdated && dataUpdated.updateUser) {
       setProvisionalUser(user);
       // Guardar el usuario en el estado global si obtenemos data desde GraphQL
-      dispatch(setUser(dataUpdated.updateUser));
+      setUser(dataUpdated.updateUser);
     }
-  }, [dataUpdated, dispatch, setProvisionalUser]);
+  }, [dataUpdated, setProvisionalUser]);
 
   const handleUpdateUsername = (newUsername: string) => {
     setProvisionalUser(prevUser => ({...prevUser, username: newUsername}));
@@ -204,8 +204,8 @@ export default function ProfileScreen({navigation}: Props) {
           text={t('profile.logout')}
           onPress={async () => {
             (await GoogleSignin.isSignedIn()) && (await GoogleSignin.signOut());
-            dispatch(setUser(null));
-            dispatch(removeAuthToken());
+            setUser(undefinedUser);
+            removeAuthToken();
           }}
         />
       </View>

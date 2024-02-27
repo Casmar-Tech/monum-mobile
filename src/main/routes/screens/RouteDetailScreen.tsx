@@ -24,7 +24,6 @@ import LinearGradient from 'react-native-linear-gradient';
 export default function RouteDetailScreen({
   route: {params},
   navigation,
-  setMediaPlace,
   mapRef,
   cameraRef,
 }: RouteDetailScreenProps) {
@@ -267,7 +266,6 @@ export default function RouteDetailScreen({
                   ? {paddingBottom: 40}
                   : {}
               }
-              setMediaPlace={setMediaPlace}
               {...placeFromRoute}
             />
           ))}

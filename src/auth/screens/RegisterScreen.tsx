@@ -18,11 +18,12 @@ import {styles} from '../styles/LoginStyles';
 import PrimaryButton from '../components/PrimaryButton';
 import AuthServices from '../services/AuthServices';
 import {Text} from 'react-native';
-import {setAuthToken, setUser} from '../../redux/states/user';
-import {useDispatch} from 'react-redux';
+import {useUserStore} from '../../zustand/UserStore';
 import ErrorComponent from '../components/ErrorComponent';
 
 export default function RegisterScreen() {
+  const setAuthToken = useUserStore(state => state.setAuthToken);
+  const setUser = useUserStore(state => state.setUser);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -179,8 +180,8 @@ export default function RegisterScreen() {
                 try {
                   const response = await AuthServices.signup(email, password);
                   if (response) {
-                    dispatch(setAuthToken(response.token || ''));
-                    dispatch(setUser(response || {}));
+                    await setAuthToken(response.token || '');
+                    setUser(response || {});
                   }
                 } catch (error: string | any) {
                   startShake();

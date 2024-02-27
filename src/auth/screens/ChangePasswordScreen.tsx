@@ -72,7 +72,6 @@ export default function ChangePasswordScreen({
   };
 
   const toggleNewConfirmedPasswordVisibility = () => {
-    console.log('toggleNewConfirmedPasswordVisibility');
     setShowNewConfirmedPassword(!showNewConfirmedPassword);
   };
 

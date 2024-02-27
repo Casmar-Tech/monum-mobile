@@ -12,8 +12,7 @@ import SeparatorComponent from '../components/SeparatorComponent';
 import {RootStackParamList} from '../navigator/AuthNavigator';
 import GoogleAuthService from '../services/GoogleAuthService';
 import {styles} from '../styles/LoginStyles';
-import {setAuthToken, setUser} from '../../redux/states/user';
-import {useDispatch} from 'react-redux';
+import {useUserStore} from '../../zustand/UserStore';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -25,7 +24,8 @@ type Props = {
 };
 
 export default function LoginScreen({navigation}: Props) {
-  const dispatch = useDispatch();
+  const setAuthToken = useUserStore(state => state.setAuthToken);
+  const setUser = useUserStore(state => state.setUser);
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.backgroundColor} />
@@ -41,8 +41,8 @@ export default function LoginScreen({navigation}: Props) {
               onPress={async () => {
                 const response = await GoogleAuthService.signInWithGoogle();
                 if (response) {
-                  dispatch(setAuthToken(response.token || ''));
-                  dispatch(setUser(response || {}));
+                  await setAuthToken(response.token || '');
+                  setUser(response || {});
                 } else {
                   console.log('ERROR WHEN LOGGING IN WITH GOOGLE');
                 }

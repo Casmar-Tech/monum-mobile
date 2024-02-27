@@ -19,8 +19,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import {RootStackParamList} from '../navigator/AuthNavigator';
 import {styles} from '../styles/LoginStyles';
 import AuthServices from '../services/AuthServices';
-import {useDispatch} from 'react-redux';
-import {setAuthToken, setUser} from '../../redux/states/user';
+import {useUserStore} from '../../zustand/UserStore';
 import ErrorComponent from '../components/ErrorComponent';
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -32,6 +31,8 @@ type Props = {
 };
 
 export default function LoginScreen({navigation}: Props) {
+  const setAuthToken = useUserStore(state => state.setAuthToken);
+  const setUser = useUserStore(state => state.setUser);
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -67,8 +68,6 @@ export default function LoginScreen({navigation}: Props) {
       }),
     ]).start();
   };
-
-  const dispatch = useDispatch();
 
   return (
     <View style={styles.backgroundContainer}>
@@ -153,8 +152,8 @@ export default function LoginScreen({navigation}: Props) {
                     password,
                   );
                   if (response) {
-                    dispatch(setAuthToken(response.token || ''));
-                    dispatch(setUser(response || {}));
+                    setAuthToken(response.token || '');
+                    setUser(response || {});
                   }
                 } catch (error: string | any) {
                   startShake();

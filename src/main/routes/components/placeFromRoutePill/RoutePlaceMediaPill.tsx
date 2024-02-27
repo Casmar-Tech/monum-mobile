@@ -1,4 +1,4 @@
-import {
+import React, {
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,37 +11,39 @@ import {Image} from 'react-native';
 import place_detail_media_rating_star from '../../../../assets/images/icons/place_detail_media_rating_star.png';
 import place_detail_play_media from '../../../../assets/images/icons/place_detail_play_media.png';
 import TrackPlayer, {RepeatMode} from 'react-native-track-player';
-import {Dispatch, SetStateAction} from 'react';
+import {useApplicationStore} from '../../../../zustand/ApplicationStore';
 
 interface RoutePlaceMediaPillProps {
   media: IMedia;
   place: IPlace;
-  placeMedia: IMedia[];
-  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
 }
 
 export default function RoutePlaceMediaPill({
   media,
   place,
-  placeMedia,
   style,
-  setMediaPlace,
 }: RoutePlaceMediaPillProps & {style?: ViewStyle}) {
+  const mediasOfPlace = useApplicationStore(
+    state => state.application.mediasOfPlace,
+  );
+  const setMediaPlace = useApplicationStore(state => state.setMediaPlace);
   return (
     <TouchableOpacity
       onPress={async () => {
         try {
           setMediaPlace(place);
+          console.log('mediaOfPlace', place);
           await TrackPlayer.reset();
-          await TrackPlayer.add(
-            placeMedia.map(media => ({
-              id: media.id,
-              url: media.audioUrl,
-              title: media.title,
-              artist: 'Monum',
-              rating: media.rating,
-            })),
-          );
+          Array.isArray(mediasOfPlace) &&
+            (await TrackPlayer.add(
+              mediasOfPlace.map(eachMedia => ({
+                id: eachMedia.id,
+                url: eachMedia.audioUrl,
+                title: eachMedia.title,
+                artist: 'Monum',
+                rating: eachMedia.rating,
+              })),
+            ));
           await TrackPlayer.setRepeatMode(RepeatMode.Queue);
           await TrackPlayer.play();
         } catch (e) {

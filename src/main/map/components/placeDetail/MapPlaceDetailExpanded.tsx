@@ -1,5 +1,5 @@
 import {t} from 'i18next';
-import React, {Dispatch, SetStateAction} from 'react';
+import React from 'react';
 import {
   Dimensions,
   Image,
@@ -15,33 +15,33 @@ import LinearGradient from 'react-native-linear-gradient';
 import place_detail_arrow_bottom_white from '../../../../assets/images/icons/place_detail_arrow_bottom_white.png';
 import place_detail_direction_white from '../../../../assets/images/icons/place_detail_direction_white.png';
 import IMedia from '../../../../shared/interfaces/IMedia';
-import IPlace from '../../../../shared/interfaces/IPlace';
 import ShowRatingStars from '../ShowRatingStars';
-import PlaceMediaPill from './PlaceMediaPill';
+import MediaOfPlacePill from './MediaOfPlacePill';
 import Carousel from 'react-native-reanimated-carousel';
 import {useSharedValue} from 'react-native-reanimated';
 import {PaginationItem} from '../../../media/components/PaginationItem';
+import {useApplicationStore} from '../../../../zustand/ApplicationStore';
 
 const BORDER_RADIUS = 24;
 
 interface MapPlaceDetailExpandedProps {
-  placeMedia: IMedia[];
   importanceIcon: ImageSourcePropType;
-  place: IPlace;
-  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
-  setShowPlaceDetailExpanded: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function MapPlaceDetailExpanded({
-  placeMedia,
   importanceIcon,
-  place,
-  setMediaPlace,
 }: MapPlaceDetailExpandedProps) {
+  const place = useApplicationStore(state => state.application.place);
+  const mediasOfPlace = useApplicationStore(
+    state => state.application.mediasOfPlace,
+  );
   const progressValue = useSharedValue<number>(0);
-  const imagesUrl = place.imagesUrl || [];
+  const imagesUrl = place?.imagesUrl || [];
   const width = Dimensions.get('window').width;
   const heightImage = 200;
+  if (!place) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <Carousel
@@ -177,15 +177,8 @@ export default function MapPlaceDetailExpanded({
           scrollEventThrottle={16}
           style={{width: '100%'}}
           showsVerticalScrollIndicator={false}>
-          {placeMedia?.map((media, i) => (
-            <PlaceMediaPill
-              key={i}
-              index={i}
-              media={media}
-              place={place}
-              setPlace={setMediaPlace}
-              placeMedia={placeMedia}
-            />
+          {mediasOfPlace?.map((media: IMedia, i: number) => (
+            <MediaOfPlacePill key={i} index={i} media={media} />
           ))}
         </ScrollView>
       </View>

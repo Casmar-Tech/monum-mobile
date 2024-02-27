@@ -6,14 +6,13 @@ import {VERIFY_TOKEN_QUERY} from './graphql/queries/userQueries'; // Importa la 
 import AuthNavigator from './auth/navigator/AuthNavigator';
 import BottomTabNavigator from './main/BottomTabNavigator';
 import {NavigationContainer} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {RootState} from './redux/store';
 import {setupPlayerService} from './track-player/service';
+import {useUserStore} from './zustand/UserStore';
 
 const MainStack = createStackNavigator();
 
 function MainNavigator() {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useUserStore(state => state.user);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const {data, refetch} = useQuery(VERIFY_TOKEN_QUERY);
 

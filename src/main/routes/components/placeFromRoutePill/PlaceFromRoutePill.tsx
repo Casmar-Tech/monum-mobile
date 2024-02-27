@@ -1,4 +1,12 @@
-import {Image, ScrollView, Text, View, ViewStyle} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  Text,
+  View,
+  ViewStyle,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import RatingPill from '../RatingPill';
 import route_detail_contract_place from '../../../../assets/images/icons/route_detail_contract_place.png';
 import route_detail_expand_place from '../../../../assets/images/icons/route_detail_expand_place.png';
@@ -8,19 +16,10 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {
-  Dispatch,
-  SetStateAction,
-  forwardRef,
-  useImperativeHandle,
-  useState,
-} from 'react';
-import {StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import React, {forwardRef, useImperativeHandle, useState} from 'react';
 import RoutePlaceMediaPill from './RoutePlaceMediaPill';
 import IMedia from '../../../../shared/interfaces/IMedia';
 import {t} from 'i18next';
-import IPlace from '../../../../shared/interfaces/IPlace';
 import IStop from '../../../../shared/interfaces/IStop';
 import {SheetManager} from 'react-native-actions-sheet';
 import place_detail_direction_white from '../../../../assets/images/icons/place_detail_direction_white.png';
@@ -28,7 +27,6 @@ import {ImportanceIcon} from './ImportanceIcon';
 
 type PlaceFromRoutePillProps = IStop & {
   style?: ViewStyle;
-  setMediaPlace: Dispatch<SetStateAction<IPlace | null>>;
 };
 
 // Aquí definimos el tipo de la referencia, si tienes métodos específicos que quieres exponer, los añades aquí
@@ -43,7 +41,7 @@ export type PlaceFromRoutePillRef = {
 const PlaceFromRoutePill = forwardRef<
   PlaceFromRoutePillRef,
   PlaceFromRoutePillProps
->(({place, medias, style, setMediaPlace}, ref) => {
+>(({place, medias, style}, ref) => {
   const [expandedPill, setExpandedPill] = useState<boolean>(false);
   const [highlightedPill, setHighlightedPill] = useState<boolean>(false);
   const animationValue = useSharedValue(0);
@@ -238,8 +236,6 @@ const PlaceFromRoutePill = forwardRef<
                       key={i}
                       media={media}
                       place={place}
-                      placeMedia={medias}
-                      setMediaPlace={setMediaPlace}
                       style={
                         i === 0
                           ? {

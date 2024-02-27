@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -8,24 +8,23 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import IPlace from '../../../../shared/interfaces/IPlace';
 
 import place_pre_detail_arrow_top from '../../../../assets/images/icons/place_pre_detail_arrow_top.png';
 import ShowRatingStars from '../ShowRatingStars';
+import {useApplicationStore} from '../../../../zustand/ApplicationStore';
 
 interface MapPlaceDetailReducedProps {
-  place: IPlace | null;
   importanceIcon: ImageSourcePropType;
-  setTabBarVisible: Dispatch<SetStateAction<boolean>>;
-  setShowPlaceDetailExpanded: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function MapPlaceDetailReduced({
-  place,
   importanceIcon,
-  setTabBarVisible,
-  setShowPlaceDetailExpanded,
 }: MapPlaceDetailReducedProps) {
+  const setTabBarVisible = useApplicationStore(state => state.setTabBarVisible);
+  const setShowPlaceDetailExpanded = useApplicationStore(
+    state => state.setShowPlaceDetailExpanded,
+  );
+  const place = useApplicationStore(state => state.application.place);
   return (
     <View style={styles.container}>
       <LinearGradient

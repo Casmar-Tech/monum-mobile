@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {t} from 'i18next';
-import React, {Dispatch, SetStateAction, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   Dimensions,
   Image,
@@ -28,11 +28,11 @@ import media_expanded_back from '../../../assets/images/icons/media_expanded_bac
 import media_expanded_forward from '../../../assets/images/icons/media_expanded_forward.png';
 import media_expanded_play from '../../../assets/images/icons/media_expanded_play.png';
 import media_expanded_pause from '../../../assets/images/icons/media_expanded_pause.png';
-import IPlace from '../../../shared/interfaces/IPlace';
 import {Slider} from '@rneui/themed';
 import TrackPlayer, {Progress, State} from 'react-native-track-player';
 import Carousel from 'react-native-reanimated-carousel';
 import {PaginationItem} from './PaginationItem';
+import {useApplicationStore} from '../../../zustand/ApplicationStore';
 
 export function secondsToMinutes(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -45,9 +45,6 @@ export function secondsToMinutes(seconds: number) {
 const {height} = Dimensions.get('window');
 
 interface MediaExpandedProps {
-  mediaPlace: IPlace;
-  setExpandedDetail: Dispatch<SetStateAction<boolean>>;
-  statePlayer: State;
   currentTrack: number;
   trackRating: number;
   trackTitle: string;
@@ -59,16 +56,19 @@ type GestureContext = {
 };
 
 export default function MediaExpanded({
-  mediaPlace,
-  setExpandedDetail,
-  statePlayer,
   currentTrack,
   trackRating,
   trackTitle,
   progress,
 }: MediaExpandedProps) {
+  const mediaPlace = useApplicationStore(state => state.application.mediaPlace);
+  const setExpandedMediaDetail = useApplicationStore(
+    state => state.setExpandedMediaDetail,
+  );
+  const statePlayer = useApplicationStore(
+    state => state.application.statePlayer,
+  );
   const topSafeAreaInsets = useSafeAreaInsets().top;
-  const imagesUrl = mediaPlace.imagesUrl || [];
   const position = useSharedValue(height);
   const progressValue = useSharedValue<number>(0);
   const panGestureEvent = useAnimatedGestureHandler<
@@ -89,7 +89,7 @@ export default function MediaExpanded({
     onEnd: event => {
       if (position.value > height / 2 || event.velocityY > 0) {
         position.value = withTiming(height);
-        runOnJS(setExpandedDetail)(false);
+        runOnJS(setExpandedMediaDetail)(false);
       } else {
         position.value = withTiming(0);
       }
@@ -105,6 +105,7 @@ export default function MediaExpanded({
     position.value = withTiming(0, {duration: 300});
   }, []);
   const width = Dimensions.get('window').width;
+  const imagesUrl = mediaPlace?.imagesUrl || [];
   return (
     statePlayer !== State.None && (
       <View style={styles.container}>
@@ -182,7 +183,7 @@ export default function MediaExpanded({
               <View style={styles.infoContainer}>
                 <View style={styles.basicInfoContainer}>
                   <Text style={[styles.mediaTitle]}>{trackTitle}</Text>
-                  <Text style={styles.placeName}>{mediaPlace.name}</Text>
+                  <Text style={styles.placeName}>{mediaPlace?.name}</Text>
                 </View>
               </View>
               <View style={styles.mediaPlayerContainer}>
@@ -275,7 +276,7 @@ export default function MediaExpanded({
                   {t('placeDetailExpanded.mediaIntro')}
                 </Text>
                 <Text style={styles.descriptionText}>
-                  {mediaPlace.description}
+                  {mediaPlace?.description}
                 </Text>
               </View>
             </View>
