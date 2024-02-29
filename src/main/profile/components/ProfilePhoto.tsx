@@ -1,6 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
+import {useUserStore} from '../../../zustand/UserStore';
 
 interface ProfilePhotoComponentProps {
   url: string | undefined;
@@ -27,8 +28,15 @@ export default function ProfilePhotoComponent({
     }
   };
 
+  const user = useUserStore(state => state.user);
+  const {permissions} = user;
+  const hasPermissionToUpdateUser = permissions?.some(
+    permission =>
+      permission.action === 'update' && permission.entity === 'user',
+  );
+
   return (
-    <TouchableOpacity onPress={pickImage}>
+    <TouchableOpacity onPress={pickImage} disabled={!hasPermissionToUpdateUser}>
       <View style={styles.container}>
         {url ? (
           <Image source={{uri: url}} style={styles.profilePhoto} />
@@ -37,12 +45,14 @@ export default function ProfilePhotoComponent({
             {username.slice(0, 1).toUpperCase()}
           </Text>
         )}
-        <View style={styles.addButtonContainer}>
-          <View style={styles.backgroundButton}>
-            <View style={styles.horizontalLine} />
-            <View style={styles.verticalLine} />
+        {hasPermissionToUpdateUser && (
+          <View style={styles.addButtonContainer}>
+            <View style={styles.backgroundButton}>
+              <View style={styles.horizontalLine} />
+              <View style={styles.verticalLine} />
+            </View>
           </View>
-        </View>
+        )}
       </View>
     </TouchableOpacity>
   );

@@ -1,12 +1,12 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {StyleSheet, Image, StatusBar, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import bottom_bar_list_inactive from '../assets/images/icons/bottom_bar_list_inactive.png';
 import bottom_bar_map_inactive from '../assets/images/icons/bottom_bar_map_inactive.png';
-import bottom_bar_profile_inactive from '../assets/images/icons/bottom_bar_profile_inactive.png';
+import bottom_bar_config_inactive from '../assets/images/icons/bottom_bar_config_inactive.png';
 import MapScreen from './map/screens/MapScreen';
 
 import MediaComponent from './media/components/MediaComponent';
@@ -67,10 +67,10 @@ function BottomTabNavigator() {
         source = bottom_bar_map_inactive;
         break;
       case 'Profile':
-        source = bottom_bar_profile_inactive;
+        source = bottom_bar_config_inactive;
         break;
       default:
-        source = bottom_bar_profile_inactive;
+        source = bottom_bar_config_inactive;
         break;
     }
     return (
@@ -87,13 +87,7 @@ function BottomTabNavigator() {
     );
   };
 
-  console.log(
-    mediaPlace,
-    statePlayer,
-    activeTab,
-    markerSelected,
-    showPlaceDetailExpanded,
-  );
+  useEffect(() => {}, []);
 
   return (
     <NavigationContainer independent={true}>

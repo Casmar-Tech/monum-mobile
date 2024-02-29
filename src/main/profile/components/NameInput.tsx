@@ -1,5 +1,7 @@
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 import {TextInput} from 'react-native-gesture-handler';
+import {useUserStore} from '../../../zustand/UserStore';
 
 interface NameInputProps {
   labelText: string;
@@ -12,6 +14,12 @@ export default function NameInput({
   value,
   setValue,
 }: NameInputProps) {
+  const user = useUserStore(state => state.user);
+  const {permissions} = user;
+  const hasPermissionToUpdate = permissions?.some(
+    permission =>
+      permission.action === 'update' && permission.entity === 'user',
+  );
   return (
     <View style={styles.container}>
       <View style={styles.labelContainer}>
@@ -19,6 +27,7 @@ export default function NameInput({
       </View>
       <View style={styles.inputContainer}>
         <TextInput
+          editable={hasPermissionToUpdate}
           value={value}
           style={styles.inputText}
           onChangeText={setValue}

@@ -11,6 +11,7 @@ import {useUserStore} from './src/zustand/UserStore';
 import {Linking} from 'react-native';
 import {useApplicationStore} from './src/zustand/ApplicationStore';
 import MapServices from './src/main/map/services/MapServices';
+import AuthServices from './src/auth/services/AuthServices';
 
 function App() {
   const setAuthToken = useUserStore(state => state.setAuthToken);
@@ -22,25 +23,35 @@ function App() {
     state => state.setShowPlaceDetailExpanded,
   );
   const setMediasOfPlace = useApplicationStore(state => state.setMediasOfPlace);
+  const setUser = useUserStore(state => state.setUser);
 
   useEffect(() => {
     const handleOpenURL = async ({url}: any) => {
-      const [, token] = url.match(/token=([^&]+)/) || [];
-      // Extrae el placeId
-      const [, placeId] = url.match(/place\/([^?]+)/) || [];
+      try {
+        const [, token] = url.match(/token=([^&]+)/) || [];
+        // Extrae el placeId
+        const [, placeId] = url.match(/place\/([^?]+)/) || [];
+        console.log('token', token);
 
-      if (token) {
-        await setAuthToken(token);
-      }
+        if (token) {
+          await setAuthToken(token);
+          // Realizar la consulta GraphQL si 'user' no existe
+          const user = await AuthServices.getUserInformation();
+          console.log('user', user);
+          setUser(user);
+        }
 
-      if (placeId) {
-        // Asume que tienes una función para establecer el placeId en tu estado global
-        setMarkerSelected(placeId);
-        const placeData = await MapServices.getPlaceInfo(placeId);
-        setPlace(placeData);
-        const mediasFetched = await MapServices.getPlaceMedia(placeId);
-        setMediasOfPlace(mediasFetched);
-        setShowPlaceDetailExpanded(true);
+        if (placeId) {
+          // Asume que tienes una función para establecer el placeId en tu estado global
+          setMarkerSelected(placeId);
+          const placeData = await MapServices.getPlaceInfo(placeId);
+          setPlace(placeData);
+          const mediasFetched = await MapServices.getPlaceMedia(placeId);
+          setMediasOfPlace(mediasFetched);
+          setShowPlaceDetailExpanded(true);
+        }
+      } catch (e) {
+        console.log('error', e);
       }
     };
 

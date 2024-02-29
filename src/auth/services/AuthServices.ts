@@ -8,6 +8,7 @@ import {
   RESET_PASSWORD,
   VERIFICATE_CODE,
   UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD,
+  GET_USER_INFORMATION_BY_TOKEN,
 } from '../../graphql/queries/userQueries';
 
 interface LoginGoogle {
@@ -151,6 +152,14 @@ class AuthService {
       console.log('Error al verificar el código:', JSON.stringify(error));
       throw new Error(error?.graphQLErrors[0]?.extensions?.code || 'RANDOM');
     }
+  }
+
+  public async getUserInformation() {
+    const response = await client.query({
+      query: GET_USER_INFORMATION_BY_TOKEN,
+    });
+    const user = response.data?.user;
+    return user;
   }
 
   public async logout() {

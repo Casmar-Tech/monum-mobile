@@ -119,3 +119,32 @@ export const UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD = gql`
     )
   }
 `;
+
+export const GET_USER_INFORMATION_BY_TOKEN = gql`
+  query Query {
+    user {
+      id
+      email
+      username
+      isTemporalPassword
+      createdAt
+      googleId
+      token
+      language
+      name
+      photo
+      hasPassword
+      roleId
+      organizationId
+      permissions {
+        id
+        name
+        description
+        action
+        entity
+        max
+        min
+      }
+    }
+  }
+`;

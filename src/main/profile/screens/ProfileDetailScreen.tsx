@@ -32,6 +32,11 @@ export default function ProfileScreen({navigation}: Props) {
   const safeArea = useSafeAreaInsets();
 
   const user = useUserStore(state => state.user);
+  const {permissions} = user;
+  const hasPermissionToUpdateUser = permissions?.some(
+    permission =>
+      permission.action === 'update' && permission.entity === 'user',
+  );
   const removeAuthToken = useUserStore(state => state.removeAuthToken);
   const setUser = useUserStore(state => state.setUser);
 
@@ -171,7 +176,7 @@ export default function ProfileScreen({navigation}: Props) {
         />
       </View>
       <View style={styles.updateButtonContainer}>
-        {user.hasPassword && (
+        {user.hasPassword && hasPermissionToUpdateUser && (
           <SecondaryButton
             text={t('profile.changePassword')}
             onPress={() => {

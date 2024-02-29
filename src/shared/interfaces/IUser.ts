@@ -1,4 +1,5 @@
 import {Language} from '../types/Language';
+import IPermission from './IPermission';
 
 export default interface IUser {
   id?: string;
@@ -12,4 +13,5 @@ export default interface IUser {
   token?: string;
   language: Language;
   hasPassword?: boolean;
+  permissions?: IPermission[];
 }

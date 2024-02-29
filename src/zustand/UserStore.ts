@@ -20,6 +20,7 @@ export const undefinedUser: IUser = {
   token: '',
   language: 'en_US',
   hasPassword: false,
+  permissions: [],
 };
 
 export const useUserStore = create<UserState>(set => ({
