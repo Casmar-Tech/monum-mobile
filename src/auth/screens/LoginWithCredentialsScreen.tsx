@@ -101,6 +101,7 @@ export default function LoginScreen({navigation}: Props) {
               ]}
               value={emailOrUsername}
               onChangeText={setEmailOrUsername}
+              autoCapitalize="none"
             />
             <View style={styles.passwordContainer}>
               <TextInput

@@ -25,6 +25,7 @@ function App() {
 
   useEffect(() => {
     const handleOpenURL = async ({url}: any) => {
+      console.log('URL', url);
       const [, token] = url.match(/token=([^&]+)/) || [];
       // Extrae el placeId
       const [, placeId] = url.match(/place\/([^?]+)/) || [];

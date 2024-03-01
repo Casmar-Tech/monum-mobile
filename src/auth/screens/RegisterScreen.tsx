@@ -100,6 +100,7 @@ export default function RegisterScreen() {
               ]}
               value={email}
               onChangeText={setEmail}
+              autoCapitalize="none"
             />
             <View style={styles.passwordContainer}>
               <TextInput
