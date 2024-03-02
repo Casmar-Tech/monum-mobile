@@ -7,6 +7,7 @@ import {
   GET_PLACE_SEARCHER_SUGGESTIONS,
 } from '../../../graphql/queries/placeQueries';
 import {GET_PLACE_MEDIA} from '../../../graphql/queries/mediaQueries';
+import {Language} from '../../../shared/types/Language';
 
 class MapServices {
   public async getMarkers(
@@ -32,11 +33,14 @@ class MapServices {
     }
   }
 
-  public async getPlaceInfo(placeId: string): Promise<IPlace | null> {
+  public async getPlaceInfo(
+    placeId: string,
+    language: Language,
+  ): Promise<IPlace | null> {
     try {
       const response = await client.query({
         query: GET_PLACE_INFO,
-        variables: {placeId, imageSize: 'original'},
+        variables: {placeId, imageSize: 'original', language: language},
       });
       return response.data?.place || null;
     } catch (error) {

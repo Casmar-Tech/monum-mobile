@@ -66,7 +66,6 @@ export default function RegisterScreen() {
     ]).start();
   };
 
-  const dispatch = useDispatch();
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.backgroundColor} />

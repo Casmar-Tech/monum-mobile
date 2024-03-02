@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Geolocation from '@react-native-community/geolocation';
-import Mapbox, {Camera} from '@rnmapbox/maps';
+import {Camera, MapView, setAccessToken} from '@rnmapbox/maps';
 import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 
@@ -11,28 +11,25 @@ import MapServices from '../services/MapServices';
 import {IMarker} from '../../../shared/interfaces/IMarker';
 import TextSearchMap from '../components/TextSearchMap';
 import CurrentPositionMarker from '../components/CurrentPositionMarker';
-import {useApplicationStore} from '../../../zustand/ApplicationStore';
-Mapbox.setAccessToken(
+import {useTabMapStore} from '../../../zustand/TabMapStore';
+import {useMainStore} from '../../../zustand/MainStore';
+setAccessToken(
   'pk.eyJ1IjoieHBsb3JlYXIiLCJhIjoiY2xqMmU0Z3NyMGFxeTNwbzByNW90dmdxcSJ9.cMT52Rc64Z05YUGPIutXFw',
 );
 
-interface MapScreenProps {
-  cameraRef: React.RefObject<Camera>;
-  mapRef: React.RefObject<Mapbox.MapView>;
-}
-
-export default function MapScreen({cameraRef, mapRef}: MapScreenProps) {
-  const markerSelected = useApplicationStore(
-    state => state.application.markerSelected,
-  );
+export default function MapScreen() {
+  const mapRef = useMainStore(state => state.main.mapRef);
+  const cameraRef = useMainStore(state => state.main.cameraRef);
+  const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
   const [centerCamera, setCenterCamera] = useState(false);
-  const centerCoordinates = useApplicationStore(
-    state => state.application.centerCoordinates,
+  const centerCoordinates = useTabMapStore(
+    state => state.tabMap.centerCoordinates,
   );
-  const setCenterCoordinates = useApplicationStore(
+  const setCenterCoordinates = useTabMapStore(
     state => state.setCenterCoordinates,
   );
-  const [markers, setMarkers] = useState<IMarker[]>([]);
+  const markers = useTabMapStore(state => state.tabMap.markers);
+  const setMarkers = useTabMapStore(state => state.setMarkers);
   const [textSearch, setTextSearch] = useState<string | undefined>('');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -56,17 +53,16 @@ export default function MapScreen({cameraRef, mapRef}: MapScreenProps) {
             marker.address.coordinates.lat,
           ] as [number, number],
           importance: marker.importance,
-          markerSelected,
+          selected: marker.id === markerSelected,
         })),
       );
     };
-
     fetchMarkers();
   }, [textSearch]);
 
   useEffect(() => {
-    if (markerSelected) {
-      cameraRef.current?.setCamera({
+    if (markerSelected && markers.length > 0) {
+      cameraRef?.current?.setCamera({
         animationDuration: 1000,
         zoomLevel: 17,
         centerCoordinate:
@@ -77,25 +73,27 @@ export default function MapScreen({cameraRef, mapRef}: MapScreenProps) {
   }, [markerSelected]);
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(
-      (position: any) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        setCenterCoordinates([longitude, latitude]);
-      },
-      (error: any) => {
-        console.log('Error obtaining geolocation:', error);
-        setCenterCoordinates([2.820167, 41.977381]);
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    ),
-      cameraRef.current?.setCamera({
-        animationMode: 'none',
-        animationDuration: 100,
-        zoomLevel: 15,
-        centerCoordinate: centerCoordinates,
-      });
-    setCenterCamera(false);
+    if (centerCamera) {
+      Geolocation.getCurrentPosition(
+        (position: any) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          setCenterCoordinates([2.820167, 41.977381]);
+        },
+        (error: any) => {
+          console.log('Error obtaining geolocation:', error);
+          setCenterCoordinates([2.820167, 41.977381]);
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      ),
+        cameraRef?.current?.setCamera({
+          animationMode: 'none',
+          animationDuration: 100,
+          zoomLevel: 15,
+          centerCoordinate: centerCoordinates,
+        });
+      setCenterCamera(false);
+    }
   }, [centerCamera]);
 
   return (
@@ -105,7 +103,7 @@ export default function MapScreen({cameraRef, mapRef}: MapScreenProps) {
           height: Dimensions.get('window').height,
           width: Dimensions.get('window').width,
         }}>
-        <Mapbox.MapView
+        <MapView
           ref={mapRef}
           styleURL="mapbox://styles/mapbox/light-v11"
           scaleBarEnabled={false}
@@ -116,7 +114,6 @@ export default function MapScreen({cameraRef, mapRef}: MapScreenProps) {
               id={marker.id}
               importance={marker.importance}
               coordinates={marker.coordinates}
-              selected={markerSelected === marker.id ? true : false}
             />
           ))}
           {centerCoordinates && <CurrentPositionMarker />}
@@ -126,7 +123,7 @@ export default function MapScreen({cameraRef, mapRef}: MapScreenProps) {
             ref={cameraRef}
             minZoomLevel={10}
           />
-        </Mapbox.MapView>
+        </MapView>
         {/* <FilterComponent filters={filters} setFilters={setFilters} /> */}
         <CenterCoordinatesButton setCenterCamera={setCenterCamera} />
         <TextSearchMap

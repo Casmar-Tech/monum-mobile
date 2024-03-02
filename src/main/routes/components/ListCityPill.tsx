@@ -1,9 +1,10 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import React from 'react';
 
 interface ListCityPillProps {
   cityName: string;
-  onPress: (string: string) => void;
+  onPress: () => void;
   imageUrl: string;
 }
 
@@ -13,7 +14,7 @@ export default function ListCityPill({
   imageUrl,
 }: ListCityPillProps) {
   return (
-    <TouchableOpacity onPress={() => onPress(cityName)} style={styles.button}>
+    <TouchableOpacity onPress={onPress} style={styles.button}>
       <View style={styles.container}>
         <Image
           source={{uri: `${imageUrl}?auto=compress&fit=crop&h=1200`}}

@@ -18,7 +18,7 @@ export default function NameInput({
   const {permissions} = user;
   const hasPermissionToUpdate = permissions?.some(
     permission =>
-      permission.action === 'update' && permission.entity === 'user',
+      permission.action.includes('update') && permission.entity === 'user',
   );
   return (
     <View style={styles.container}>

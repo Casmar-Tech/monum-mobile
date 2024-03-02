@@ -11,32 +11,30 @@ import {Image} from 'react-native';
 import place_detail_media_rating_star from '../../../../assets/images/icons/place_detail_media_rating_star.png';
 import place_detail_play_media from '../../../../assets/images/icons/place_detail_play_media.png';
 import TrackPlayer, {RepeatMode} from 'react-native-track-player';
-import {useApplicationStore} from '../../../../zustand/ApplicationStore';
+import {useMainStore} from '../../../../zustand/MainStore';
 
 interface RoutePlaceMediaPillProps {
+  mediasOfStop: IMedia[];
   media: IMedia;
   place: IPlace;
 }
 
 export default function RoutePlaceMediaPill({
+  mediasOfStop,
   media,
   place,
   style,
 }: RoutePlaceMediaPillProps & {style?: ViewStyle}) {
-  const mediasOfPlace = useApplicationStore(
-    state => state.application.mediasOfPlace,
-  );
-  const setMediaPlace = useApplicationStore(state => state.setMediaPlace);
+  const setPlaceOfMedia = useMainStore(state => state.setPlaceOfMedia);
   return (
     <TouchableOpacity
       onPress={async () => {
         try {
-          setMediaPlace(place);
-          console.log('mediaOfPlace', place);
+          setPlaceOfMedia(place);
           await TrackPlayer.reset();
-          Array.isArray(mediasOfPlace) &&
+          Array.isArray(mediasOfStop) &&
             (await TrackPlayer.add(
-              mediasOfPlace.map(eachMedia => ({
+              mediasOfStop.map(eachMedia => ({
                 id: eachMedia.id,
                 url: eachMedia.audioUrl,
                 title: eachMedia.title,

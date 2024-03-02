@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {RouteDetailScreenProps} from '../navigator/RoutesNavigator';
-import Mapbox, {Camera} from '@rnmapbox/maps';
+import {Camera, MapView} from '@rnmapbox/maps';
 import React, {useEffect, useRef, useState} from 'react';
 import media_bubble_back from '../../../assets/images/icons/media_bubble_back.png';
 import {useQuery} from '@apollo/client';
@@ -11,7 +11,6 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import RatingPill from '../components/RatingPill';
 import TextSearch from '../components/TextSearch';
-import {IMarker} from '../../../shared/interfaces/IMarker';
 import PlaceFromRoutePill, {
   PlaceFromRoutePillRef,
 } from '../components/placeFromRoutePill/PlaceFromRoutePill';
@@ -20,28 +19,30 @@ import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
 import Geolocation from '@react-native-community/geolocation';
 import CurrentPositionMarker from '../../map/components/CurrentPositionMarker';
 import LinearGradient from 'react-native-linear-gradient';
+import {useTabRouteStore} from '../../../zustand/TabRouteStore';
+import {useMainStore} from '../../../zustand/MainStore';
 
 export default function RouteDetailScreen({
-  route: {params},
   navigation,
-  mapRef,
-  cameraRef,
 }: RouteDetailScreenProps) {
-  const route = params.route;
+  const mapRef = useMainStore(state => state.main.mapRef);
+  const cameraRef = useMainStore(state => state.main.cameraRef);
+  const routeOfCity = useTabRouteStore(state => state.routeOfCity);
   const scrollViewRef = useRef<ScrollView>(null);
   const [centerCamera, setCenterCamera] = useState(false);
   const [originalData, setOriginalData] = useState<any | null>(null);
-  const [markers, setMarkers] = useState<IMarker[]>([]);
   const [placesFromRoute, setPlacesFromRoute] = useState<IStop[]>();
   const [centerCoordinates, setCenterCoordinates] = useState<[number, number]>([
     0, 0,
   ]);
-  const [markerSelected, setMarkerSelected] = useState<string | null>(null);
+  const markerSelected = useTabRouteStore(state => state.markerSelected);
+  const markers = useTabRouteStore(state => state.markers);
+  const setMarkers = useTabRouteStore(state => state.setMarkers);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
 
   const {loading, error, data, refetch} = useQuery(GET_ROUTE_DETAIL, {
     variables: {
-      routeId: route.id,
+      routeId: routeOfCity.id,
     },
   });
 
@@ -77,7 +78,7 @@ export default function RouteDetailScreen({
 
       const southWest = [minLng, minLat];
       const northEast = [maxLng, maxLat];
-      cameraRef.current?.fitBounds(southWest, northEast, 100, 0);
+      cameraRef?.current?.fitBounds(southWest, northEast, 100, 0);
     }
   }, [markers]);
 
@@ -103,8 +104,6 @@ export default function RouteDetailScreen({
           marker.place.address.coordinates.lat,
         ],
         importance: marker.place.importance,
-        setMarkerSelected,
-        markerSelected,
       }));
       setMarkers(markers);
 
@@ -152,7 +151,7 @@ export default function RouteDetailScreen({
       },
       {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     ),
-      cameraRef.current?.setCamera({
+      cameraRef?.current?.setCamera({
         animationDuration: 1000,
         zoomLevel: 15,
         centerCoordinate: centerCoordinates,
@@ -175,7 +174,7 @@ export default function RouteDetailScreen({
           shadowOpacity: 0.5,
           shadowRadius: 4,
         }}>
-        <Mapbox.MapView
+        <MapView
           ref={mapRef}
           styleURL="mapbox://styles/mapbox/light-v11"
           scaleBarEnabled={false}
@@ -186,20 +185,16 @@ export default function RouteDetailScreen({
               id={marker.id}
               importance={marker.importance}
               coordinates={marker.coordinates}
-              selected={markerSelected === marker.id ? true : false}
-              setMarkerSelected={setMarkerSelected}
             />
           ))}
-          {centerCoordinates && (
-            <CurrentPositionMarker centerCoordinates={centerCoordinates} />
-          )}
+          {centerCoordinates && <CurrentPositionMarker />}
           <Camera
             centerCoordinate={centerCoordinates}
             ref={cameraRef}
             animationMode={'none'}
             animationDuration={0}
           />
-        </Mapbox.MapView>
+        </MapView>
         <CenterCoordinatesButton setCenterCamera={setCenterCamera} />
       </View>
       <View style={{flex: 1}}>
@@ -233,10 +228,10 @@ export default function RouteDetailScreen({
                 fontFamily: 'Montserrat-Regular',
                 fontSize: 18,
               }}>
-              {route.title}
+              {routeOfCity.title}
             </Text>
           </View>
-          <RatingPill number={route.rating || 0} />
+          <RatingPill number={routeOfCity.rating || 0} />
         </View>
         <TextSearch
           style={{paddingHorizontal: 15}}

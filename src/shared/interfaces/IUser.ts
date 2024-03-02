@@ -1,4 +1,3 @@
-import {Language} from '../types/Language';
 import IPermission from './IPermission';
 
 export default interface IUser {
@@ -11,7 +10,6 @@ export default interface IUser {
   hashedPassword?: string;
   googleId?: string;
   token?: string;
-  language: Language;
   hasPassword?: boolean;
   permissions?: IPermission[];
 }

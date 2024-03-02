@@ -1,15 +1,10 @@
 import {gql} from '@apollo/client';
 
 export const GET_CITIES = gql`
-  query Cities($textSearch: String) {
-    cities(textSearch: $textSearch) {
+  query Query($textSearch: String, $language: Language) {
+    cities(textSearch: $textSearch, language: $language) {
       id
-      translations {
-        es_ES
-        en_US
-        ca_ES
-        fr_FR
-      }
+      name
       imageUrl
     }
   }

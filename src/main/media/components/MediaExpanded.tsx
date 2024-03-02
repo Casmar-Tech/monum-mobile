@@ -32,7 +32,8 @@ import {Slider} from '@rneui/themed';
 import TrackPlayer, {Progress, State} from 'react-native-track-player';
 import Carousel from 'react-native-reanimated-carousel';
 import {PaginationItem} from './PaginationItem';
-import {useApplicationStore} from '../../../zustand/ApplicationStore';
+import {useTabMapStore} from '../../../zustand/TabMapStore';
+import {useMainStore} from '../../../zustand/MainStore';
 
 export function secondsToMinutes(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -61,13 +62,11 @@ export default function MediaExpanded({
   trackTitle,
   progress,
 }: MediaExpandedProps) {
-  const mediaPlace = useApplicationStore(state => state.application.mediaPlace);
-  const setExpandedMediaDetail = useApplicationStore(
+  const placeOfMedia = useMainStore(state => state.main.placeOfMedia);
+  const setExpandedMediaDetail = useTabMapStore(
     state => state.setExpandedMediaDetail,
   );
-  const statePlayer = useApplicationStore(
-    state => state.application.statePlayer,
-  );
+  const statePlayer = useMainStore(state => state.main.statePlayer);
   const topSafeAreaInsets = useSafeAreaInsets().top;
   const position = useSharedValue(height);
   const progressValue = useSharedValue<number>(0);
@@ -105,7 +104,7 @@ export default function MediaExpanded({
     position.value = withTiming(0, {duration: 300});
   }, []);
   const width = Dimensions.get('window').width;
-  const imagesUrl = mediaPlace?.imagesUrl || [];
+  const imagesUrl = placeOfMedia?.imagesUrl || [];
   return (
     statePlayer !== State.None && (
       <View style={styles.container}>
@@ -183,7 +182,7 @@ export default function MediaExpanded({
               <View style={styles.infoContainer}>
                 <View style={styles.basicInfoContainer}>
                   <Text style={[styles.mediaTitle]}>{trackTitle}</Text>
-                  <Text style={styles.placeName}>{mediaPlace?.name}</Text>
+                  <Text style={styles.placeName}>{placeOfMedia?.name}</Text>
                 </View>
               </View>
               <View style={styles.mediaPlayerContainer}>
@@ -276,7 +275,7 @@ export default function MediaExpanded({
                   {t('placeDetailExpanded.mediaIntro')}
                 </Text>
                 <Text style={styles.descriptionText}>
-                  {mediaPlace?.description}
+                  {placeOfMedia?.description}
                 </Text>
               </View>
             </View>

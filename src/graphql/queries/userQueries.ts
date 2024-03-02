@@ -15,10 +15,17 @@ export const REGISTER_USER = gql`
       createdAt
       googleId
       token
-      language
       name
       photo
       hasPassword
+      roleId
+      organizationId
+      permissions {
+        action
+        entity
+        max
+        min
+      }
     }
   }
 `;
@@ -32,10 +39,17 @@ export const LOGIN_USER = gql`
       createdAt
       googleId
       token
-      language
       name
       photo
       hasPassword
+      roleId
+      organizationId
+      permissions {
+        action
+        entity
+        max
+        min
+      }
     }
   }
 `;
@@ -49,10 +63,17 @@ export const LOGIN_GOOGLE_USER = gql`
       createdAt
       googleId
       token
-      language
       name
       photo
       hasPassword
+      roleId
+      organizationId
+      permissions {
+        action
+        entity
+        max
+        min
+      }
     }
   }
 `;
@@ -67,10 +88,17 @@ export const GET_USER_BY_ID = gql`
       createdAt
       googleId
       token
-      language
       name
       photo
       hasPassword
+      roleId
+      organizationId
+      permissions {
+        action
+        entity
+        max
+        min
+      }
     }
   }
 `;
@@ -84,10 +112,17 @@ export const UPDATE_USER = gql`
       createdAt
       googleId
       token
-      language
       name
       photo
       hasPassword
+      roleId
+      organizationId
+      permissions {
+        action
+        entity
+        max
+        min
+      }
     }
   }
 `;
@@ -130,16 +165,43 @@ export const GET_USER_INFORMATION_BY_TOKEN = gql`
       createdAt
       googleId
       token
-      language
       name
       photo
       hasPassword
       roleId
       organizationId
       permissions {
-        id
-        name
-        description
+        action
+        entity
+        max
+        min
+      }
+    }
+  }
+`;
+
+export const GET_ORGANIZATION_ID_OF_PLACE = gql`
+  query Query($placeId: ID!) {
+    getOrganizationIdOfAPlace(placeId: $placeId)
+  }
+`;
+
+export const GET_TOURIST_USER_OF_ORGANIZATION = gql`
+  query GetTouristUserOfOrganization($organizationId: String) {
+    getTouristUserOfOrganization(organizationId: $organizationId) {
+      id
+      email
+      username
+      isTemporalPassword
+      createdAt
+      googleId
+      token
+      name
+      photo
+      hasPassword
+      roleId
+      organizationId
+      permissions {
         action
         entity
         max

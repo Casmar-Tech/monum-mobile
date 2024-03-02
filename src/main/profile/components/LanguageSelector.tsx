@@ -1,12 +1,12 @@
 import {t} from 'i18next';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Language} from '../../../shared/types/Language';
 
 interface LanguageSelectorProps {
   language: Language;
-  setLanguage: (string: Language) => void;
+  setProvisionalLanguage: (string: Language) => void;
 }
 
 interface LanguageSelectorPill {
@@ -16,7 +16,7 @@ interface LanguageSelectorPill {
 
 export default function LanguageSelector({
   language,
-  setLanguage,
+  setProvisionalLanguage,
 }: LanguageSelectorProps) {
   useEffect(() => {
     setAvailableLanguages([
@@ -50,8 +50,8 @@ export default function LanguageSelector({
           items={availableLanguages}
           setOpen={setOpen}
           setValue={setValue}
-          onChangeValue={selectedValue => {
-            setLanguage(selectedValue as Language);
+          onChangeValue={(selectedLanguage: Language) => {
+            setProvisionalLanguage(selectedLanguage);
           }}
           setItems={setAvailableLanguages}
           style={styles.dropDown}

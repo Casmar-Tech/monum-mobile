@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {ScrollView, View, StyleSheet} from 'react-native';
 import React from 'react';
-import {useUserStore} from '../../../zustand/UserStore';
 import {ListRoutesScreenProps} from '../navigator/RoutesNavigator';
 import {useQuery} from '@apollo/client';
 import {GET_ROUTES_OF_CITY} from '../../../graphql/queries/routeQueries';
@@ -14,14 +13,14 @@ import ErrorComponent from '../../../shared/components/ErrorComponent';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {t} from 'i18next';
 import ListRoutePill from '../components/ListRoutePill';
+import {useTabRouteStore} from '../../../zustand/TabRouteStore';
+import {useMainStore} from '../../../zustand/MainStore';
 
-export default function ListRoutesScreen({
-  route,
-  navigation,
-}: ListRoutesScreenProps) {
+export default function ListRoutesScreen({navigation}: ListRoutesScreenProps) {
+  const city = useTabRouteStore(state => state.city);
+  const setRouteOfCity = useTabRouteStore(state => state.setRouteOfCity);
   const safeAreaInsets = useSafeAreaInsets();
-  const city = route.params.city;
-  const user = useUserStore(state => state.user);
+  const language = useMainStore(state => state.main.language);
   const [routes, setRoutes] = useState<IRouteOfCity[]>([]);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
 
@@ -48,7 +47,7 @@ export default function ListRoutesScreen({
   return (
     <SafeAreaView style={styles.page}>
       <DetailCityPill
-        cityName={city.translations[user.language] || ''}
+        cityName={city.name}
         imageUrl={city.imageUrl}
         onPress={() => navigation.navigate('ListCities')}
       />
@@ -81,7 +80,8 @@ export default function ListRoutesScreen({
                   route={route}
                   key={i}
                   onPress={() => {
-                    navigation.navigate('RouteDetail', {route});
+                    setRouteOfCity(route);
+                    navigation.navigate('RouteDetail');
                   }}
                 />
               ))}

@@ -11,7 +11,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import place_pre_detail_arrow_top from '../../../../assets/images/icons/place_pre_detail_arrow_top.png';
 import ShowRatingStars from '../ShowRatingStars';
-import {useApplicationStore} from '../../../../zustand/ApplicationStore';
+import {useTabMapStore} from '../../../../zustand/TabMapStore';
+import {useMainStore} from '../../../../zustand/MainStore';
 
 interface MapPlaceDetailReducedProps {
   importanceIcon: ImageSourcePropType;
@@ -20,11 +21,11 @@ interface MapPlaceDetailReducedProps {
 export default function MapPlaceDetailReduced({
   importanceIcon,
 }: MapPlaceDetailReducedProps) {
-  const setTabBarVisible = useApplicationStore(state => state.setTabBarVisible);
-  const setShowPlaceDetailExpanded = useApplicationStore(
+  const setTabBarVisible = useMainStore(state => state.setTabBarVisible);
+  const setShowPlaceDetailExpanded = useTabMapStore(
     state => state.setShowPlaceDetailExpanded,
   );
-  const place = useApplicationStore(state => state.application.place);
+  const place = useTabMapStore(state => state.tabMap.place);
   return (
     <View style={styles.container}>
       <LinearGradient

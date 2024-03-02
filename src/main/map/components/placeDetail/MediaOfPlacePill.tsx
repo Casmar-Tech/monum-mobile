@@ -4,7 +4,8 @@ import IMedia from '../../../../shared/interfaces/IMedia';
 import place_detail_media_rating_star from '../../../../assets/images/icons/place_detail_media_rating_star.png';
 import place_detail_play_media from '../../../../assets/images/icons/place_detail_play_media.png';
 import TrackPlayer, {RepeatMode} from 'react-native-track-player';
-import {useApplicationStore} from '../../../../zustand/ApplicationStore';
+import {useTabMapStore} from '../../../../zustand/TabMapStore';
+import {useMainStore} from '../../../../zustand/MainStore';
 
 interface MediaOfPlacePillProps {
   index: number;
@@ -15,11 +16,9 @@ export default function MediaOfPlacePill({
   index,
   media,
 }: MediaOfPlacePillProps) {
-  const place = useApplicationStore(state => state.application.place);
-  const setMediaPlace = useApplicationStore(state => state.setMediaPlace);
-  const mediasOfPlace = useApplicationStore(
-    state => state.application.mediasOfPlace,
-  );
+  const place = useTabMapStore(state => state.tabMap.place);
+  const setPlaceOfMedia = useMainStore(state => state.setPlaceOfMedia);
+  const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
   if (!mediasOfPlace || !Array.isArray(mediasOfPlace)) {
     return null;
   }
@@ -28,9 +27,8 @@ export default function MediaOfPlacePill({
   return (
     <TouchableOpacity
       onPress={async () => {
-        console.log('mediaOfPlace', place);
         try {
-          setMediaPlace(place);
+          setPlaceOfMedia(place);
           await TrackPlayer.reset();
           await TrackPlayer.add(
             mediasOfPlace.map(mediaOfPlace => ({

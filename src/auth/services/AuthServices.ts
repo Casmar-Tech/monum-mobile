@@ -9,6 +9,8 @@ import {
   VERIFICATE_CODE,
   UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD,
   GET_USER_INFORMATION_BY_TOKEN,
+  GET_ORGANIZATION_ID_OF_PLACE,
+  GET_TOURIST_USER_OF_ORGANIZATION,
 } from '../../graphql/queries/userQueries';
 
 interface LoginGoogle {
@@ -84,7 +86,6 @@ class AuthService {
             googleId: id,
             name,
             photo,
-            language: 'en-US',
           },
         },
       });
@@ -154,11 +155,28 @@ class AuthService {
     }
   }
 
+  public async getOrganizationIdOfPlace(placeId: string) {
+    const response = await client.query({
+      query: GET_ORGANIZATION_ID_OF_PLACE,
+      variables: {placeId},
+    });
+    return response.data?.getOrganizationIdOfAPlace;
+  }
+
   public async getUserInformation() {
     const response = await client.query({
       query: GET_USER_INFORMATION_BY_TOKEN,
     });
     const user = response.data?.user;
+    return user;
+  }
+
+  public async getTouristUserOfOrganization(organizationId: string) {
+    const response = await client.query({
+      query: GET_TOURIST_USER_OF_ORGANIZATION,
+      variables: {organizationId},
+    });
+    const user = response.data?.getTouristUserOfOrganization;
     return user;
   }
 

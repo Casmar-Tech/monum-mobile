@@ -9,26 +9,21 @@ import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 import ErrorComponent from '../../../shared/components/ErrorComponent';
 import ICity from '../../../shared/interfaces/ICity';
 import {useUserStore} from '../../../zustand/UserStore';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RoutesStackParamList} from '../navigator/RoutesNavigator';
+import {ListCitiesScreenProps} from '../navigator/RoutesNavigator';
 import ListCityPill from '../components/ListCityPill';
+import {useTabRouteStore} from '../../../zustand/TabRouteStore';
+import {useMainStore} from '../../../zustand/MainStore';
 
-type ListCitiesScreenNavigationProp = StackNavigationProp<
-  RoutesStackParamList,
-  'ListCities'
->;
-
-type Props = {
-  navigation: ListCitiesScreenNavigationProp;
-};
-
-export default function ListCitiesScreen({navigation}: Props) {
+export default function ListCitiesScreen({navigation}: ListCitiesScreenProps) {
+  const setCity = useTabRouteStore(state => state.setCity);
   const safeAreaInsets = useSafeAreaInsets();
   const user = useUserStore(state => state.user);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
   const [cities, setCities] = useState<ICity[]>([]);
+  const language = useMainStore(state => state.main.language);
+
   const {loading, error, data, refetch} = useQuery(GET_CITIES, {
-    variables: {textSearch: textSearch || ''},
+    variables: {textSearch: textSearch || '', language},
   });
 
   useEffect(() => {
@@ -69,8 +64,11 @@ export default function ListCitiesScreen({navigation}: Props) {
               {cities.map((city, i) => (
                 <ListCityPill
                   key={i}
-                  onPress={() => navigation.navigate('ListRoutes', {city})}
-                  cityName={city.translations[user.language] || ''}
+                  onPress={() => {
+                    setCity(city);
+                    navigation.navigate('ListRoutes');
+                  }}
+                  cityName={city.name}
                   imageUrl={city.imageUrl}
                 />
               ))}

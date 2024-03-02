@@ -7,16 +7,15 @@ import TrackPlayer, {
   useProgress,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
-import {useApplicationStore} from '../../../zustand/ApplicationStore';
+import {useTabMapStore} from '../../../zustand/TabMapStore';
+import {useMainStore} from '../../../zustand/MainStore';
 
 export default function MediaComponent() {
-  const expandedMediaDetail = useApplicationStore(
-    state => state.application.expandedMediaDetail,
+  const expandedMediaDetail = useTabMapStore(
+    state => state.tabMap.expandedMediaDetail,
   );
-  const statePlayer = useApplicationStore(
-    state => state.application.statePlayer,
-  );
-  const setStatePlayer = useApplicationStore(state => state.setStatePlayer);
+  const statePlayer = useMainStore(state => state.main.statePlayer);
+  const setStatePlayer = useMainStore(state => state.setStatePlayer);
 
   const progress = useProgress();
 

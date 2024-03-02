@@ -20,7 +20,7 @@ import MediaOfPlacePill from './MediaOfPlacePill';
 import Carousel from 'react-native-reanimated-carousel';
 import {useSharedValue} from 'react-native-reanimated';
 import {PaginationItem} from '../../../media/components/PaginationItem';
-import {useApplicationStore} from '../../../../zustand/ApplicationStore';
+import {useTabMapStore} from '../../../../zustand/TabMapStore';
 
 const BORDER_RADIUS = 24;
 
@@ -31,10 +31,8 @@ interface MapPlaceDetailExpandedProps {
 export default function MapPlaceDetailExpanded({
   importanceIcon,
 }: MapPlaceDetailExpandedProps) {
-  const place = useApplicationStore(state => state.application.place);
-  const mediasOfPlace = useApplicationStore(
-    state => state.application.mediasOfPlace,
-  );
+  const place = useTabMapStore(state => state.tabMap.place);
+  const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
   const progressValue = useSharedValue<number>(0);
   const imagesUrl = place?.imagesUrl || [];
   const width = Dimensions.get('window').width;

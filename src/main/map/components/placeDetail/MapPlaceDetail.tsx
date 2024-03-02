@@ -24,7 +24,8 @@ import place_pre_detail_importance_star from '../../../../assets/images/icons/pl
 import MapPlaceDetailExpanded from './MapPlaceDetailExpanded';
 import MapPlaceDetailReduced from './MapPlaceDetailReduced';
 import MapServices from '../../services/MapServices';
-import {useApplicationStore} from '../../../../zustand/ApplicationStore';
+import {useTabMapStore} from '../../../../zustand/TabMapStore';
+import {useMainStore} from '../../../../zustand/MainStore';
 
 const {height} = Dimensions.get('screen');
 
@@ -37,25 +38,19 @@ type GestureContext = {
 };
 
 export default function MapPlaceDetail() {
-  const markerSelected = useApplicationStore(
-    state => state.application.markerSelected,
+  const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
+  const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
+  const setTabBarVisible = useMainStore(state => state.setTabBarVisible);
+  const place = useTabMapStore(state => state.tabMap.place);
+  const setPlace = useTabMapStore(state => state.setPlace);
+  const showPlaceDetailExpanded = useTabMapStore(
+    state => state.tabMap.showPlaceDetailExpanded,
   );
-  const setMarkerSelected = useApplicationStore(
-    state => state.setMarkerSelected,
-  );
-  const setTabBarVisible = useApplicationStore(state => state.setTabBarVisible);
-  const place = useApplicationStore(state => state.application.place);
-  const setPlace = useApplicationStore(state => state.setPlace);
-  const showPlaceDetailExpanded = useApplicationStore(
-    state => state.application.showPlaceDetailExpanded,
-  );
-  const setShowPlaceDetailExpanded = useApplicationStore(
+  const setShowPlaceDetailExpanded = useTabMapStore(
     state => state.setShowPlaceDetailExpanded,
   );
-  const mediasOfPlace = useApplicationStore(
-    state => state.application.mediasOfPlace,
-  );
-  const setMediasOfPlace = useApplicationStore(state => state.setMediasOfPlace);
+  const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
+  const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
   const BOTTOM_TOTAL_TAB_HEIGHT =
     useSafeAreaInsets().bottom +
     BOTTOM_TAB_NAVIGATOR_HEIGHT +
@@ -150,19 +145,16 @@ export default function MapPlaceDetail() {
 
   useEffect(() => {
     if (markerSelected) {
-      const placeInfo = {};
-      if (placeInfo) {
-        const fetchPlace = async () => {
-          const placeData = await MapServices.getPlaceInfo(markerSelected);
-          setPlace(placeData);
-          const mediasFetched = await MapServices.getPlaceMedia(markerSelected);
-          setMediasOfPlace(mediasFetched);
-          position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT, {
-            duration: 300,
-          });
-        };
-        fetchPlace();
-      }
+      const fetchPlace = async () => {
+        const placeData = await MapServices.getPlaceInfo(markerSelected);
+        setPlace(placeData);
+        const mediasFetched = await MapServices.getPlaceMedia(markerSelected);
+        setMediasOfPlace(mediasFetched);
+        position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT, {
+          duration: 300,
+        });
+      };
+      fetchPlace();
     }
   }, [markerSelected]);
 

@@ -14,7 +14,8 @@ import RoutesNavigator from './routes/navigator/RoutesNavigator';
 import ProfileNavigator from './profile/navigator/ProfileNavigator';
 import {Camera, MapView} from '@rnmapbox/maps';
 import {Event, State, useTrackPlayerEvents} from 'react-native-track-player';
-import {useApplicationStore} from '../zustand/ApplicationStore';
+import {useTabMapStore} from '../zustand/TabMapStore';
+import {useMainStore} from '../zustand/MainStore';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 
@@ -35,28 +36,35 @@ const Tab = createBottomTabNavigator<RootBottomTabList>();
 
 function BottomTabNavigator() {
   const bottomSafeArea = useSafeAreaInsets().bottom;
-  const isTabBarVisible = useApplicationStore(
-    state => state.application.isTabBarVisible,
+  const isTabBarVisible = useMainStore(state => state.main.isTabBarVisible);
+  const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
+  const placeOfMedia = useMainStore(state => state.main.placeOfMedia);
+  const showPlaceDetailExpanded = useTabMapStore(
+    state => state.tabMap.showPlaceDetailExpanded,
   );
-  const markerSelected = useApplicationStore(
-    state => state.application.markerSelected,
-  );
-  const mediaPlace = useApplicationStore(state => state.application.mediaPlace);
-  const showPlaceDetailExpanded = useApplicationStore(
-    state => state.application.showPlaceDetailExpanded,
-  );
-  const activeTab = useApplicationStore(state => state.application.activeTab);
-  const setActiveTab = useApplicationStore(state => state.setActiveTab);
-  const statePlayer = useApplicationStore(
-    state => state.application.statePlayer,
-  );
-  const setStatePlayer = useApplicationStore(state => state.setStatePlayer);
+  const activeTab = useMainStore(state => state.main.activeTab);
+  const setActiveTab = useMainStore(state => state.setActiveTab);
+  const statePlayer = useMainStore(state => state.main.statePlayer);
+  const setStatePlayer = useMainStore(state => state.setStatePlayer);
   useTrackPlayerEvents([Event.PlaybackState], async event => {
     setStatePlayer(event.state);
   });
 
   const mapRef = useRef<MapView>(null);
   const cameraRef = useRef<Camera>(null);
+  const setMapRef = useMainStore(state => state.setMapRef);
+  const setCameraRef = useMainStore(state => state.setCameraRef);
+
+  useEffect(() => {
+    setMapRef(mapRef);
+    setCameraRef(cameraRef);
+
+    return () => {
+      setMapRef(null);
+      setCameraRef(null);
+    };
+  }, []);
+
   const renderTabBarIcon = ({focused, name}: BottomTabBarIconProps) => {
     let source;
     switch (name) {
@@ -114,7 +122,7 @@ function BottomTabNavigator() {
             tabBarIcon: ({focused}) =>
               renderTabBarIcon({focused, name: 'Routes'}),
           }}>
-          {() => <RoutesNavigator cameraRef={cameraRef} mapRef={mapRef} />}
+          {() => <RoutesNavigator />}
         </Tab.Screen>
         <Tab.Screen
           name="Map"
@@ -131,7 +139,7 @@ function BottomTabNavigator() {
               },
             ],
           }}>
-          {() => <MapScreen cameraRef={cameraRef} mapRef={mapRef} />}
+          {() => <MapScreen />}
         </Tab.Screen>
         <Tab.Screen
           name="Profile"
@@ -145,7 +153,7 @@ function BottomTabNavigator() {
           {() => <ProfileNavigator />}
         </Tab.Screen>
       </Tab.Navigator>
-      {mediaPlace &&
+      {placeOfMedia &&
         statePlayer !== State.None &&
         (activeTab === 'Map'
           ? (markerSelected && showPlaceDetailExpanded) || !markerSelected

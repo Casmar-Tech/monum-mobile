@@ -20,6 +20,7 @@ import {Language} from '../../../shared/types/Language';
 import client from '../../../graphql/connection';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {undefinedUser, useUserStore} from '../../../zustand/UserStore';
+import {useMainStore} from '../../../zustand/MainStore';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
 
@@ -35,16 +36,19 @@ export default function ProfileScreen({navigation}: Props) {
   const {permissions} = user;
   const hasPermissionToUpdateUser = permissions?.some(
     permission =>
-      permission.action === 'update' && permission.entity === 'user',
+      permission.action.includes('update') && permission.entity === 'user',
   );
+  const applicationLanguage = useMainStore(state => state.main.language);
+  const setApplicationLanguage = useMainStore(state => state.setLanguage);
   const removeAuthToken = useUserStore(state => state.removeAuthToken);
   const setUser = useUserStore(state => state.setUser);
 
   const [provisionalUser, setProvisionalUser] = useState<IUser>(user);
+  const [provisionalLanguage, setProvisionalLanguage] =
+    useState<Language>(applicationLanguage);
 
   const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
 
-  // Realizar la consulta GraphQL si 'user' no existe
   const {data, loading, error} = useQuery(GET_USER_BY_ID, {
     skip: !!user, // Si 'user' ya existe, omitimos la consulta
   });
@@ -76,7 +80,6 @@ export default function ProfileScreen({navigation}: Props) {
 
   useEffect(() => {
     if (data && data.user) {
-      // Guardar el usuario en el estado global si obtenemos data desde GraphQL
       setUser(data.user);
     }
   }, [data, setProvisionalUser]);
@@ -84,33 +87,24 @@ export default function ProfileScreen({navigation}: Props) {
   useEffect(() => {
     if (dataUpdated && dataUpdated.updateUser) {
       setProvisionalUser(user);
-      // Guardar el usuario en el estado global si obtenemos data desde GraphQL
       setUser(dataUpdated.updateUser);
     }
   }, [dataUpdated, setProvisionalUser]);
 
-  const handleUpdateUsername = (newUsername: string) => {
-    setProvisionalUser(prevUser => ({...prevUser, username: newUsername}));
-  };
-
-  const handleUpdateLanguage = (newLanguage: Language) => {
-    setProvisionalUser(prevUser => ({
-      ...prevUser,
-      language: newLanguage,
-    }));
-  };
-
   const handleUpdatePress = async () => {
     try {
-      await updateUser({
-        variables: {
-          updateUserInput: {
-            id: provisionalUser.id,
-            username: provisionalUser.username,
-            language: provisionalUser.language,
+      hasPermissionToUpdateUser &&
+        (await updateUser({
+          variables: {
+            updateUserInput: {
+              id: provisionalUser.id,
+              username: provisionalUser.username,
+            },
           },
-        },
-      });
+        }));
+
+      setApplicationLanguage(provisionalLanguage);
+
       await client.resetStore();
     } catch (error) {
       console.error('Error al actualizar el usuario:', error);
@@ -128,17 +122,22 @@ export default function ProfileScreen({navigation}: Props) {
     }
   };
 
-  if (loading) return <LoadingSpinner />;
-  if (error)
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  if (error) {
     return (
       <ErrorComponent
         errorMessage={t('profile.errorGetting')}
         onRetry={() => onRetry}
       />
     );
+  }
 
-  if (loadingUpdated) return <LoadingSpinner />;
-  if (errorUpdated)
+  if (loadingUpdated) {
+    return <LoadingSpinner />;
+  }
+  if (errorUpdated) {
     return (
       <ErrorComponent
         errorMessage={t('profile.errorUpdating')}
@@ -148,13 +147,13 @@ export default function ProfileScreen({navigation}: Props) {
               updateUserInput: {
                 id: provisionalUser.id,
                 username: provisionalUser.username,
-                language: provisionalUser.language,
               },
             },
           })
         }
       />
     );
+  }
   return (
     <View style={[styles.page, {paddingTop: safeArea.top + 20}]}>
       <View style={styles.profilePhotoContainer}>
@@ -168,11 +167,16 @@ export default function ProfileScreen({navigation}: Props) {
         <NameInput
           labelText={labelText('username')}
           value={provisionalUser.username}
-          setValue={handleUpdateUsername}
+          setValue={(newUsername: string) => {
+            setProvisionalUser(prevUser => ({
+              ...prevUser,
+              username: newUsername,
+            }));
+          }}
         />
         <LanguageSelector
-          language={user.language}
-          setLanguage={handleUpdateLanguage}
+          language={applicationLanguage}
+          setProvisionalLanguage={setProvisionalLanguage}
         />
       </View>
       <View style={styles.updateButtonContainer}>
@@ -190,7 +194,7 @@ export default function ProfileScreen({navigation}: Props) {
         <Text style={styles.textCreatedAt}>{`${t(
           'profile.createdAt',
         )} ${new Date(provisionalUser.createdAt).toLocaleDateString(
-          user?.language?.replace('_', '-') || 'en-US',
+          applicationLanguage.replace('_', '-') || 'en-US',
           {
             day: 'numeric',
             month: 'short',

@@ -1,10 +1,10 @@
 import {MarkerView} from '@rnmapbox/maps';
 import {View} from 'react-native';
-import {useApplicationStore} from '../../../zustand/ApplicationStore';
+import {useTabMapStore} from '../../../zustand/TabMapStore';
 
 export default function CurrentPositionMarker() {
-  const centerCoordinates = useApplicationStore(
-    state => state.application.centerCoordinates,
+  const centerCoordinates = useTabMapStore(
+    state => state.tabMap.centerCoordinates,
   );
   return (
     <MarkerView id={'center'} key={'center'} coordinate={centerCoordinates}>

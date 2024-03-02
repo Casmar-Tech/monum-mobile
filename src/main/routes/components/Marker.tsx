@@ -12,11 +12,11 @@ import map_marker_importance_star from '../../../assets/images/icons/map_marker_
 import map_marker_importance_star_selected from '../../../assets/images/icons/map_marker_importance_star_selected.png';
 import map_marker_importance_selected from '../../../assets/images/icons/map_marker_importance_selected.png';
 import {IMarker} from '../../../shared/interfaces/IMarker';
-import {useTabMapStore} from '../../../zustand/TabMapStore';
+import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 
 export function MarkerComponent({id, coordinates, importance}: IMarker) {
-  const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
-  const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
+  const setMarkerSelected = useTabRouteStore(state => state.setMarkerSelected);
+  const markerSelected = useTabRouteStore(state => state.markerSelected);
   const [icon, setIcon] = useState(map_marker_importance_1);
   const [dimensions, setDimensions] = useState(30);
   // const [backgroundColor, setBackgroundColor] = useState('white');

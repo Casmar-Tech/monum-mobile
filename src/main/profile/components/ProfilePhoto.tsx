@@ -32,7 +32,7 @@ export default function ProfilePhotoComponent({
   const {permissions} = user;
   const hasPermissionToUpdateUser = permissions?.some(
     permission =>
-      permission.action === 'update' && permission.entity === 'user',
+      permission.action.includes('update') && permission.entity === 'user',
   );
 
   return (

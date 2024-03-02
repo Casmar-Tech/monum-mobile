@@ -30,7 +30,8 @@ import {
 } from 'react-native-gesture-handler';
 import {Slider} from '@rneui/themed';
 import TrackPlayer, {State, Progress} from 'react-native-track-player';
-import {useApplicationStore} from '../../../zustand/ApplicationStore';
+import {useTabMapStore} from '../../../zustand/TabMapStore';
+import {useMainStore} from '../../../zustand/MainStore';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
 const width = Dimensions.get('window').width;
@@ -51,11 +52,9 @@ export default function MediaBubble({
   trackTitle,
   progress,
 }: MediaBubbleProps) {
-  const statePlayer = useApplicationStore(
-    state => state.application.statePlayer,
-  );
-  const mediaPlace = useApplicationStore(state => state.application.mediaPlace);
-  const setExpandedMediaDetail = useApplicationStore(
+  const statePlayer = useMainStore(state => state.main.statePlayer);
+  const placeOfMedia = useMainStore(state => state.main.placeOfMedia);
+  const setExpandedMediaDetail = useTabMapStore(
     state => state.setExpandedMediaDetail,
   );
   const bottomSafeAreaInsets = useSafeAreaInsets().bottom;
@@ -111,7 +110,7 @@ export default function MediaBubble({
   return (
     statePlayer !== State.None &&
     currentTrack !== null &&
-    mediaPlace &&
+    placeOfMedia &&
     trackTitle && (
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View
@@ -128,8 +127,8 @@ export default function MediaBubble({
               <View style={styles.mediaBubbleImageContainer}>
                 <Image
                   source={{
-                    uri: Array.isArray(mediaPlace.imagesUrl)
-                      ? mediaPlace.imagesUrl[0]
+                    uri: Array.isArray(placeOfMedia.imagesUrl)
+                      ? placeOfMedia.imagesUrl[0]
                       : '',
                   }}
                   style={styles.mediaBubbleImage}
@@ -147,7 +146,7 @@ export default function MediaBubble({
                     resizeMode="contain"
                   />
                   <Text style={styles.mediaBubbleLocationText}>
-                    {mediaPlace?.address?.city}
+                    {placeOfMedia?.address?.city}
                   </Text>
                 </View>
               </View>

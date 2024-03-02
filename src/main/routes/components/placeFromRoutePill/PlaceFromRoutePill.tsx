@@ -235,6 +235,7 @@ const PlaceFromRoutePill = forwardRef<
                     <RoutePlaceMediaPill
                       key={i}
                       media={media}
+                      mediasOfStop={medias}
                       place={place}
                       style={
                         i === 0

@@ -9,46 +9,58 @@ import {SheetProvider} from 'react-native-actions-sheet';
 import './src/actionSheet/sheets';
 import {useUserStore} from './src/zustand/UserStore';
 import {Linking} from 'react-native';
-import {useApplicationStore} from './src/zustand/ApplicationStore';
+import {useTabMapStore} from './src/zustand/TabMapStore';
 import MapServices from './src/main/map/services/MapServices';
 import AuthServices from './src/auth/services/AuthServices';
 
 function App() {
   const setAuthToken = useUserStore(state => state.setAuthToken);
-  const setMarkerSelected = useApplicationStore(
-    state => state.setMarkerSelected,
-  );
-  const setPlace = useApplicationStore(state => state.setPlace);
-  const setShowPlaceDetailExpanded = useApplicationStore(
+  const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
+  const setPlace = useTabMapStore(state => state.setPlace);
+  const setShowPlaceDetailExpanded = useTabMapStore(
     state => state.setShowPlaceDetailExpanded,
   );
-  const setMediasOfPlace = useApplicationStore(state => state.setMediasOfPlace);
+  const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
   const setUser = useUserStore(state => state.setUser);
+  const setMarkers = useTabMapStore(state => state.setMarkers);
 
   useEffect(() => {
     const handleOpenURL = async ({url}: any) => {
       try {
-        const [, token] = url.match(/token=([^&]+)/) || [];
-        // Extrae el placeId
         const [, placeId] = url.match(/place\/([^?]+)/) || [];
-        console.log('token', token);
-
-        if (token) {
-          await setAuthToken(token);
-          // Realizar la consulta GraphQL si 'user' no existe
-          const user = await AuthServices.getUserInformation();
-          console.log('user', user);
-          setUser(user);
-        }
 
         if (placeId) {
-          // Asume que tienes una función para establecer el placeId en tu estado global
+          const organizationId = await AuthServices.getOrganizationIdOfPlace(
+            placeId,
+          );
+          const user = await AuthServices.getTouristUserOfOrganization(
+            organizationId,
+          );
+          setAuthToken(user.token);
+          setUser(user);
+          const markersData = await MapServices.getMarkers(
+            '',
+            [0, 0],
+            'importance',
+            'asc',
+          );
+          setMarkers(
+            markersData.map(marker => ({
+              id: marker.id,
+              coordinates: [
+                marker.address.coordinates.lng,
+                marker.address.coordinates.lat,
+              ] as [number, number],
+              importance: marker.importance,
+              selected: marker.id === placeId,
+            })),
+          );
           setMarkerSelected(placeId);
           const placeData = await MapServices.getPlaceInfo(placeId);
           setPlace(placeData);
           const mediasFetched = await MapServices.getPlaceMedia(placeId);
           setMediasOfPlace(mediasFetched);
-          setShowPlaceDetailExpanded(true);
+          setShowPlaceDetailExpanded(false);
         }
       } catch (e) {
         console.log('error', e);
