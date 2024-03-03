@@ -40,7 +40,6 @@ type GestureContext = {
 export default function MapPlaceDetail() {
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
   const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
-  const setTabBarVisible = useMainStore(state => state.setTabBarVisible);
   const place = useTabMapStore(state => state.tabMap.place);
   const setPlace = useTabMapStore(state => state.setPlace);
   const showPlaceDetailExpanded = useTabMapStore(
@@ -51,6 +50,10 @@ export default function MapPlaceDetail() {
   );
   const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
   const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
+
+  const setTabBarVisible = useMainStore(state => state.setTabBarVisible);
+  const language = useMainStore(state => state.main.language);
+
   const BOTTOM_TOTAL_TAB_HEIGHT =
     useSafeAreaInsets().bottom +
     BOTTOM_TAB_NAVIGATOR_HEIGHT +
@@ -146,9 +149,15 @@ export default function MapPlaceDetail() {
   useEffect(() => {
     if (markerSelected) {
       const fetchPlace = async () => {
-        const placeData = await MapServices.getPlaceInfo(markerSelected);
+        const placeData = await MapServices.getPlaceInfo(
+          markerSelected,
+          language,
+        );
         setPlace(placeData);
-        const mediasFetched = await MapServices.getPlaceMedia(markerSelected);
+        const mediasFetched = await MapServices.getPlaceMedia(
+          markerSelected,
+          language,
+        );
         setMediasOfPlace(mediasFetched);
         position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT, {
           duration: 300,

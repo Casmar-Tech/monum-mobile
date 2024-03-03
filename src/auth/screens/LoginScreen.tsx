@@ -1,6 +1,6 @@
 // import axios from 'axios';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {t} from 'i18next';
+import {changeLanguage, t} from 'i18next';
 import React from 'react';
 import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
 
@@ -13,6 +13,7 @@ import {RootStackParamList} from '../navigator/AuthNavigator';
 import GoogleAuthService from '../services/GoogleAuthService';
 import {styles} from '../styles/LoginStyles';
 import {useUserStore} from '../../zustand/UserStore';
+import {useMainStore} from '../../zustand/MainStore';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -26,6 +27,7 @@ type Props = {
 export default function LoginScreen({navigation}: Props) {
   const setAuthToken = useUserStore(state => state.setAuthToken);
   const setUser = useUserStore(state => state.setUser);
+  const setLanguage = useMainStore(state => state.setLanguage);
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.backgroundColor} />
@@ -39,10 +41,12 @@ export default function LoginScreen({navigation}: Props) {
               imageSource={google_sign_in_logo}
               text={t('authScreens.loginWithGoogle')}
               onPress={async () => {
-                const response = await GoogleAuthService.signInWithGoogle();
-                if (response) {
-                  await setAuthToken(response.token || '');
-                  setUser(response || {});
+                const user = await GoogleAuthService.signInWithGoogle();
+                if (user) {
+                  await setAuthToken(user.token || '');
+                  setUser(user || {});
+                  setLanguage(user.language || 'en_US');
+                  await changeLanguage(user.language || 'en_US');
                 } else {
                   console.log('ERROR WHEN LOGGING IN WITH GOOGLE');
                 }

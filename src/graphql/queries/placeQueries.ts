@@ -6,12 +6,14 @@ export const GET_MARKERS = gql`
     $centerCoordinates: [Float]
     $sortOrder: SortOrder
     $sortField: SortField
+    $language: Language
   ) {
     places(
       textSearch: $textSearch
       centerCoordinates: $centerCoordinates
       sortOrder: $sortOrder
       sortField: $sortField
+      language: $language
     ) {
       id
       address {
@@ -26,8 +28,8 @@ export const GET_MARKERS = gql`
 `;
 
 export const GET_PLACE_INFO = gql`
-  query Place($placeId: ID!, $imageSize: ImageSize) {
-    place(id: $placeId, imageSize: $imageSize) {
+  query Place($placeId: ID!, $imageSize: ImageSize, $language: Language) {
+    place(id: $placeId, imageSize: $imageSize, language: $language) {
       address {
         city
         coordinates {

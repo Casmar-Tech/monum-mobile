@@ -15,6 +15,7 @@ class MapServices {
     centerCoordinates: [number, number],
     sortField: 'importance' | 'name' | 'rating',
     sortOrder: 'asc' | 'desc',
+    language?: Language,
   ): Promise<MarkerResponse[]> {
     try {
       const response = await client.query({
@@ -24,6 +25,7 @@ class MapServices {
           centerCoordinates,
           sortField,
           sortOrder,
+          language,
         },
       });
       return response.data.places || [];
@@ -35,12 +37,12 @@ class MapServices {
 
   public async getPlaceInfo(
     placeId: string,
-    language: Language,
+    language?: Language,
   ): Promise<IPlace | null> {
     try {
       const response = await client.query({
         query: GET_PLACE_INFO,
-        variables: {placeId, imageSize: 'original', language: language},
+        variables: {placeId, imageSize: 'original', language},
       });
       return response.data?.place || null;
     } catch (error) {
@@ -49,11 +51,11 @@ class MapServices {
     }
   }
 
-  public async getPlaceMedia(placeId: string) {
+  public async getPlaceMedia(placeId: string, language?: Language) {
     try {
       const response = await client.query({
         query: GET_PLACE_MEDIA,
-        variables: {placeId},
+        variables: {placeId, language},
       });
       return response.data?.medias || [];
     } catch (error) {

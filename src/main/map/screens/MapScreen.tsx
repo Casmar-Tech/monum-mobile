@@ -8,7 +8,6 @@ import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
 import {MarkerComponent} from '../components/Marker';
 import MapPlaceDetail from '../components/placeDetail/MapPlaceDetail';
 import MapServices from '../services/MapServices';
-import {IMarker} from '../../../shared/interfaces/IMarker';
 import TextSearchMap from '../components/TextSearchMap';
 import CurrentPositionMarker from '../components/CurrentPositionMarker';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
@@ -22,6 +21,7 @@ export default function MapScreen() {
   const cameraRef = useMainStore(state => state.main.cameraRef);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
   const [centerCamera, setCenterCamera] = useState(false);
+  const language = useMainStore(state => state.main.language);
   const centerCoordinates = useTabMapStore(
     state => state.tabMap.centerCoordinates,
   );
@@ -44,6 +44,7 @@ export default function MapScreen() {
         centerCoordinates || [2.15, 41.38],
         'importance',
         'asc',
+        language,
       );
       setMarkers(
         markersData.map(marker => ({

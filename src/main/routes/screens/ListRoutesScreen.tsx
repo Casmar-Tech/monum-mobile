@@ -28,6 +28,7 @@ export default function ListRoutesScreen({navigation}: ListRoutesScreenProps) {
     variables: {
       cityId: city.id,
       textSearch: textSearch || '',
+      language: language,
     },
   });
 

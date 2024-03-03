@@ -7,6 +7,8 @@ interface UserState {
   setAuthToken: (token: string) => Promise<void>;
   removeAuthToken: () => Promise<void>;
   setUser: (user: IUser) => void;
+  updatePhoto: (photo: string) => void;
+  updateUsername: (username: string) => void;
 }
 
 export const undefinedUser: IUser = {
@@ -18,7 +20,6 @@ export const undefinedUser: IUser = {
   photo: '',
   googleId: '',
   token: '',
-  language: 'en_US',
   hasPassword: false,
   permissions: [],
 };
@@ -35,5 +36,11 @@ export const useUserStore = create<UserState>(set => ({
   },
   setUser: (user: IUser) => {
     set(state => ({user: {...state.user, ...user}}));
+  },
+  updatePhoto: (photo: string) => {
+    set(state => ({user: {...state.user, photo}}));
+  },
+  updateUsername: (username: string) => {
+    set(state => ({user: {...state.user, username}}));
   },
 }));

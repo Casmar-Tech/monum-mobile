@@ -1,6 +1,6 @@
 // import axios from 'axios';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {t} from 'i18next';
+import {changeLanguage, t} from 'i18next';
 import React, {useRef, useState} from 'react';
 import {
   View,
@@ -21,6 +21,7 @@ import {styles} from '../styles/LoginStyles';
 import AuthServices from '../services/AuthServices';
 import {useUserStore} from '../../zustand/UserStore';
 import ErrorComponent from '../components/ErrorComponent';
+import {useMainStore} from '../../zustand/MainStore';
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Login'
@@ -33,6 +34,7 @@ type Props = {
 export default function LoginScreen({navigation}: Props) {
   const setAuthToken = useUserStore(state => state.setAuthToken);
   const setUser = useUserStore(state => state.setUser);
+  const setLanguage = useMainStore(state => state.setLanguage);
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -147,13 +149,15 @@ export default function LoginScreen({navigation}: Props) {
               text={t('authScreens.access')}
               onPress={async () => {
                 try {
-                  const response = await AuthServices.login(
+                  const user = await AuthServices.login(
                     emailOrUsername,
                     password,
                   );
-                  if (response) {
-                    setAuthToken(response.token || '');
-                    setUser(response || {});
+                  if (user) {
+                    setAuthToken(user.token || '');
+                    setUser(user || {});
+                    setLanguage(user.language || 'en_US');
+                    await changeLanguage(user.language || 'en_US');
                   }
                 } catch (error: string | any) {
                   startShake();

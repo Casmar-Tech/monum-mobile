@@ -18,6 +18,7 @@ export default function LanguageSelector({
   language,
   setProvisionalLanguage,
 }: LanguageSelectorProps) {
+  console.log('language', language);
   useEffect(() => {
     setAvailableLanguages([
       {label: t('languages.en_US'), value: 'en_US'},

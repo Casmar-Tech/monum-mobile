@@ -12,6 +12,8 @@ import {Linking} from 'react-native';
 import {useTabMapStore} from './src/zustand/TabMapStore';
 import MapServices from './src/main/map/services/MapServices';
 import AuthServices from './src/auth/services/AuthServices';
+import {useMainStore} from './src/zustand/MainStore';
+import {changeLanguage} from 'i18next';
 
 function App() {
   const setAuthToken = useUserStore(state => state.setAuthToken);
@@ -23,6 +25,7 @@ function App() {
   const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
   const setUser = useUserStore(state => state.setUser);
   const setMarkers = useTabMapStore(state => state.setMarkers);
+  const setLanguage = useMainStore(state => state.setLanguage);
 
   useEffect(() => {
     const handleOpenURL = async ({url}: any) => {
@@ -38,6 +41,8 @@ function App() {
           );
           setAuthToken(user.token);
           setUser(user);
+          setLanguage(user.language);
+          await changeLanguage(user.language || 'en_US');
           const markersData = await MapServices.getMarkers(
             '',
             [0, 0],

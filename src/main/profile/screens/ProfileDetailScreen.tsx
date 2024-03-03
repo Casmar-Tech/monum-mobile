@@ -7,7 +7,7 @@ import {
   GET_USER_BY_ID,
   UPDATE_USER,
 } from '../../../graphql/queries/userQueries';
-import {t} from 'i18next';
+import {t, changeLanguage} from 'i18next';
 import ProfilePhotoComponent from '../components/ProfilePhoto';
 import LanguageSelector from '../components/LanguageSelector';
 import NameInput from '../components/NameInput';
@@ -42,6 +42,8 @@ export default function ProfileScreen({navigation}: Props) {
   const setApplicationLanguage = useMainStore(state => state.setLanguage);
   const removeAuthToken = useUserStore(state => state.removeAuthToken);
   const setUser = useUserStore(state => state.setUser);
+  const updatePhoto = useUserStore(state => state.updatePhoto);
+  const updateUsername = useUserStore(state => state.updateUsername);
 
   const [provisionalUser, setProvisionalUser] = useState<IUser>(user);
   const [provisionalLanguage, setProvisionalLanguage] =
@@ -50,7 +52,7 @@ export default function ProfileScreen({navigation}: Props) {
   const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
 
   const {data, loading, error} = useQuery(GET_USER_BY_ID, {
-    skip: !!user, // Si 'user' ya existe, omitimos la consulta
+    skip: !!user,
   });
 
   const [
@@ -82,30 +84,35 @@ export default function ProfileScreen({navigation}: Props) {
     if (data && data.user) {
       setUser(data.user);
     }
-  }, [data, setProvisionalUser]);
+  }, [data]);
 
   useEffect(() => {
-    if (dataUpdated && dataUpdated.updateUser) {
-      setProvisionalUser(user);
-      setUser(dataUpdated.updateUser);
+    if (dataUpdated?.updateUser?.photo) {
+      updatePhoto(dataUpdated.updateUser.photo);
     }
-  }, [dataUpdated, setProvisionalUser]);
+  }, [dataUpdated]);
 
   const handleUpdatePress = async () => {
     try {
-      hasPermissionToUpdateUser &&
-        (await updateUser({
+      if (
+        hasPermissionToUpdateUser &&
+        provisionalUser.username !== user.username
+      ) {
+        await updateUser({
           variables: {
             updateUserInput: {
               id: provisionalUser.id,
               username: provisionalUser.username,
             },
           },
-        }));
+        });
+        updateUsername(provisionalUser.username);
+      }
 
       setApplicationLanguage(provisionalLanguage);
+      await changeLanguage(provisionalLanguage);
 
-      await client.resetStore();
+      // await client.resetStore();
     } catch (error) {
       console.error('Error al actualizar el usuario:', error);
     }
@@ -160,7 +167,7 @@ export default function ProfileScreen({navigation}: Props) {
         <ProfilePhotoComponent
           url={user.photo}
           username={provisionalUser.username}
-          setNewPhoto={photoBase64 => setPhotoBase64(photoBase64)}
+          setNewPhoto={newPhoto => setPhotoBase64(newPhoto)}
         />
       </View>
       <View style={styles.inputsContainer}>

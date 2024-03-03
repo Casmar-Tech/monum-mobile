@@ -8,7 +8,6 @@ import {
   RESET_PASSWORD,
   VERIFICATE_CODE,
   UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD,
-  GET_USER_INFORMATION_BY_TOKEN,
   GET_ORGANIZATION_ID_OF_PLACE,
   GET_TOURIST_USER_OF_ORGANIZATION,
 } from '../../graphql/queries/userQueries';
@@ -146,7 +145,6 @@ class AuthService {
           },
         },
       });
-      console.log('response', response);
       const updatePasswordWithoutOld = response.data?.updatePasswordWithoutOld;
       return updatePasswordWithoutOld;
     } catch (error: any) {
@@ -161,14 +159,6 @@ class AuthService {
       variables: {placeId},
     });
     return response.data?.getOrganizationIdOfAPlace;
-  }
-
-  public async getUserInformation() {
-    const response = await client.query({
-      query: GET_USER_INFORMATION_BY_TOKEN,
-    });
-    const user = response.data?.user;
-    return user;
   }
 
   public async getTouristUserOfOrganization(organizationId: string) {

@@ -16,6 +16,7 @@ export const REGISTER_USER = gql`
       googleId
       token
       name
+      language
       photo
       hasPassword
       roleId
@@ -40,6 +41,7 @@ export const LOGIN_USER = gql`
       googleId
       token
       name
+      language
       photo
       hasPassword
       roleId
@@ -64,6 +66,7 @@ export const LOGIN_GOOGLE_USER = gql`
       googleId
       token
       name
+      language
       photo
       hasPassword
       roleId
@@ -89,6 +92,7 @@ export const GET_USER_BY_ID = gql`
       googleId
       token
       name
+      language
       photo
       hasPassword
       roleId
@@ -106,23 +110,8 @@ export const GET_USER_BY_ID = gql`
 export const UPDATE_USER = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {
     updateUser(updateUserInput: $updateUserInput) {
-      id
-      email
       username
-      createdAt
-      googleId
-      token
-      name
       photo
-      hasPassword
-      roleId
-      organizationId
-      permissions {
-        action
-        entity
-        max
-        min
-      }
     }
   }
 `;
@@ -155,31 +144,6 @@ export const UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD = gql`
   }
 `;
 
-export const GET_USER_INFORMATION_BY_TOKEN = gql`
-  query Query {
-    user {
-      id
-      email
-      username
-      isTemporalPassword
-      createdAt
-      googleId
-      token
-      name
-      photo
-      hasPassword
-      roleId
-      organizationId
-      permissions {
-        action
-        entity
-        max
-        min
-      }
-    }
-  }
-`;
-
 export const GET_ORGANIZATION_ID_OF_PLACE = gql`
   query Query($placeId: ID!) {
     getOrganizationIdOfAPlace(placeId: $placeId)
@@ -197,6 +161,7 @@ export const GET_TOURIST_USER_OF_ORGANIZATION = gql`
       googleId
       token
       name
+      language
       photo
       hasPassword
       roleId
