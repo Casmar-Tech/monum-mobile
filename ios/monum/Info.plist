@@ -31,7 +31,7 @@
 			<array>
 				<string>com.googleusercontent.apps.948005549464-kq2ko427ero9oc8tbg0nmgjt2l86btj5</string>
 				<string>es.monum.mobile</string>
-				<string>https://wwww.monum.es</string>
+				<string>wwww.monum.es</string>
 			</array>
 		</dict>
 	</array>
@@ -42,7 +42,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>es.monum.mobile</string>
-		<string>https://www.monum.es</string>
+		<string>https</string>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
