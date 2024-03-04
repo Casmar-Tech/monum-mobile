@@ -112,7 +112,7 @@ export default function ProfileScreen({navigation}: Props) {
       setApplicationLanguage(provisionalLanguage);
       await changeLanguage(provisionalLanguage);
 
-      // await client.resetStore();
+      await client.resetStore();
     } catch (error) {
       console.error('Error al actualizar el usuario:', error);
     }

@@ -5,11 +5,11 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import map_center_coordinates from '../../../assets/images/icons/map_center_coordinates.png';
 
 interface CenterCoordinatesButtonProps {
-  setCenterCamera: any;
+  onPress: () => void;
 }
 
 export default function CenterCoordinatesButton({
-  setCenterCamera,
+  onPress,
 }: CenterCoordinatesButtonProps) {
   return (
     <TouchableOpacity
@@ -17,9 +17,7 @@ export default function CenterCoordinatesButton({
         styles.centerCoordinatesContainer,
         {bottom: useSafeAreaInsets().bottom + 80},
       ]}
-      onPress={() => {
-        setCenterCamera(true);
-      }}>
+      onPress={onPress}>
       <Image
         source={map_center_coordinates}
         style={styles.centerCoordinatesIcon}

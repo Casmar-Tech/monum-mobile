@@ -29,11 +29,15 @@ end
 
 target 'monum' do
   config = use_native_modules!
-  
+
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCoreInternal', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true
+
+
+  $RNVideoUseGoogleIMA = true
+  $RNVideoUseVideoCaching = true
 
   use_react_native!(
     :path => config[:reactNativePath],

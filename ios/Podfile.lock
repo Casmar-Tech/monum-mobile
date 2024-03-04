@@ -1075,6 +1075,11 @@ PODS:
   - react-native-track-player (4.0.1):
     - React-Core
     - SwiftAudioEx (= 1.0.0)
+  - react-native-video (5.2.1):
+    - React-Core
+    - react-native-video/Video (= 5.2.1)
+  - react-native-video/Video (5.2.1):
+    - React-Core
   - React-nativeconfig (0.73.0)
   - React-NativeModulesApple (0.73.0):
     - glog
@@ -1356,6 +1361,7 @@ DEPENDENCIES:
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-track-player (from `../node_modules/react-native-track-player`)
+  - react-native-video (from `../node_modules/react-native-video`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -1491,6 +1497,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-splash-screen"
   react-native-track-player:
     :path: "../node_modules/react-native-track-player"
+  react-native-video:
+    :path: "../node_modules/react-native-video"
   React-nativeconfig:
     :path: "../node_modules/react-native/ReactCommon"
   React-NativeModulesApple:
@@ -1616,6 +1624,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-track-player: 97d76dbbd35f27cc709e5f04540615e54264b3f9
+  react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
   React-nativeconfig: a063483672b8add47a4875b0281e202908ff6747
   React-NativeModulesApple: 169506a5fd708ab22811f76ee06a976595c367a1
   React-perflogger: b61e5db8e5167f5e70366e820766c492847c082e
@@ -1650,8 +1659,8 @@ SPEC CHECKSUMS:
   SwiftAudioEx: 6f511018b7a0fdfd14ed1bb4081f953588245cc0
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Turf: 13d1a92d969ca0311bbc26e8356cca178ce95da2
-  Yoga: 44003f970aa541b79dfdd59cf236fda41bd5890f
+  Yoga: 20d6a900dcc8d61d5e3b799bbf627cc34474a8c4
 
-PODFILE CHECKSUM: 2a07b909d7909927df720e67c3963dc5d9e0015d
+PODFILE CHECKSUM: e96603fb9d1118604e60d28ef6b388b7da3915e5
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.14.3

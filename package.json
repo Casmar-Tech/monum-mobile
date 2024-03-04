@@ -6,7 +6,7 @@
     "lint": "eslint .",
     "test": "jest",
     "start": "react-native start",
-    "ios": "react-native run-ios --simulator=\"iPhone 15 Pro Max\"",
+    "ios": "react-native run-ios --simulator=\"iPhone 14\"",
     "ios:debug": "ENVFILE=.env.debug npm run ios -- --mode \"Debug\"",
     "ios:release": "ENVFILE=.env.release npm run ios -- --mode \"Release\"",
     "ios:build:release": "ENVFILE=.env.release npx react-native build-ios --mode= \"Release\"",
@@ -48,6 +48,7 @@
     "react-native-screens": "^3.29.0",
     "react-native-splash-screen": "^3.3.0",
     "react-native-track-player": "^4.0.1",
+    "react-native-video": "^5.2.1",
     "zustand": "^4.5.1"
   },
   "devDependencies": {

@@ -76,10 +76,17 @@ export default function MapScreen() {
   useEffect(() => {
     if (centerCamera) {
       Geolocation.getCurrentPosition(
-        (position: any) => {
-          const latitude = position.coords.latitude;
+        async (position: any) => {
+          console.log('position', position);
           const longitude = position.coords.longitude;
-          setCenterCoordinates([2.820167, 41.977381]);
+          const latitude = position.coords.latitude;
+          cameraRef?.current?.setCamera({
+            animationMode: 'none',
+            animationDuration: 100,
+            zoomLevel: 15,
+            centerCoordinate: [longitude, latitude],
+          });
+          setCenterCoordinates([longitude, latitude]);
         },
         (error: any) => {
           console.log('Error obtaining geolocation:', error);
@@ -87,13 +94,7 @@ export default function MapScreen() {
         },
         {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
       ),
-        cameraRef?.current?.setCamera({
-          animationMode: 'none',
-          animationDuration: 100,
-          zoomLevel: 15,
-          centerCoordinate: centerCoordinates,
-        });
-      setCenterCamera(false);
+        setCenterCamera(false);
     }
   }, [centerCamera]);
 
@@ -122,17 +123,20 @@ export default function MapScreen() {
             centerCoordinate={centerCoordinates}
             zoomLevel={10}
             ref={cameraRef}
-            minZoomLevel={10}
           />
         </MapView>
         {/* <FilterComponent filters={filters} setFilters={setFilters} /> */}
-        <CenterCoordinatesButton setCenterCamera={setCenterCamera} />
-        <TextSearchMap
+        <CenterCoordinatesButton
+          onPress={async () => {
+            setCenterCamera(true);
+          }}
+        />
+        {/* <TextSearchMap
           textSearch={textSearch}
           setTextSearch={setTextSearch}
           isDropdownVisible={isDropdownVisible}
           toggleDropdown={toggleDropdown}
-        />
+        /> */}
         <MapPlaceDetail />
       </View>
     </View>
