@@ -35,15 +35,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>com.apple.developer.associated-domains</key>
-	<array>
-		<string>applinks:www.monum.es</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>es.monum.mobile</string>
-		<string>https</string>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -98,5 +89,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:www.monum.es</string>
+	</array>
 </dict>
 </plist>
