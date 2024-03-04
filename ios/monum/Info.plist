@@ -25,11 +25,24 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.948005549464-kq2ko427ero9oc8tbg0nmgjt2l86btj5</string>
+				<string>es.monum.mobile</string>
+				<string>wwww.monum.es</string>
 			</array>
 		</dict>
+	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:www.monum.es</string>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>es.monum.mobile</string>
+		<string>https</string>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>

@@ -30,8 +30,7 @@
             <category android:name="android.intent.category.BROWSABLE" />
 
             <data
-              android:scheme="https"
-              android:host="www.monum.es"
+              android:scheme="es.monum.mobile"
               android:pathPrefix="/place" />
         </intent-filter>
       </activity>

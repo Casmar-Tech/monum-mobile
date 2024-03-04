@@ -80,12 +80,6 @@ export default function MapScreen() {
           console.log('position', position);
           const longitude = position.coords.longitude;
           const latitude = position.coords.latitude;
-          cameraRef?.current?.setCamera({
-            animationMode: 'none',
-            animationDuration: 100,
-            zoomLevel: 15,
-            centerCoordinate: [longitude, latitude],
-          });
           setCenterCoordinates([longitude, latitude]);
         },
         (error: any) => {
@@ -94,7 +88,13 @@ export default function MapScreen() {
         },
         {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
       ),
-        setCenterCamera(false);
+        cameraRef?.current?.setCamera({
+          animationMode: 'none',
+          animationDuration: 100,
+          zoomLevel: 15,
+          centerCoordinate: [centerCoordinates[0], centerCoordinates[1]],
+        });
+      setCenterCamera(false);
     }
   }, [centerCamera]);
 
@@ -107,7 +107,7 @@ export default function MapScreen() {
         }}>
         <MapView
           ref={mapRef}
-          styleURL="mapbox://styles/mapbox/light-v11"
+          styleURL="mapbox://styles/mapbox/standard"
           scaleBarEnabled={false}
           style={styles.mapView}>
           {markers.map(marker => (

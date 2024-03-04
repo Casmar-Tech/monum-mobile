@@ -176,7 +176,7 @@ export default function RouteDetailScreen({
         }}>
         <MapView
           ref={mapRef}
-          styleURL="mapbox://styles/mapbox/light-v11"
+          styleURL="mapbox://styles/mapbox/standard"
           scaleBarEnabled={false}
           style={styles.mapView}>
           {markers.map(marker => (
