@@ -6,7 +6,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import media_bubble_back from '../../../assets/images/icons/media_bubble_back.png';
 import {useQuery} from '@apollo/client';
 import {GET_ROUTE_DETAIL} from '../../../graphql/queries/routeQueries';
-import {MarkerComponent} from '../../map/components/Marker';
+import {MarkerComponent} from '../components/Marker';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import RatingPill from '../components/RatingPill';
@@ -16,7 +16,6 @@ import PlaceFromRoutePill, {
 } from '../components/placeFromRoutePill/PlaceFromRoutePill';
 import IStop from '../../../shared/interfaces/IStop';
 import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
-import Geolocation from '@react-native-community/geolocation';
 import CurrentPositionMarker from '../../map/components/CurrentPositionMarker';
 import LinearGradient from 'react-native-linear-gradient';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
@@ -29,7 +28,9 @@ export default function RouteDetailScreen({
   const cameraRef = useMainStore(state => state.main.cameraRef);
   const routeOfCity = useTabRouteStore(state => state.routeOfCity);
   const scrollViewRef = useRef<ScrollView>(null);
-  const [centerCamera, setCenterCamera] = useState(false);
+  const currentUserLocation = useMainStore(
+    state => state.main.currentUserLocation,
+  );
   const [originalData, setOriginalData] = useState<any | null>(null);
   const [placesFromRoute, setPlacesFromRoute] = useState<IStop[]>();
   const [centerCoordinates, setCenterCoordinates] = useState<[number, number]>([
@@ -139,25 +140,16 @@ export default function RouteDetailScreen({
   }, [markerSelected]);
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(
-      position => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        setCenterCoordinates([longitude, latitude]);
-      },
-      error => {
-        console.log('Error obtaining geolocation:', error);
-        setCenterCoordinates([2.15, 41.38]);
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    ),
+    if (markerSelected && markers.length > 0) {
       cameraRef?.current?.setCamera({
         animationDuration: 1000,
-        zoomLevel: 15,
-        centerCoordinate: centerCoordinates,
+        zoomLevel: 17,
+        centerCoordinate:
+          markers?.find(m => m.id === markerSelected)?.coordinates ||
+          currentUserLocation,
       });
-    setCenterCamera(false);
-  }, [centerCamera]);
+    }
+  }, [markerSelected]);
 
   const pillRefs = useRef<Map<string, React.RefObject<PlaceFromRoutePillRef>>>(
     new Map(),
@@ -187,15 +179,26 @@ export default function RouteDetailScreen({
               coordinates={marker.coordinates}
             />
           ))}
-          {centerCoordinates && <CurrentPositionMarker />}
+          {currentUserLocation && <CurrentPositionMarker />}
           <Camera
-            centerCoordinate={centerCoordinates}
+            defaultSettings={{
+              centerCoordinate: currentUserLocation,
+              zoomLevel: 10,
+            }}
+            zoomLevel={10}
             ref={cameraRef}
-            animationMode={'none'}
-            animationDuration={0}
           />
         </MapView>
-        <CenterCoordinatesButton setCenterCamera={setCenterCamera} />
+        <CenterCoordinatesButton
+          onPress={() => {
+            console.log('centerCoordinates', centerCoordinates);
+            cameraRef?.current?.setCamera({
+              animationDuration: 1000,
+              zoomLevel: 15,
+              centerCoordinate: currentUserLocation,
+            });
+          }}
+        />
       </View>
       <View style={{flex: 1}}>
         <View

@@ -12,6 +12,7 @@ export interface IMain {
   cameraRef: React.RefObject<Camera> | null;
   placeOfMedia: IPlace | null;
   language: Language;
+  currentUserLocation: [number, number];
 }
 
 export const defaultMain: IMain = {
@@ -22,6 +23,7 @@ export const defaultMain: IMain = {
   cameraRef: null,
   placeOfMedia: null,
   language: 'en_US',
+  currentUserLocation: [0, 0],
 };
 
 interface MainState {
@@ -33,6 +35,7 @@ interface MainState {
   setCameraRef: (cameraRef: React.RefObject<Camera> | null) => void;
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => void;
   setLanguage: (language: Language) => void;
+  setCurrentUserLocation: (currentUserLocation: [number, number]) => void;
 }
 
 export const useMainStore = create<MainState>(set => ({
@@ -57,5 +60,8 @@ export const useMainStore = create<MainState>(set => ({
   },
   setLanguage: (language: Language) => {
     set(state => ({main: {...state.main, language}}));
+  },
+  setCurrentUserLocation: (currentUserLocation: [number, number]) => {
+    set(state => ({main: {...state.main, currentUserLocation}}));
   },
 }));

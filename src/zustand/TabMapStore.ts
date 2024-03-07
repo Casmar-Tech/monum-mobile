@@ -8,7 +8,6 @@ export interface ITabMap {
   place: IPlace | null;
   showPlaceDetailExpanded: boolean;
   mediasOfPlace: IMedia[] | undefined;
-  centerCoordinates: [number, number];
   expandedMediaDetail: boolean;
   markers: IMarker[];
 }
@@ -18,7 +17,6 @@ export const defaultTabMap: ITabMap = {
   place: null,
   showPlaceDetailExpanded: false,
   mediasOfPlace: undefined,
-  centerCoordinates: [0, 0],
   expandedMediaDetail: false,
   markers: [],
 };
@@ -29,7 +27,6 @@ interface TabMapState {
   setPlace: (place: IPlace | null) => void;
   setShowPlaceDetailExpanded: (showPlaceDetailExpanded: boolean) => void;
   setMediasOfPlace: (mediasOfPlace: IMedia[] | undefined) => void;
-  setCenterCoordinates: (centerCoordinates: [number, number]) => void;
   setExpandedMediaDetail: (expandedMediaDetail: boolean) => void;
   setMarkers: (markers: IMarker[]) => void;
 }
@@ -49,9 +46,6 @@ export const useTabMapStore = create<TabMapState>(set => ({
   },
   setMediasOfPlace: (mediasOfPlace: IMedia[] | undefined) => {
     set(state => ({tabMap: {...state.tabMap, mediasOfPlace}}));
-  },
-  setCenterCoordinates: (centerCoordinates: [number, number]) => {
-    set(state => ({tabMap: {...state.tabMap, centerCoordinates}}));
   },
   setExpandedMediaDetail: (expandedMediaDetail: boolean) => {
     set(state => ({tabMap: {...state.tabMap, expandedMediaDetail}}));

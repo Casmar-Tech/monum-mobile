@@ -13,7 +13,8 @@ import {useTabMapStore} from './src/zustand/TabMapStore';
 import MapServices from './src/main/map/services/MapServices';
 import AuthServices from './src/auth/services/AuthServices';
 import {useMainStore} from './src/zustand/MainStore';
-import {changeLanguage} from 'i18next';
+import {changeLanguage, use} from 'i18next';
+import Geolocation from '@react-native-community/geolocation';
 
 function App() {
   const setAuthToken = useUserStore(state => state.setAuthToken);
@@ -26,6 +27,9 @@ function App() {
   const setUser = useUserStore(state => state.setUser);
   const setMarkers = useTabMapStore(state => state.setMarkers);
   const setLanguage = useMainStore(state => state.setLanguage);
+  const setCurrentUserLocation = useMainStore(
+    state => state.setCurrentUserLocation,
+  );
 
   useEffect(() => {
     const handleOpenURL = async ({url}: any) => {
@@ -80,7 +84,25 @@ function App() {
   }, []);
 
   useEffect(() => {
-    GoogleAuthService.configureGoogleSignIn();
+    Geolocation.getCurrentPosition(
+      async (position: any) => {
+        const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
+        setCurrentUserLocation([longitude, latitude]);
+      },
+      (error: any) => {
+        console.log('Error obtaining geolocation:', error);
+        setCurrentUserLocation([2.820167, 41.977381]);
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  }, []);
+
+  useEffect(() => {
+    const googleConfig = async () => {
+      await GoogleAuthService.configureGoogleSignIn();
+    };
+    googleConfig();
   }, []);
 
   return (

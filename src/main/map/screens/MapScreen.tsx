@@ -20,13 +20,9 @@ export default function MapScreen() {
   const mapRef = useMainStore(state => state.main.mapRef);
   const cameraRef = useMainStore(state => state.main.cameraRef);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
-  const [centerCamera, setCenterCamera] = useState(false);
   const language = useMainStore(state => state.main.language);
-  const centerCoordinates = useTabMapStore(
-    state => state.tabMap.centerCoordinates,
-  );
-  const setCenterCoordinates = useTabMapStore(
-    state => state.setCenterCoordinates,
+  const currentUserLocation = useMainStore(
+    state => state.main.currentUserLocation,
   );
   const markers = useTabMapStore(state => state.tabMap.markers);
   const setMarkers = useTabMapStore(state => state.setMarkers);
@@ -41,7 +37,7 @@ export default function MapScreen() {
     const fetchMarkers = async () => {
       const markersData = await MapServices.getMarkers(
         textSearch,
-        centerCoordinates || [2.15, 41.38],
+        currentUserLocation || [2.15, 41.38],
         'importance',
         'asc',
         language,
@@ -68,35 +64,10 @@ export default function MapScreen() {
         zoomLevel: 17,
         centerCoordinate:
           markers?.find(m => m.id === markerSelected)?.coordinates ||
-          centerCoordinates,
+          currentUserLocation,
       });
     }
   }, [markerSelected]);
-
-  useEffect(() => {
-    if (centerCamera) {
-      Geolocation.getCurrentPosition(
-        async (position: any) => {
-          console.log('position', position);
-          const longitude = position.coords.longitude;
-          const latitude = position.coords.latitude;
-          setCenterCoordinates([longitude, latitude]);
-        },
-        (error: any) => {
-          console.log('Error obtaining geolocation:', error);
-          setCenterCoordinates([2.820167, 41.977381]);
-        },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-      ),
-        cameraRef?.current?.setCamera({
-          animationMode: 'none',
-          animationDuration: 100,
-          zoomLevel: 15,
-          centerCoordinate: [centerCoordinates[0], centerCoordinates[1]],
-        });
-      setCenterCamera(false);
-    }
-  }, [centerCamera]);
 
   return (
     <View style={styles.mapContainer}>
@@ -118,17 +89,24 @@ export default function MapScreen() {
               coordinates={marker.coordinates}
             />
           ))}
-          {centerCoordinates && <CurrentPositionMarker />}
+          {currentUserLocation && <CurrentPositionMarker />}
           <Camera
-            centerCoordinate={centerCoordinates}
+            defaultSettings={{
+              centerCoordinate: currentUserLocation,
+              zoomLevel: 10,
+            }}
             zoomLevel={10}
             ref={cameraRef}
           />
         </MapView>
         {/* <FilterComponent filters={filters} setFilters={setFilters} /> */}
         <CenterCoordinatesButton
-          onPress={async () => {
-            setCenterCamera(true);
+          onPress={() => {
+            cameraRef?.current?.setCamera({
+              animationDuration: 1000,
+              zoomLevel: 15,
+              centerCoordinate: currentUserLocation,
+            });
           }}
         />
         {/* <TextSearchMap
