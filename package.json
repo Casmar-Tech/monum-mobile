@@ -6,7 +6,7 @@
     "lint": "eslint .",
     "test": "jest",
     "start": "react-native start",
-    "ios": "react-native run-ios --simulator=\"iPhone 14\"",
+    "ios": "react-native run-ios --simulator=\"iPhone 15 Pro Max\"",
     "ios:debug": "ENVFILE=.env.debug npm run ios -- --mode \"Debug\"",
     "ios:release": "ENVFILE=.env.release npm run ios -- --mode \"Release\"",
     "ios:build:release": "ENVFILE=.env.release npx react-native build-ios --mode= \"Release\"",

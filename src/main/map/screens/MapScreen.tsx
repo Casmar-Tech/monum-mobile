@@ -80,7 +80,7 @@ export default function MapScreen() {
           console.log('position', position);
           const longitude = position.coords.longitude;
           const latitude = position.coords.latitude;
-          setCenterCoordinates([longitude, latitude]);
+          setCenterCoordinates([2.820167, 41.977381]);
         },
         (error: any) => {
           console.log('Error obtaining geolocation:', error);

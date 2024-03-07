@@ -1,11 +1,13 @@
 import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import IMedia from '../../../../shared/interfaces/IMedia';
 import place_detail_media_rating_star from '../../../../assets/images/icons/place_detail_media_rating_star.png';
 import place_detail_play_media from '../../../../assets/images/icons/place_detail_play_media.png';
 import TrackPlayer, {RepeatMode} from 'react-native-track-player';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
 import {useMainStore} from '../../../../zustand/MainStore';
+import Video, {VideoRef} from 'react-native-video';
+import background from '../../../../assets/videos/background.mp4';
 
 interface MediaOfPlacePillProps {
   index: number;
@@ -16,32 +18,52 @@ export default function MediaOfPlacePill({
   index,
   media,
 }: MediaOfPlacePillProps) {
+  const videoRef = useRef<VideoRef>(null);
   const place = useTabMapStore(state => state.tabMap.place);
   const setPlaceOfMedia = useMainStore(state => state.setPlaceOfMedia);
   const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
+  const [videoPlayer, setVideoPlayer] = useState(false);
   if (!mediasOfPlace || !Array.isArray(mediasOfPlace)) {
     return null;
   }
   const isLastPill =
     Array.isArray(mediasOfPlace) && index === mediasOfPlace.length - 1;
+
+  if (videoPlayer) {
+    console.log('videoPlayer', videoPlayer);
+    return (
+      <Video
+        source={background}
+        ref={videoRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+        }}
+      />
+    );
+  }
   return (
     <TouchableOpacity
       onPress={async () => {
         try {
-          setPlaceOfMedia(place);
-          await TrackPlayer.reset();
-          await TrackPlayer.add(
-            mediasOfPlace.map(mediaOfPlace => ({
-              id: mediaOfPlace.id,
-              url: mediaOfPlace.audioUrl,
-              title: mediaOfPlace.title,
-              artist: 'Monum',
-              rating: mediaOfPlace.rating,
-            })),
-          );
-          await TrackPlayer.skip(index);
-          await TrackPlayer.setRepeatMode(RepeatMode.Queue);
-          await TrackPlayer.play();
+          setVideoPlayer(true);
+          // setPlaceOfMedia(place);
+          // await TrackPlayer.reset();
+          // await TrackPlayer.add(
+          //   mediasOfPlace.map(mediaOfPlace => ({
+          //     id: mediaOfPlace.id,
+          //     url: mediaOfPlace.audioUrl,
+          //     title: mediaOfPlace.title,
+          //     artist: 'Monum',
+          //     rating: mediaOfPlace.rating,
+          //   })),
+          // );
+          // await TrackPlayer.skip(index);
+          // await TrackPlayer.setRepeatMode(RepeatMode.Queue);
+          // await TrackPlayer.play();
         } catch (e) {
           console.log(e);
         }

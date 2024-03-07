@@ -15,7 +15,7 @@ export default function CenterCoordinatesButton({
     <TouchableOpacity
       style={[
         styles.centerCoordinatesContainer,
-        {bottom: useSafeAreaInsets().bottom + 60},
+        {bottom: useSafeAreaInsets().bottom + 80},
       ]}
       onPress={onPress}>
       <Image
