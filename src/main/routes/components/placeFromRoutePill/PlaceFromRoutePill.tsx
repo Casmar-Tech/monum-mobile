@@ -102,6 +102,7 @@ const PlaceFromRoutePill = forwardRef<
         {
           width: '100%',
           elevation: 10,
+          flex: 1,
         },
         style,
       ]}>
@@ -230,7 +231,9 @@ const PlaceFromRoutePill = forwardRef<
                     {t('placeDetailExpanded.mediaIntro')}
                   </Text>
                 </View>
-                <ScrollView style={{width: '100%', marginTop: 8}}>
+                <ScrollView
+                  nestedScrollEnabled={true}
+                  style={{width: '100%', marginTop: 8}}>
                   {medias?.map((media: IMedia, i: number) => (
                     <RoutePlaceMediaPill
                       key={i}

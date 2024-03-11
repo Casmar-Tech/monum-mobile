@@ -15,6 +15,7 @@ export interface TabRouteState {
   setCity: (city: ICity) => void;
   setMarkerSelected: (markerSelected: string | null) => void;
   setMarkers: (markers: IMarker[]) => void;
+  setDefaultTabRoute: () => void;
 }
 
 const defaultRouteOfCity: IRouteOfCity = {
@@ -61,5 +62,14 @@ export const useTabRouteStore = create<TabRouteState>(set => ({
   },
   setMarkers: (markers: IMarker[]) => {
     set(() => ({markers}));
+  },
+  setDefaultTabRoute: () => {
+    set(() => ({
+      routeOfCity: defaultRouteOfCity,
+      routeComplete: defaultRouteComplete,
+      city: defaultCity,
+      markerSelected: null,
+      markers: [],
+    }));
   },
 }));

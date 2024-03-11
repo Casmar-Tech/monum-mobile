@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Geolocation from '@react-native-community/geolocation';
 import {Camera, MapView, setAccessToken} from '@rnmapbox/maps';
 import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
@@ -26,6 +25,14 @@ export default function MapScreen() {
   );
   const markers = useTabMapStore(state => state.tabMap.markers);
   const setMarkers = useTabMapStore(state => state.setMarkers);
+  const mapCameraCoordinates = useTabMapStore(
+    state => state.tabMap.mapCameraCoordinates,
+  );
+  const setMapCameraCoordinates = useTabMapStore(
+    state => state.setMapCameraCoordinates,
+  );
+  const hasInitByUrl = useMainStore(state => state.main.hasInitByUrl);
+
   const [textSearch, setTextSearch] = useState<string | undefined>('');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -59,14 +66,16 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (markerSelected && markers.length > 0) {
-      cameraRef?.current?.setCamera({
-        animationDuration: 1000,
-        zoomLevel: 17,
-        centerCoordinate:
-          markers?.find(m => m.id === markerSelected)?.coordinates ||
+      setMapCameraCoordinates(
+        markers?.find(m => m.id === markerSelected)?.coordinates ||
           currentUserLocation,
-      });
+      );
     }
+    cameraRef?.current?.setCamera({
+      animationDuration: 1000,
+      zoomLevel: 17,
+      centerCoordinate: mapCameraCoordinates,
+    });
   }, [markerSelected]);
 
   return (
@@ -92,11 +101,15 @@ export default function MapScreen() {
           {currentUserLocation && <CurrentPositionMarker />}
           <Camera
             defaultSettings={{
-              centerCoordinate: currentUserLocation,
+              centerCoordinate: mapCameraCoordinates || currentUserLocation,
               zoomLevel: 10,
+              pitch: hasInitByUrl ? 60 : 0,
             }}
-            zoomLevel={10}
+            zoomLevel={17}
+            pitch={hasInitByUrl ? 60 : 0}
             ref={cameraRef}
+            centerCoordinate={mapCameraCoordinates || currentUserLocation}
+            animationDuration={1000}
           />
         </MapView>
         {/* <FilterComponent filters={filters} setFilters={setFilters} /> */}
@@ -104,7 +117,7 @@ export default function MapScreen() {
           onPress={() => {
             cameraRef?.current?.setCamera({
               animationDuration: 1000,
-              zoomLevel: 15,
+              zoomLevel: 17,
               centerCoordinate: currentUserLocation,
             });
           }}

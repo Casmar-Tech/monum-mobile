@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useQuery} from '@apollo/client';
 import {VERIFY_TOKEN_QUERY} from './graphql/queries/userQueries'; // Importa la consulta GraphQL
@@ -8,12 +8,18 @@ import BottomTabNavigator from './main/BottomTabNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import {setupPlayerService} from './track-player/service';
 import {useUserStore} from './zustand/UserStore';
+import {useMainStore} from './zustand/MainStore';
 
 const MainStack = createStackNavigator();
 
 function MainNavigator() {
   const user = useUserStore(state => state.user);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const currentUserLocation = useMainStore(
+    state => state.main.currentUserLocation,
+  );
+  const hasInitByUrl = useMainStore(state => state.main.hasInitByUrl);
+  const isAuthenticated = useUserStore(state => state.isAuthenticated);
+  const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
   const {data, refetch} = useQuery(VERIFY_TOKEN_QUERY);
 
   useEffect(() => {
@@ -51,7 +57,7 @@ function MainNavigator() {
   return (
     <NavigationContainer>
       <MainStack.Navigator screenOptions={{headerShown: false}}>
-        {isAuthenticated ? (
+        {isAuthenticated && (currentUserLocation || hasInitByUrl) ? (
           <MainStack.Screen name="Main" component={BottomTabNavigator} />
         ) : (
           <MainStack.Screen name="Auth" component={AuthNavigator} />

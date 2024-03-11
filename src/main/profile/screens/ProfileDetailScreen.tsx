@@ -19,8 +19,11 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Language} from '../../../shared/types/Language';
 import client from '../../../graphql/connection';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {undefinedUser, useUserStore} from '../../../zustand/UserStore';
+import {useUserStore} from '../../../zustand/UserStore';
 import {useMainStore} from '../../../zustand/MainStore';
+import {useTabMapStore} from '../../../zustand/TabMapStore';
+import {useTabRouteStore} from '../../../zustand/TabRouteStore';
+import GoogleAuthService from '../../../auth/services/GoogleAuthService';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
 
@@ -41,13 +44,19 @@ export default function ProfileScreen({navigation}: Props) {
   const applicationLanguage = useMainStore(state => state.main.language);
   const setApplicationLanguage = useMainStore(state => state.setLanguage);
   const removeAuthToken = useUserStore(state => state.removeAuthToken);
-  const setUser = useUserStore(state => state.setUser);
   const updatePhoto = useUserStore(state => state.updatePhoto);
   const updateUsername = useUserStore(state => state.updateUsername);
 
   const [provisionalUser, setProvisionalUser] = useState<IUser>(user);
   const [provisionalLanguage, setProvisionalLanguage] =
     useState<Language>(applicationLanguage);
+
+  const setDefaultUser = useUserStore(state => state.setDefaultUser);
+  const setDefaultMain = useMainStore(state => state.setDefaultMain);
+  const setDefaultTabMap = useTabMapStore(state => state.setDefaultTabMap);
+  const setDefaultTabRoute = useTabRouteStore(
+    state => state.setDefaultTabRoute,
+  );
 
   const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
 
@@ -220,7 +229,11 @@ export default function ProfileScreen({navigation}: Props) {
           text={t('profile.logout')}
           onPress={async () => {
             (await GoogleSignin.isSignedIn()) && (await GoogleSignin.signOut());
-            setUser(undefinedUser);
+            await GoogleAuthService.configureGoogleSignIn();
+            await setDefaultUser();
+            setDefaultMain();
+            setDefaultTabMap();
+            setDefaultTabRoute();
             removeAuthToken();
           }}
         />

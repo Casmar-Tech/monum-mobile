@@ -12,7 +12,8 @@ export interface IMain {
   cameraRef: React.RefObject<Camera> | null;
   placeOfMedia: IPlace | null;
   language: Language;
-  currentUserLocation: [number, number];
+  currentUserLocation: [number, number] | null;
+  hasInitByUrl: boolean;
 }
 
 export const defaultMain: IMain = {
@@ -23,7 +24,8 @@ export const defaultMain: IMain = {
   cameraRef: null,
   placeOfMedia: null,
   language: 'en_US',
-  currentUserLocation: [0, 0],
+  currentUserLocation: null,
+  hasInitByUrl: false,
 };
 
 interface MainState {
@@ -36,6 +38,8 @@ interface MainState {
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => void;
   setLanguage: (language: Language) => void;
   setCurrentUserLocation: (currentUserLocation: [number, number]) => void;
+  setHasInitByUrl: (hasInitByUrl: boolean) => void;
+  setDefaultMain: () => void;
 }
 
 export const useMainStore = create<MainState>(set => ({
@@ -63,5 +67,11 @@ export const useMainStore = create<MainState>(set => ({
   },
   setCurrentUserLocation: (currentUserLocation: [number, number]) => {
     set(state => ({main: {...state.main, currentUserLocation}}));
+  },
+  setHasInitByUrl: (hasInitByUrl: boolean) => {
+    set(state => ({main: {...state.main, hasInitByUrl}}));
+  },
+  setDefaultMain: () => {
+    set(() => ({main: defaultMain}));
   },
 }));

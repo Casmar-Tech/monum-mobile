@@ -184,6 +184,7 @@ export default function RouteDetailScreen({
             defaultSettings={{
               centerCoordinate: currentUserLocation,
               zoomLevel: 10,
+              pitch: 0,
             }}
             zoomLevel={10}
             ref={cameraRef}
@@ -200,7 +201,7 @@ export default function RouteDetailScreen({
           }}
         />
       </View>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
         <View
           style={{
             flexDirection: 'row',
@@ -250,6 +251,7 @@ export default function RouteDetailScreen({
             marginTop: 10,
             paddingHorizontal: 12,
             backgroundColor: 'white',
+            flex: 1,
           }}
           showsVerticalScrollIndicator={false}
           ref={scrollViewRef}>
