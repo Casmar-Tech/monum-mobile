@@ -70,12 +70,12 @@ export default function MapScreen() {
         markers?.find(m => m.id === markerSelected)?.coordinates ||
           currentUserLocation,
       );
+      cameraRef?.current?.setCamera({
+        animationDuration: 1000,
+        zoomLevel: 17,
+        centerCoordinate: mapCameraCoordinates,
+      });
     }
-    cameraRef?.current?.setCamera({
-      animationDuration: 1000,
-      zoomLevel: 17,
-      centerCoordinate: mapCameraCoordinates,
-    });
   }, [markerSelected]);
 
   return (
