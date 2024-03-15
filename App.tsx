@@ -32,9 +32,6 @@ function App() {
     state => state.setMapCameraCoordinates,
   );
   const setLanguage = useMainStore(state => state.setLanguage);
-  const currentUserLocation = useMainStore(
-    state => state.main.currentUserLocation,
-  );
   const setCurrentUserLocation = useMainStore(
     state => state.setCurrentUserLocation,
   );
@@ -46,6 +43,7 @@ function App() {
         const [, placeId] = url.match(/place\/([^?]+)/) || [];
 
         if (placeId) {
+          setHasInitByUrl(true);
           const organizationId = await AuthServices.getOrganizationIdOfPlace(
             placeId,
           );
@@ -73,9 +71,6 @@ function App() {
               selected: marker.id === placeId,
             })),
           );
-          if (placeId) {
-            setHasInitByUrl(true);
-          }
           setMarkerSelected(placeId);
           const placeData = await MapServices.getPlaceInfo(placeId);
           setPlace(placeData);
@@ -97,9 +92,7 @@ function App() {
           await handleOpenURL({url: initialURL});
         }
       } catch (error) {
-        console.log('Error obtaining geolocation:', error);
-        // Establece una ubicación predeterminada si falla la geolocalización
-        setCurrentUserLocation([2.820167, 41.977381]);
+        console.log('Error initializing app:', error);
       }
 
       Linking.addEventListener('url', handleOpenURL);
@@ -125,10 +118,9 @@ function App() {
         const longitude = position.coords.longitude;
         const latitude = position.coords.latitude;
         setCurrentUserLocation([longitude, latitude]);
-        console.log('User location:', [longitude, latitude]);
 
         if (isAuthenticated && !hasInitByUrl) {
-          setMapCameraCoordinates(currentUserLocation);
+          setMapCameraCoordinates([longitude, latitude]);
         }
       } catch (error) {
         console.error('Error obtaining geolocation:', error);

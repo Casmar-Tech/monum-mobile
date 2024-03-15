@@ -7,6 +7,10 @@ export default function CurrentPositionMarker() {
   const currentUserLocation = useMainStore(
     state => state.main.currentUserLocation,
   );
+
+  if (!currentUserLocation) {
+    return null;
+  }
   return (
     <MarkerView id={'center'} key={'center'} coordinate={currentUserLocation}>
       <View

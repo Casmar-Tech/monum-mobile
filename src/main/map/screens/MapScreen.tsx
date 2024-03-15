@@ -66,17 +66,22 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (markerSelected && markers.length > 0) {
-      setMapCameraCoordinates(
+      const coordinatesToSet =
         markers?.find(m => m.id === markerSelected)?.coordinates ||
-          currentUserLocation,
-      );
-      cameraRef?.current?.setCamera({
-        animationDuration: 1000,
-        zoomLevel: 17,
-        centerCoordinate: mapCameraCoordinates,
-      });
+        currentUserLocation;
+      if (coordinatesToSet) {
+        setMapCameraCoordinates(coordinatesToSet);
+      }
     }
   }, [markerSelected]);
+
+  useEffect(() => {
+    cameraRef?.current?.setCamera({
+      animationDuration: 1000,
+      zoomLevel: 17,
+      centerCoordinate: mapCameraCoordinates,
+    });
+  }, [mapCameraCoordinates]);
 
   return (
     <View style={styles.mapContainer}>
@@ -115,11 +120,7 @@ export default function MapScreen() {
         {/* <FilterComponent filters={filters} setFilters={setFilters} /> */}
         <CenterCoordinatesButton
           onPress={() => {
-            cameraRef?.current?.setCamera({
-              animationDuration: 1000,
-              zoomLevel: 17,
-              centerCoordinate: currentUserLocation,
-            });
+            currentUserLocation && setMapCameraCoordinates(currentUserLocation);
           }}
         />
         {/* <TextSearchMap

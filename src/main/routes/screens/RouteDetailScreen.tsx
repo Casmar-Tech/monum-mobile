@@ -41,6 +41,13 @@ export default function RouteDetailScreen({
   const setMarkers = useTabRouteStore(state => state.setMarkers);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
 
+  const routeCameraCoordinates = useTabRouteStore(
+    state => state.routeCameraCoordinates,
+  );
+  const setRouteCameraCoordinates = useTabRouteStore(
+    state => state.setRouteCameraCoordinates,
+  );
+
   const {loading, error, data, refetch} = useQuery(GET_ROUTE_DETAIL, {
     variables: {
       routeId: routeOfCity.id,
@@ -141,15 +148,22 @@ export default function RouteDetailScreen({
 
   useEffect(() => {
     if (markerSelected && markers.length > 0) {
-      cameraRef?.current?.setCamera({
-        animationDuration: 1000,
-        zoomLevel: 17,
-        centerCoordinate:
-          markers?.find(m => m.id === markerSelected)?.coordinates ||
-          currentUserLocation,
-      });
+      const coordinatesToSet =
+        markers?.find(m => m.id === markerSelected)?.coordinates ||
+        currentUserLocation;
+      if (coordinatesToSet) {
+        setRouteCameraCoordinates(coordinatesToSet);
+      }
     }
   }, [markerSelected]);
+
+  useEffect(() => {
+    cameraRef?.current?.setCamera({
+      animationDuration: 1000,
+      zoomLevel: 17,
+      centerCoordinate: routeCameraCoordinates,
+    });
+  }, [routeCameraCoordinates]);
 
   const pillRefs = useRef<Map<string, React.RefObject<PlaceFromRoutePillRef>>>(
     new Map(),
@@ -182,7 +196,7 @@ export default function RouteDetailScreen({
           {currentUserLocation && <CurrentPositionMarker />}
           <Camera
             defaultSettings={{
-              centerCoordinate: currentUserLocation,
+              centerCoordinate: routeCameraCoordinates || currentUserLocation,
               zoomLevel: 10,
               pitch: 0,
             }}
@@ -192,12 +206,8 @@ export default function RouteDetailScreen({
         </MapView>
         <CenterCoordinatesButton
           onPress={() => {
-            console.log('centerCoordinates', centerCoordinates);
-            cameraRef?.current?.setCamera({
-              animationDuration: 1000,
-              zoomLevel: 15,
-              centerCoordinate: currentUserLocation,
-            });
+            currentUserLocation &&
+              setRouteCameraCoordinates(currentUserLocation);
           }}
         />
       </View>
