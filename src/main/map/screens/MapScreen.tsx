@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {Camera, MapView, setAccessToken} from '@rnmapbox/maps';
-import React, {useEffect, useState} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {useEffect, useState} from 'react';
+import {Dimensions, Platform, StyleSheet, View} from 'react-native';
+import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
 import {MarkerComponent} from '../components/Marker';
@@ -11,6 +12,7 @@ import TextSearchMap from '../components/TextSearchMap';
 import CurrentPositionMarker from '../components/CurrentPositionMarker';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useMainStore} from '../../../zustand/MainStore';
+import Geolocation from '@react-native-community/geolocation';
 setAccessToken(
   'pk.eyJ1IjoieHBsb3JlYXIiLCJhIjoiY2xqMmU0Z3NyMGFxeTNwbzByNW90dmdxcSJ9.cMT52Rc64Z05YUGPIutXFw',
 );
@@ -39,6 +41,15 @@ export default function MapScreen() {
   const toggleDropdown = (visible: boolean) => {
     setIsDropdownVisible(visible);
   };
+  const setCurrentUserLocation = useMainStore(
+    state => state.setCurrentUserLocation,
+  );
+  const forceUpdateMapCamera = useTabMapStore(
+    state => state.tabMap.forceUpdateMapCamera,
+  );
+  const setForceUpdateMapCamera = useTabMapStore(
+    state => state.setForceUpdateMapCamera,
+  );
 
   useEffect(() => {
     const fetchMarkers = async () => {
@@ -71,17 +82,62 @@ export default function MapScreen() {
         currentUserLocation;
       if (coordinatesToSet) {
         setMapCameraCoordinates(coordinatesToSet);
+        setForceUpdateMapCamera(true);
       }
     }
   }, [markerSelected]);
 
   useEffect(() => {
-    cameraRef?.current?.setCamera({
-      animationDuration: 1000,
-      zoomLevel: 17,
-      centerCoordinate: mapCameraCoordinates,
-    });
-  }, [mapCameraCoordinates]);
+    if (forceUpdateMapCamera) {
+      cameraRef?.current?.setCamera({
+        animationDuration: 1000,
+        zoomLevel: 17,
+        centerCoordinate: mapCameraCoordinates,
+      });
+      setForceUpdateMapCamera(false);
+    }
+  }, [mapCameraCoordinates, forceUpdateMapCamera]);
+
+  const centerCoordinatesButtonAction = async () => {
+    let permissionCheck;
+    if (Platform.OS === 'ios') {
+      permissionCheck = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+    } else {
+      permissionCheck = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+    }
+
+    let permissionResult = await check(permissionCheck);
+
+    if (permissionResult === RESULTS.DENIED) {
+      permissionResult = await request(permissionCheck);
+    }
+
+    if (permissionResult === RESULTS.GRANTED) {
+      if (currentUserLocation) {
+        setMapCameraCoordinates(currentUserLocation);
+        setForceUpdateMapCamera(true);
+      } else {
+        Geolocation.getCurrentPosition(
+          (position: any) => {
+            const {longitude, latitude} = position.coords;
+            setCurrentUserLocation([longitude, latitude]);
+            setMapCameraCoordinates([longitude, latitude]);
+            setForceUpdateMapCamera(true);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 10000,
+          },
+        );
+      }
+    } else {
+      console.log('Permission not granted or not requestable.');
+    }
+  };
 
   return (
     <View style={styles.mapContainer}>
@@ -119,9 +175,7 @@ export default function MapScreen() {
         </MapView>
         {/* <FilterComponent filters={filters} setFilters={setFilters} /> */}
         <CenterCoordinatesButton
-          onPress={() => {
-            currentUserLocation && setMapCameraCoordinates(currentUserLocation);
-          }}
+          onPress={async () => await centerCoordinatesButtonAction()}
         />
         {/* <TextSearchMap
           textSearch={textSearch}

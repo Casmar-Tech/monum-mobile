@@ -55,6 +55,11 @@
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Show the location on map.</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>Show current location on map.</key>
+		<string>Show current location on map.</string>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Show current location on map.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

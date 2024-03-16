@@ -11,6 +11,7 @@ export interface TabRouteState {
   markerSelected: string | null;
   markers: IMarker[];
   routeCameraCoordinates: [number, number];
+  forceUpdateRouteCamera: boolean;
   setRouteOfCity: (route: IRouteOfCity) => void;
   setRouteComplete: (route: IRouteComplete) => void;
   setCity: (city: ICity) => void;
@@ -18,6 +19,7 @@ export interface TabRouteState {
   setMarkers: (markers: IMarker[]) => void;
   setDefaultTabRoute: () => void;
   setRouteCameraCoordinates: (routeCameraCoordinates: [number, number]) => void;
+  setForceUpdateRouteCamera: (forceUpdateRouteCamera: boolean) => void;
 }
 
 const defaultRouteOfCity: IRouteOfCity = {
@@ -51,6 +53,7 @@ export const useTabRouteStore = create<TabRouteState>(set => ({
   markerSelected: null,
   markers: [],
   routeCameraCoordinates: [0, 0],
+  forceUpdateRouteCamera: false,
   setRouteOfCity: (routeOfCity: IRouteOfCity) => {
     set(state => ({routeOfCity: {...state.routeOfCity, ...routeOfCity}}));
   },
@@ -66,6 +69,9 @@ export const useTabRouteStore = create<TabRouteState>(set => ({
   setMarkers: (markers: IMarker[]) => {
     set(() => ({markers}));
   },
+  setForceUpdateRouteCamera: (forceUpdateRouteCamera: boolean) => {
+    set(() => ({forceUpdateRouteCamera}));
+  },
   setDefaultTabRoute: () => {
     set(() => ({
       routeOfCity: defaultRouteOfCity,
@@ -73,6 +79,8 @@ export const useTabRouteStore = create<TabRouteState>(set => ({
       city: defaultCity,
       markerSelected: null,
       markers: [],
+      routeCameraCoordinates: [0, 0],
+      forceUpdateRouteCamera: false,
     }));
   },
   setRouteCameraCoordinates: (routeCameraCoordinates: [number, number]) => {

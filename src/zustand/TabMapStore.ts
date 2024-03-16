@@ -11,6 +11,7 @@ export interface ITabMap {
   expandedMediaDetail: boolean;
   markers: IMarker[];
   mapCameraCoordinates: [number, number];
+  forceUpdateMapCamera: boolean;
 }
 
 export const defaultTabMap: ITabMap = {
@@ -21,6 +22,7 @@ export const defaultTabMap: ITabMap = {
   expandedMediaDetail: false,
   markers: [],
   mapCameraCoordinates: [0, 0],
+  forceUpdateMapCamera: false,
 };
 
 interface TabMapState {
@@ -32,6 +34,7 @@ interface TabMapState {
   setExpandedMediaDetail: (expandedMediaDetail: boolean) => void;
   setMarkers: (markers: IMarker[]) => void;
   setMapCameraCoordinates: (mapCameraCoordinates: [number, number]) => void;
+  setForceUpdateMapCamera: (forceUpdateMapCamera: boolean) => void;
   setDefaultTabMap: () => void;
 }
 
@@ -59,6 +62,9 @@ export const useTabMapStore = create<TabMapState>(set => ({
   },
   setMapCameraCoordinates: (mapCameraCoordinates: [number, number]) => {
     set(state => ({tabMap: {...state.tabMap, mapCameraCoordinates}}));
+  },
+  setForceUpdateMapCamera: (forceUpdateMapCamera: boolean) => {
+    set(state => ({tabMap: {...state.tabMap, forceUpdateMapCamera}}));
   },
   setDefaultTabMap: () => {
     set(() => ({tabMap: defaultTabMap}));

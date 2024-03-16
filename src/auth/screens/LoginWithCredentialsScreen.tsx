@@ -35,6 +35,7 @@ export default function LoginScreen({navigation}: Props) {
   const setAuthToken = useUserStore(state => state.setAuthToken);
   const setUser = useUserStore(state => state.setUser);
   const setLanguage = useMainStore(state => state.setLanguage);
+  const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -156,8 +157,9 @@ export default function LoginScreen({navigation}: Props) {
                   );
                   if (user) {
                     setAuthToken(user.token || '');
-                    setUser(user || {});
+                    setUser(user);
                     setLanguage(user.language || 'en_US');
+                    setIsAuthenticated(true);
                     await changeLanguage(user.language || 'en_US');
                   }
                 } catch (error: string | any) {

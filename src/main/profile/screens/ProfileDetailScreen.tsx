@@ -46,6 +46,7 @@ export default function ProfileScreen({navigation}: Props) {
   const removeAuthToken = useUserStore(state => state.removeAuthToken);
   const updatePhoto = useUserStore(state => state.updatePhoto);
   const updateUsername = useUserStore(state => state.updateUsername);
+  const setUser = useUserStore(state => state.setUser);
 
   const [provisionalUser, setProvisionalUser] = useState<IUser>(user);
   const [provisionalLanguage, setProvisionalLanguage] =

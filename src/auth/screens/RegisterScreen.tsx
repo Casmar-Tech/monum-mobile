@@ -24,6 +24,7 @@ import ErrorComponent from '../components/ErrorComponent';
 export default function RegisterScreen() {
   const setAuthToken = useUserStore(state => state.setAuthToken);
   const setUser = useUserStore(state => state.setUser);
+  const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -181,7 +182,8 @@ export default function RegisterScreen() {
                   const response = await AuthServices.signup(email, password);
                   if (response) {
                     await setAuthToken(response.token || '');
-                    setUser(response || {});
+                    setUser(response);
+                    setIsAuthenticated(true);
                   }
                 } catch (error: string | any) {
                   startShake();

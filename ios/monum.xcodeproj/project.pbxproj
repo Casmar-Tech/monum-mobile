@@ -21,12 +21,12 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		4FAFC00B0C38738283BD7CF4 /* libPods-monum.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EBA0F12540920F95B7C4CBAE /* libPods-monum.a */; };
+		2632448904638A0AB8C6FC38 /* libPods-monum-monumTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B559330C078CFABB9AF49101 /* libPods-monum-monumTests.a */; };
 		6D05AC33475B476BB60DCCEB /* Montserrat-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1A0B03D08E6410D8D043762 /* Montserrat-VariableFont_wght.ttf */; };
 		72341F0F2292403996E26789 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF65186D7539417E9379FF0F /* Montserrat-SemiBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		AEFEE247D121A27853254E77 /* libPods-monum-monumTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAA3DE12049E708C5C98BCE /* libPods-monum-monumTests.a */; };
 		ECA3FF7CFAA14858A5CFF750 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38F38BB9DBB840898264BAF5 /* Montserrat-Regular.ttf */; };
+		EDE232763C132AF41CD1526B /* libPods-monum.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 716AA5C37405314621AD591E /* libPods-monum.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +43,7 @@
 		00E356EE1AD99517003FC87E /* monumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = monumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* monumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = monumTests.m; sourceTree = "<group>"; };
-		0C75E634A8E1F208DACAC973 /* Pods-monum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum.release.xcconfig"; path = "Target Support Files/Pods-monum/Pods-monum.release.xcconfig"; sourceTree = "<group>"; };
+		0130064D97D3F98BDA5A4196 /* Pods-monum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum.debug.xcconfig"; path = "Target Support Files/Pods-monum/Pods-monum.debug.xcconfig"; sourceTree = "<group>"; };
 		1123A4A82B55E5DB0003A6CB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		116F081B2B59A236004CA4E6 /* monum-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "monum-Bridging-Header.h"; sourceTree = "<group>"; };
 		116F081C2B59A236004CA4E6 /* monumTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "monumTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -57,14 +57,14 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = monum/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = monum/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = monum/main.m; sourceTree = "<group>"; };
-		2EAA3DE12049E708C5C98BCE /* libPods-monum-monumTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-monum-monumTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3460CE880FFB90DBF59986D2 /* Pods-monum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum.debug.xcconfig"; path = "Target Support Files/Pods-monum/Pods-monum.debug.xcconfig"; sourceTree = "<group>"; };
 		38F38BB9DBB840898264BAF5 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
-		543AED9D33FCCFF1FCE90225 /* Pods-monum-monumTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum-monumTests.debug.xcconfig"; path = "Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4BAA23AD80A4C8ADC0E40951 /* Pods-monum-monumTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum-monumTests.debug.xcconfig"; path = "Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests.debug.xcconfig"; sourceTree = "<group>"; };
+		66E6BDEB715AE61DEC63B256 /* Pods-monum-monumTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum-monumTests.release.xcconfig"; path = "Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests.release.xcconfig"; sourceTree = "<group>"; };
+		716AA5C37405314621AD591E /* libPods-monum.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-monum.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = monum/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AA8B1410F22BE154E33E6726 /* Pods-monum-monumTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum-monumTests.release.xcconfig"; path = "Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests.release.xcconfig"; sourceTree = "<group>"; };
+		89242D0DC4E128ED455602C5 /* Pods-monum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum.release.xcconfig"; path = "Target Support Files/Pods-monum/Pods-monum.release.xcconfig"; sourceTree = "<group>"; };
+		B559330C078CFABB9AF49101 /* libPods-monum-monumTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-monum-monumTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1A0B03D08E6410D8D043762 /* Montserrat-VariableFont_wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-VariableFont_wght.ttf"; path = "../src/assets/fonts/Montserrat-VariableFont_wght.ttf"; sourceTree = "<group>"; };
-		EBA0F12540920F95B7C4CBAE /* libPods-monum.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-monum.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EF65186D7539417E9379FF0F /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../src/assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEFEE247D121A27853254E77 /* libPods-monum-monumTests.a in Frameworks */,
+				2632448904638A0AB8C6FC38 /* libPods-monum-monumTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FAFC00B0C38738283BD7CF4 /* libPods-monum.a in Frameworks */,
+				EDE232763C132AF41CD1526B /* libPods-monum.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,8 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				EBA0F12540920F95B7C4CBAE /* libPods-monum.a */,
-				2EAA3DE12049E708C5C98BCE /* libPods-monum-monumTests.a */,
+				716AA5C37405314621AD591E /* libPods-monum.a */,
+				B559330C078CFABB9AF49101 /* libPods-monum-monumTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -171,10 +171,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3460CE880FFB90DBF59986D2 /* Pods-monum.debug.xcconfig */,
-				0C75E634A8E1F208DACAC973 /* Pods-monum.release.xcconfig */,
-				543AED9D33FCCFF1FCE90225 /* Pods-monum-monumTests.debug.xcconfig */,
-				AA8B1410F22BE154E33E6726 /* Pods-monum-monumTests.release.xcconfig */,
+				0130064D97D3F98BDA5A4196 /* Pods-monum.debug.xcconfig */,
+				89242D0DC4E128ED455602C5 /* Pods-monum.release.xcconfig */,
+				4BAA23AD80A4C8ADC0E40951 /* Pods-monum-monumTests.debug.xcconfig */,
+				66E6BDEB715AE61DEC63B256 /* Pods-monum-monumTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -196,12 +196,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "monumTests" */;
 			buildPhases = (
-				1F69754CFF4B0F97C5922868 /* [CP] Check Pods Manifest.lock */,
+				39C715F869E4639412A8AC94 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				54BB670A652616D784EB440A /* [CP] Embed Pods Frameworks */,
-				ABD8C1C4D85C12A61F1CFDAB /* [CP] Copy Pods Resources */,
+				4CED11D49B8FB02A0F8444CA /* [CP] Embed Pods Frameworks */,
+				4BB5925ED53991BC90AE0157 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -217,14 +217,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "monum" */;
 			buildPhases = (
-				D3EEAFBED3D24390CAE0C418 /* [CP] Check Pods Manifest.lock */,
+				0F3BC75F6E00905B6FF7BD13 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				8DFC991883A434A275A2A615 /* [CP] Embed Pods Frameworks */,
-				B20597488590CB1957E552EE /* [CP] Copy Pods Resources */,
-				E375071CA416DB16FAB275E7 /* [CP-User] [RNFB] Core Configuration */,
+				2CF2D5038D8D810DF9F85DF9 /* [CP] Embed Pods Frameworks */,
+				3B606AECA82C082E060347D0 /* [CP] Copy Pods Resources */,
+				8E1F60BC0F5B342451D10BB6 /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -320,97 +320,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		1F69754CFF4B0F97C5922868 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-monum-monumTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		54BB670A652616D784EB440A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8DFC991883A434A275A2A615 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ABD8C1C4D85C12A61F1CFDAB /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B20597488590CB1957E552EE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D3EEAFBED3D24390CAE0C418 /* [CP] Check Pods Manifest.lock */ = {
+		0F3BC75F6E00905B6FF7BD13 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -432,7 +342,97 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E375071CA416DB16FAB275E7 /* [CP-User] [RNFB] Core Configuration */ = {
+		2CF2D5038D8D810DF9F85DF9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		39C715F869E4639412A8AC94 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-monum-monumTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3B606AECA82C082E060347D0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-monum/Pods-monum-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4BB5925ED53991BC90AE0157 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4CED11D49B8FB02A0F8444CA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E1F60BC0F5B342451D10BB6 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -480,7 +480,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 543AED9D33FCCFF1FCE90225 /* Pods-monum-monumTests.debug.xcconfig */;
+			baseConfigurationReference = 4BAA23AD80A4C8ADC0E40951 /* Pods-monum-monumTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -513,7 +513,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA8B1410F22BE154E33E6726 /* Pods-monum-monumTests.release.xcconfig */;
+			baseConfigurationReference = 66E6BDEB715AE61DEC63B256 /* Pods-monum-monumTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -542,7 +542,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3460CE880FFB90DBF59986D2 /* Pods-monum.debug.xcconfig */;
+			baseConfigurationReference = 0130064D97D3F98BDA5A4196 /* Pods-monum.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -573,7 +573,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C75E634A8E1F208DACAC973 /* Pods-monum.release.xcconfig */;
+			baseConfigurationReference = 89242D0DC4E128ED455602C5 /* Pods-monum.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

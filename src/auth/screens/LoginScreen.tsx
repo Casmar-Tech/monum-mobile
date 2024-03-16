@@ -28,6 +28,7 @@ export default function LoginScreen({navigation}: Props) {
   const setAuthToken = useUserStore(state => state.setAuthToken);
   const setUser = useUserStore(state => state.setUser);
   const setLanguage = useMainStore(state => state.setLanguage);
+  const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.backgroundColor} />
@@ -44,8 +45,9 @@ export default function LoginScreen({navigation}: Props) {
                 const user = await GoogleAuthService.signInWithGoogle();
                 if (user) {
                   await setAuthToken(user.token || '');
-                  setUser(user || {});
+                  setUser(user);
                   setLanguage(user.language || 'en_US');
+                  setIsAuthenticated(true);
                   await changeLanguage(user.language || 'en_US');
                 } else {
                   console.log('ERROR WHEN LOGGING IN WITH GOOGLE');

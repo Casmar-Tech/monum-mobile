@@ -1,5 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {RouteDetailScreenProps} from '../navigator/RoutesNavigator';
 import {Camera, MapView} from '@rnmapbox/maps';
 import React, {useEffect, useRef, useState} from 'react';
@@ -20,6 +27,8 @@ import CurrentPositionMarker from '../../map/components/CurrentPositionMarker';
 import LinearGradient from 'react-native-linear-gradient';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 import {useMainStore} from '../../../zustand/MainStore';
+import {PERMISSIONS, RESULTS, check, request} from 'react-native-permissions';
+import Geolocation from '@react-native-community/geolocation';
 
 export default function RouteDetailScreen({
   navigation,
@@ -46,6 +55,15 @@ export default function RouteDetailScreen({
   );
   const setRouteCameraCoordinates = useTabRouteStore(
     state => state.setRouteCameraCoordinates,
+  );
+  const setCurrentUserLocation = useMainStore(
+    state => state.setCurrentUserLocation,
+  );
+  const forceUpdateRouteCamera = useTabRouteStore(
+    state => state.forceUpdateRouteCamera,
+  );
+  const setForceUpdateRouteCamera = useTabRouteStore(
+    state => state.setForceUpdateRouteCamera,
   );
 
   const {loading, error, data, refetch} = useQuery(GET_ROUTE_DETAIL, {
@@ -158,12 +176,56 @@ export default function RouteDetailScreen({
   }, [markerSelected]);
 
   useEffect(() => {
-    cameraRef?.current?.setCamera({
-      animationDuration: 1000,
-      zoomLevel: 17,
-      centerCoordinate: routeCameraCoordinates,
-    });
-  }, [routeCameraCoordinates]);
+    if (forceUpdateRouteCamera) {
+      cameraRef?.current?.setCamera({
+        animationDuration: 1000,
+        zoomLevel: 17,
+        centerCoordinate: routeCameraCoordinates,
+      });
+      setForceUpdateRouteCamera(false);
+    }
+  }, [routeCameraCoordinates, forceUpdateRouteCamera]);
+
+  const centerCoordinatesButtonAction = async () => {
+    let permissionCheck;
+    if (Platform.OS === 'ios') {
+      permissionCheck = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+    } else {
+      permissionCheck = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+    }
+
+    let permissionResult = await check(permissionCheck);
+
+    if (permissionResult === RESULTS.DENIED) {
+      permissionResult = await request(permissionCheck);
+    }
+
+    if (permissionResult === RESULTS.GRANTED) {
+      if (currentUserLocation) {
+        setRouteCameraCoordinates(currentUserLocation);
+        setForceUpdateRouteCamera(true);
+      } else {
+        Geolocation.getCurrentPosition(
+          (position: any) => {
+            const {longitude, latitude} = position.coords;
+            setCurrentUserLocation([longitude, latitude]);
+            setRouteCameraCoordinates([longitude, latitude]);
+            setForceUpdateRouteCamera(true);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 10000,
+          },
+        );
+      }
+    } else {
+      console.log('Permission not granted or not requestable.');
+    }
+  };
 
   const pillRefs = useRef<Map<string, React.RefObject<PlaceFromRoutePillRef>>>(
     new Map(),
@@ -205,10 +267,7 @@ export default function RouteDetailScreen({
           />
         </MapView>
         <CenterCoordinatesButton
-          onPress={() => {
-            currentUserLocation &&
-              setRouteCameraCoordinates(currentUserLocation);
-          }}
+          onPress={async () => await centerCoordinatesButtonAction()}
         />
       </View>
       <View style={{flex: 1, backgroundColor: 'white'}}>

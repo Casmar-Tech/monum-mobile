@@ -3,6 +3,8 @@ import {State} from 'react-native-track-player';
 import {MapView, Camera} from '@rnmapbox/maps';
 import IPlace from '../shared/interfaces/IPlace';
 import {Language} from '../shared/types/Language';
+import Geolocation from '@react-native-community/geolocation';
+import {Platform} from 'react-native';
 
 export interface IMain {
   isTabBarVisible: boolean;
@@ -14,6 +16,7 @@ export interface IMain {
   language: Language;
   currentUserLocation: [number, number] | null;
   hasInitByUrl: boolean;
+  watchId: number | null;
 }
 
 export const defaultMain: IMain = {
@@ -26,6 +29,7 @@ export const defaultMain: IMain = {
   language: 'en_US',
   currentUserLocation: null,
   hasInitByUrl: false,
+  watchId: null,
 };
 
 interface MainState {
@@ -40,6 +44,8 @@ interface MainState {
   setCurrentUserLocation: (currentUserLocation: [number, number]) => void;
   setHasInitByUrl: (hasInitByUrl: boolean) => void;
   setDefaultMain: () => void;
+  startWatchingLocation: () => void;
+  stopWatchingLocation: () => void;
 }
 
 export const useMainStore = create<MainState>(set => ({
@@ -73,5 +79,30 @@ export const useMainStore = create<MainState>(set => ({
   },
   setDefaultMain: () => {
     set(() => ({main: defaultMain}));
+  },
+  startWatchingLocation: () => {
+    const watchId = Geolocation.watchPosition(
+      (position: any) => {
+        const {longitude, latitude} = position.coords;
+        set(state => {
+          return {
+            main: {...state.main, currentUserLocation: [longitude, latitude]},
+          };
+        });
+      },
+      (error: any) => {
+        console.error('Error watching position:', error);
+      },
+      {enableHighAccuracy: true, distanceFilter: 5, interval: 5000},
+    );
+    set(state => ({main: {...state.main, watchId}}));
+  },
+  stopWatchingLocation: () => {
+    set(state => {
+      if (state.main.watchId !== null) {
+        Geolocation.clearWatch(state.main.watchId);
+      }
+      return {main: {...state.main, watchId: null}};
+    });
   },
 }));

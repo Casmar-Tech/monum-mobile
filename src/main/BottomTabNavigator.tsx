@@ -95,8 +95,6 @@ function BottomTabNavigator() {
     );
   };
 
-  useEffect(() => {}, []);
-
   return (
     <NavigationContainer independent={true}>
       <StatusBar translucent barStyle="dark-content" />

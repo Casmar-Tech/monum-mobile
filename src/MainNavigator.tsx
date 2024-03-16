@@ -1,7 +1,7 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useQuery} from '@apollo/client';
-import {VERIFY_TOKEN_QUERY} from './graphql/queries/userQueries'; // Importa la consulta GraphQL
+import {GET_USER_BY_ID} from './graphql/queries/userQueries'; // Importa la consulta GraphQL
 
 import AuthNavigator from './auth/navigator/AuthNavigator';
 import BottomTabNavigator from './main/BottomTabNavigator';
@@ -9,43 +9,33 @@ import {NavigationContainer} from '@react-navigation/native';
 import {setupPlayerService} from './track-player/service';
 import {useUserStore} from './zustand/UserStore';
 import {useMainStore} from './zustand/MainStore';
+import LoadingSpinner from './shared/components/LoadingSpinner';
+import {Platform} from 'react-native';
 
 const MainStack = createStackNavigator();
 
 function MainNavigator() {
-  const user = useUserStore(state => state.user);
-  const currentUserLocation = useMainStore(
-    state => state.main.currentUserLocation,
-  );
-  const hasInitByUrl = useMainStore(state => state.main.hasInitByUrl);
+  const [isLoading, setIsLoading] = useState(true);
   const isAuthenticated = useUserStore(state => state.isAuthenticated);
   const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
-  const {data, refetch} = useQuery(VERIFY_TOKEN_QUERY);
+  const setUser = useUserStore(state => state.setUser);
 
-  useEffect(() => {
-    async function recheckToken() {
-      if (
-        user.token &&
-        typeof user.token === 'string' &&
-        user.token.length > 0
-      ) {
-        try {
-          const response = await refetch();
-          if (response.data && response.data.verifyToken) {
-            setIsAuthenticated(true);
-          } else {
-            setIsAuthenticated(false);
-          }
-        } catch (error) {
-          console.error('Error al verificar el token', error);
-          setIsAuthenticated(false);
-        }
+  const {loading, error, data} = useQuery(GET_USER_BY_ID, {
+    onCompleted: (data: any) => {
+      if (data && data.user) {
+        setUser(data.user);
+        setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
       }
-    }
-    recheckToken();
-  }, [user.token, refetch]);
+      setIsLoading(false);
+    },
+    onError: (error: any) => {
+      console.error('Error al verificar el token', error);
+      setIsAuthenticated(false);
+      setIsLoading(false);
+    },
+  });
 
   useEffect(() => {
     async function prepareTrackPlayer() {
@@ -54,10 +44,17 @@ function MainNavigator() {
     prepareTrackPlayer();
   }, []);
 
+  const conditionToRender =
+    Platform.OS === 'ios' ? loading || isLoading : loading;
+
+  if (conditionToRender) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <NavigationContainer>
       <MainStack.Navigator screenOptions={{headerShown: false}}>
-        {isAuthenticated && (currentUserLocation || hasInitByUrl) ? (
+        {isAuthenticated ? (
           <MainStack.Screen name="Main" component={BottomTabNavigator} />
         ) : (
           <MainStack.Screen name="Auth" component={AuthNavigator} />

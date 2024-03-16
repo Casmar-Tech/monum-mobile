@@ -36,6 +36,16 @@ function App() {
     state => state.setCurrentUserLocation,
   );
   const isAuthenticated = useUserStore(state => state.isAuthenticated);
+  const startWatchingLocation = useMainStore(
+    state => state.startWatchingLocation,
+  );
+  const currentUserLocation = useMainStore(
+    state => state.main.currentUserLocation,
+  );
+  const setForceUpdateMapCamera = useTabMapStore(
+    state => state.setForceUpdateMapCamera,
+  );
+  const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
 
   useEffect(() => {
     const handleOpenURL = async ({url}: any) => {
@@ -52,6 +62,7 @@ function App() {
           );
           setAuthToken(user.token);
           setUser(user);
+          setIsAuthenticated(true);
           setLanguage(user.language);
           await changeLanguage(user.language || 'en_US');
           const markersData = await MapServices.getMarkers(
@@ -86,6 +97,9 @@ function App() {
     const initializeApp = async () => {
       try {
         await GoogleAuthService.configureGoogleSignIn();
+        Geolocation.setRNConfiguration({
+          skipPermissionRequests: false,
+        });
 
         const initialURL = await Linking.getInitialURL();
         if (initialURL) {
@@ -107,20 +121,25 @@ function App() {
   useEffect(() => {
     async function prepareWhenAuthenticated() {
       try {
-        const position: any = await new Promise((resolve, reject) => {
-          Geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 10000,
+        let userLocation = currentUserLocation;
+        if (!userLocation) {
+          const position: any = await new Promise((resolve, reject) => {
+            Geolocation.getCurrentPosition(resolve, reject, {
+              enableHighAccuracy: true,
+              timeout: 15000,
+              maximumAge: 10000,
+            });
           });
-        });
 
-        const longitude = position.coords.longitude;
-        const latitude = position.coords.latitude;
-        setCurrentUserLocation([longitude, latitude]);
+          const longitude = position.coords.longitude;
+          const latitude = position.coords.latitude;
+          userLocation = [longitude, latitude];
+          setCurrentUserLocation(userLocation);
+        }
 
         if (isAuthenticated && !hasInitByUrl) {
-          setMapCameraCoordinates([longitude, latitude]);
+          setMapCameraCoordinates(userLocation);
+          setForceUpdateMapCamera(true);
         }
       } catch (error) {
         console.error('Error obtaining geolocation:', error);
@@ -129,6 +148,10 @@ function App() {
     }
     prepareWhenAuthenticated();
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    startWatchingLocation();
+  }, [startWatchingLocation]);
 
   return (
     <ApolloProvider client={client}>
