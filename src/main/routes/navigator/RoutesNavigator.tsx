@@ -30,20 +30,10 @@ export interface ListRoutesScreenProps {
 export interface RouteDetailScreenProps {
   route: RouteProp<RoutesStackParamList, 'RouteDetail'>;
   navigation: any;
-  mapRef: React.RefObject<Mapbox.MapView>;
-  cameraRef: React.RefObject<Camera>;
 }
 const RoutesStack = createStackNavigator<RoutesStackParamList>();
 
-interface RoutesNavigatorProps {
-  cameraRef: React.RefObject<Camera>;
-  mapRef: React.RefObject<Mapbox.MapView>;
-}
-
-export default function RoutesNavigator({
-  mapRef,
-  cameraRef,
-}: RoutesNavigatorProps) {
+export default function RoutesNavigator() {
   return (
     <RoutesStack.Navigator
       initialRouteName="ListCities"
@@ -56,12 +46,7 @@ export default function RoutesNavigator({
       </RoutesStack.Screen>
       <RoutesStack.Screen name="RouteDetail">
         {({route, navigation}) => (
-          <RouteDetailScreen
-            route={route}
-            navigation={navigation}
-            mapRef={mapRef}
-            cameraRef={cameraRef}
-          />
+          <RouteDetailScreen route={route} navigation={navigation} />
         )}
       </RoutesStack.Screen>
     </RoutesStack.Navigator>

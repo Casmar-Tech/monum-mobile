@@ -1,11 +1,12 @@
 import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
-import React from 'react';
 import IMedia from '../../../../shared/interfaces/IMedia';
 import place_detail_media_rating_star from '../../../../assets/images/icons/place_detail_media_rating_star.png';
-import place_detail_play_media from '../../../../assets/images/icons/place_detail_play_media.png';
 import TrackPlayer, {RepeatMode} from 'react-native-track-player';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
 import {useMainStore} from '../../../../zustand/MainStore';
+import place_detail_audio_media from '../../../../assets/images/icons/place_detail_audio_media.png';
+import place_detail_video_media from '../../../../assets/images/icons/place_detail_video_media.png';
+import place_detail_text_media from '../../../../assets/images/icons/place_detail_text_media.png';
 
 interface MediaOfPlacePillProps {
   index: number;
@@ -19,33 +20,57 @@ export default function MediaOfPlacePill({
   const place = useTabMapStore(state => state.tabMap.place);
   const setPlaceOfMedia = useMainStore(state => state.setPlaceOfMedia);
   const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
+  const setVideoPlayer = useMainStore(state => state.setVideoPlayer);
+  const setVideoUrl = useMainStore(state => state.setVideoUrl);
   if (!mediasOfPlace || !Array.isArray(mediasOfPlace)) {
     return null;
   }
   const isLastPill =
     Array.isArray(mediasOfPlace) && index === mediasOfPlace.length - 1;
+
+  const mediaTypeIcon =
+    media.type === 'audio'
+      ? place_detail_audio_media
+      : media.type === 'video'
+      ? place_detail_video_media
+      : place_detail_text_media;
+
+  const onPressAudio = async () => {
+    try {
+      setPlaceOfMedia(place);
+      await TrackPlayer.reset();
+      await TrackPlayer.add(
+        mediasOfPlace.map(mediaOfPlace => ({
+          id: mediaOfPlace.id,
+          url: mediaOfPlace.url,
+          title: mediaOfPlace.title,
+          artist: 'Monum',
+          rating: mediaOfPlace.rating,
+        })),
+      );
+      await TrackPlayer.skip(index);
+      await TrackPlayer.setRepeatMode(RepeatMode.Queue);
+      await TrackPlayer.play();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onPressVideo = async () => {
+    await TrackPlayer.pause();
+    setVideoPlayer(true);
+    setVideoUrl(media.url);
+  };
+
   return (
     <TouchableOpacity
-      onPress={async () => {
-        try {
-          setPlaceOfMedia(place);
-          await TrackPlayer.reset();
-          await TrackPlayer.add(
-            mediasOfPlace.map(mediaOfPlace => ({
-              id: mediaOfPlace.id,
-              url: mediaOfPlace.audioUrl,
-              title: mediaOfPlace.title,
-              artist: 'Monum',
-              rating: mediaOfPlace.rating,
-            })),
-          );
-          await TrackPlayer.skip(index);
-          await TrackPlayer.setRepeatMode(RepeatMode.Queue);
-          await TrackPlayer.play();
-        } catch (e) {
-          console.log(e);
-        }
-      }}>
+      onPress={
+        media.type === 'audio'
+          ? onPressAudio
+          : media.type === 'video'
+          ? onPressVideo
+          : undefined
+      }>
       <View
         style={[
           styles.placeMediaPillContainer,
@@ -62,8 +87,8 @@ export default function MediaOfPlacePill({
           </View>
           <View>
             <Image
-              source={place_detail_play_media}
-              style={styles.placeMediaPillPlayIcon}
+              source={mediaTypeIcon}
+              style={styles.placeMediaPillIcon}
               resizeMode="contain"
             />
           </View>
@@ -117,7 +142,7 @@ const styles = StyleSheet.create({
     color: '#3F713B',
     fontFamily: 'Montserrat-Regular',
   },
-  placeMediaPillPlayIcon: {width: 24, height: 24},
+  placeMediaPillIcon: {width: 20, height: 20},
   mediaPillRatingContainer: {
     position: 'absolute',
     top: 0,

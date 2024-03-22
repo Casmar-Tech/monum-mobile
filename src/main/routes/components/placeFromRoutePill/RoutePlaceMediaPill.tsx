@@ -36,7 +36,7 @@ export default function RoutePlaceMediaPill({
             (await TrackPlayer.add(
               mediasOfStop.map(eachMedia => ({
                 id: eachMedia.id,
-                url: eachMedia.audioUrl,
+                url: eachMedia.url,
                 title: eachMedia.title,
                 artist: 'Monum',
                 rating: eachMedia.rating,

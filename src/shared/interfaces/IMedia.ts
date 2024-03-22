@@ -6,6 +6,7 @@ export default interface IMedia {
   position?: number;
   title: string;
   rating: number;
-  audioUrl: string;
+  url: string;
+  type: string;
   place?: IPlace;
 }

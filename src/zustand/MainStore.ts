@@ -4,7 +4,6 @@ import {MapView, Camera} from '@rnmapbox/maps';
 import IPlace from '../shared/interfaces/IPlace';
 import {Language} from '../shared/types/Language';
 import Geolocation from '@react-native-community/geolocation';
-import {Platform} from 'react-native';
 
 export interface IMain {
   isTabBarVisible: boolean;
@@ -17,6 +16,8 @@ export interface IMain {
   currentUserLocation: [number, number] | null;
   hasInitByUrl: boolean;
   watchId: number | null;
+  videoPlayer: boolean;
+  videoUrl: string;
 }
 
 export const defaultMain: IMain = {
@@ -30,6 +31,8 @@ export const defaultMain: IMain = {
   currentUserLocation: null,
   hasInitByUrl: false,
   watchId: null,
+  videoPlayer: false,
+  videoUrl: '',
 };
 
 interface MainState {
@@ -46,6 +49,8 @@ interface MainState {
   setDefaultMain: () => void;
   startWatchingLocation: () => void;
   stopWatchingLocation: () => void;
+  setVideoPlayer: (videoPlayer: boolean) => void;
+  setVideoUrl: (videoUrl: string) => void;
 }
 
 export const useMainStore = create<MainState>(set => ({
@@ -104,5 +109,11 @@ export const useMainStore = create<MainState>(set => ({
       }
       return {main: {...state.main, watchId: null}};
     });
+  },
+  setVideoPlayer: (videoPlayer: boolean) => {
+    set(state => ({main: {...state.main, videoPlayer}}));
+  },
+  setVideoUrl: (videoUrl: string) => {
+    set(state => ({main: {...state.main, videoUrl}}));
   },
 }));

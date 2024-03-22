@@ -30,7 +30,7 @@ import {useMainStore} from '../../../../zustand/MainStore';
 const {height} = Dimensions.get('screen');
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
-const BOTTOM_TAB_HEIGHT = 130;
+const BOTTOM_TAB_HEIGHT = 140;
 const MAX_MARGIN_TOP = 50;
 
 type GestureContext = {

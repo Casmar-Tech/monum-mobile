@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import MediaExpanded from './MediaExpanded';
 import MediaBubble from './MediaBubble';
 import TrackPlayer, {
@@ -9,6 +9,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useMainStore} from '../../../zustand/MainStore';
+import {getPlaybackState} from 'react-native-track-player/lib/trackPlayer';
 
 export default function MediaComponent() {
   const expandedMediaDetail = useTabMapStore(
@@ -34,15 +35,15 @@ export default function MediaComponent() {
 
   useEffect(() => {
     async function getTrack() {
-      const currentTrack = await TrackPlayer.getCurrentTrack();
-      if (currentTrack !== null) {
-        const state = await TrackPlayer.getState();
-        const track = await TrackPlayer.getTrack(currentTrack);
+      const currentTrackIndex = await TrackPlayer.getActiveTrackIndex();
+      if (currentTrackIndex) {
+        const state = (await getPlaybackState()).state;
+        const track = await TrackPlayer.getTrack(currentTrackIndex);
         const {title, rating} = track || {};
         setTrackRating(rating || 0);
         setTrackTitle(title);
         setStatePlayer(state);
-        setCurrentTrack(currentTrack);
+        setCurrentTrack(currentTrackIndex);
       }
     }
     getTrack();

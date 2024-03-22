@@ -1,6 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Orientation from 'react-native-orientation-locker';
 import {NavigationContainer} from '@react-navigation/native';
-import React, {useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {StyleSheet, Image, StatusBar, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -16,6 +17,7 @@ import {Camera, MapView} from '@rnmapbox/maps';
 import {Event, State, useTrackPlayerEvents} from 'react-native-track-player';
 import {useTabMapStore} from '../zustand/TabMapStore';
 import {useMainStore} from '../zustand/MainStore';
+import VideoPlayer from './video/VideoPlayer';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 
@@ -54,6 +56,7 @@ function BottomTabNavigator() {
   const cameraRef = useRef<Camera>(null);
   const setMapRef = useMainStore(state => state.setMapRef);
   const setCameraRef = useMainStore(state => state.setCameraRef);
+  const videoPlayer = useMainStore(state => state.main.videoPlayer);
 
   useEffect(() => {
     setMapRef(mapRef);
@@ -94,6 +97,14 @@ function BottomTabNavigator() {
       />
     );
   };
+
+  useEffect(() => {
+    if (videoPlayer) {
+      Orientation.unlockAllOrientations();
+    } else {
+      Orientation.lockToPortrait();
+    }
+  }, [videoPlayer]);
 
   return (
     <NavigationContainer independent={true}>
@@ -151,11 +162,13 @@ function BottomTabNavigator() {
           {() => <ProfileNavigator />}
         </Tab.Screen>
       </Tab.Navigator>
+
       {placeOfMedia &&
         statePlayer !== State.None &&
         (activeTab === 'Map'
           ? (markerSelected && showPlaceDetailExpanded) || !markerSelected
           : true) && <MediaComponent />}
+      {videoPlayer && <VideoPlayer />}
     </NavigationContainer>
   );
 }
