@@ -56,7 +56,10 @@ export default function VideoPlayer() {
       {(deviceOrientation === 'PORTRAIT' && Platform.OS === 'android') ||
       Platform.OS === 'ios' ? (
         <TouchableOpacity
-          style={styles.closeButton}
+          style={[
+            styles.closeButton,
+            {top: deviceOrientation !== 'PORTRAIT' ? 60 : 120},
+          ]}
           onPress={closeVideoPlayerAction}>
           <Image source={video_player_close} style={{height: 28, width: 20}} />
         </TouchableOpacity>
