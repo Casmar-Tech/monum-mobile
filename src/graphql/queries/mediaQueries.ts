@@ -9,6 +9,7 @@ export const GET_PLACE_MEDIA = gql`
       url
       duration
       type
+      text
     }
   }
 `;

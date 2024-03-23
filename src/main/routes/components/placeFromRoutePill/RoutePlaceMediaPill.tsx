@@ -1,4 +1,4 @@
-import React, {
+import {
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,7 +9,9 @@ import IMedia from '../../../../shared/interfaces/IMedia';
 import IPlace from '../../../../shared/interfaces/IPlace';
 import {Image} from 'react-native';
 import place_detail_media_rating_star from '../../../../assets/images/icons/place_detail_media_rating_star.png';
-import place_detail_play_media from '../../../../assets/images/icons/place_detail_play_media.png';
+import place_detail_audio_media from '../../../../assets/images/icons/place_detail_audio_media.png';
+import place_detail_video_media from '../../../../assets/images/icons/place_detail_video_media.png';
+import place_detail_text_media from '../../../../assets/images/icons/place_detail_text_media.png';
 import TrackPlayer, {RepeatMode} from 'react-native-track-player';
 import {useMainStore} from '../../../../zustand/MainStore';
 
@@ -17,6 +19,7 @@ interface RoutePlaceMediaPillProps {
   mediasOfStop: IMedia[];
   media: IMedia;
   place: IPlace;
+  index: number;
 }
 
 export default function RoutePlaceMediaPill({
@@ -24,30 +27,60 @@ export default function RoutePlaceMediaPill({
   media,
   place,
   style,
+  index,
 }: RoutePlaceMediaPillProps & {style?: ViewStyle}) {
   const setPlaceOfMedia = useMainStore(state => state.setPlaceOfMedia);
+  const setVideoPlayer = useMainStore(state => state.setVideoPlayer);
+  const setVideoUrl = useMainStore(state => state.setVideoUrl);
+  if (!mediasOfStop || !Array.isArray(mediasOfStop)) {
+    return null;
+  }
+  const mediaTypeIcon =
+    media.type === 'audio'
+      ? place_detail_audio_media
+      : media.type === 'video'
+      ? place_detail_video_media
+      : place_detail_text_media;
+
+  const onPressAudio = async () => {
+    try {
+      const audios = mediasOfStop.filter(
+        mediaOfStop => mediaOfStop.type === 'audio',
+      );
+      setPlaceOfMedia(place);
+      await TrackPlayer.reset();
+      await TrackPlayer.add(
+        audios.map(audio => ({
+          id: audio.id,
+          url: audio.url,
+          title: audio.title,
+          artist: 'Monum',
+          rating: audio.rating,
+          text: audio.text,
+        })),
+      );
+      await TrackPlayer.skip(index);
+      await TrackPlayer.setRepeatMode(RepeatMode.Queue);
+      await TrackPlayer.play();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onPressVideo = async () => {
+    await TrackPlayer.pause();
+    setVideoPlayer(true);
+    setVideoUrl(media.url);
+  };
   return (
     <TouchableOpacity
-      onPress={async () => {
-        try {
-          setPlaceOfMedia(place);
-          await TrackPlayer.reset();
-          Array.isArray(mediasOfStop) &&
-            (await TrackPlayer.add(
-              mediasOfStop.map(eachMedia => ({
-                id: eachMedia.id,
-                url: eachMedia.url,
-                title: eachMedia.title,
-                artist: 'Monum',
-                rating: eachMedia.rating,
-              })),
-            ));
-          await TrackPlayer.setRepeatMode(RepeatMode.Queue);
-          await TrackPlayer.play();
-        } catch (e) {
-          console.log(e);
-        }
-      }}
+      onPress={
+        media.type === 'audio'
+          ? onPressAudio
+          : media.type === 'video'
+          ? onPressVideo
+          : undefined
+      }
       style={style}>
       <View style={styles.placeMediaPillContainer}>
         <View style={styles.placeMediaPill}>
@@ -61,7 +94,7 @@ export default function RoutePlaceMediaPill({
           </View>
           <View>
             <Image
-              source={place_detail_play_media}
+              source={mediaTypeIcon}
               style={styles.placeMediaPillPlayIcon}
               resizeMode="contain"
             />

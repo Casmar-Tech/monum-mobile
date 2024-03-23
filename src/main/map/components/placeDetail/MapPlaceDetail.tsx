@@ -110,18 +110,20 @@ export default function MapPlaceDetail() {
           position.value > height - BOTTOM_TOTAL_TAB_HEIGHT / 2 ||
           event.velocityY > 0
         ) {
-          position.value = withTiming(height);
-          runOnJS(setCloseDetail)(true);
-          runOnJS(setTabBarVisible)(true);
+          position.value = withTiming(height, {duration: 300}, () => {
+            runOnJS(setCloseDetail)(true);
+            runOnJS(setTabBarVisible)(true);
+          });
         } else {
           position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT);
         }
       } else {
         if (position.value > height / 2 || event.velocityY > 0) {
-          position.value = withTiming(height);
-          runOnJS(setCloseDetail)(true);
-          runOnJS(setShowPlaceDetailExpanded)(false);
-          runOnJS(setTabBarVisible)(true);
+          position.value = withTiming(height, {duration: 300}, () => {
+            runOnJS(setCloseDetail)(true);
+            runOnJS(setShowPlaceDetailExpanded)(false);
+            runOnJS(setTabBarVisible)(true);
+          });
         } else {
           position.value = withTiming(MAX_MARGIN_TOP);
         }

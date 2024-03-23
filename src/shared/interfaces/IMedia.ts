@@ -5,6 +5,7 @@ export default interface IMedia {
   duration?: number;
   position?: number;
   title: string;
+  text?: string;
   rating: number;
   url: string;
   type: string;

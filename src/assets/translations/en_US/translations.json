@@ -48,6 +48,9 @@
   "placeDetailExpanded": {
     "mediaIntro": "What are you going to learn?"
   },
+  "mediaDetailExpanded": {
+    "introToReadIt": "Do you want to read it?"
+  },
   "profile": {
     "language": "Language",
     "logout": "Logout",

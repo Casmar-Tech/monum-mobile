@@ -237,6 +237,7 @@ const PlaceFromRoutePill = forwardRef<
                   {medias?.map((media: IMedia, i: number) => (
                     <RoutePlaceMediaPill
                       key={i}
+                      index={i}
                       media={media}
                       mediasOfStop={medias}
                       place={place}

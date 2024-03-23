@@ -48,6 +48,9 @@
   "placeDetailExpanded": {
     "mediaIntro": "Qu'allez-vous découvrir ?"
   },
+  "mediaDetailExpanded": {
+    "introToReadIt": "Voulez-vous le lire ?"
+  },
   "profile": {
     "language": "Langue",
     "logout": "Se déconnecter",

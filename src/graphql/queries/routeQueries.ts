@@ -73,6 +73,7 @@ export const GET_ROUTE_DETAIL = gql`
           rating
           url
           type
+          text
           voiceId
           duration
         }

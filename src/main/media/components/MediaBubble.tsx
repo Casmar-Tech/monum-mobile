@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -29,29 +29,22 @@ import {
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
 import {Slider} from '@rneui/themed';
-import TrackPlayer, {State, Progress} from 'react-native-track-player';
+import TrackPlayer, {State, useProgress} from 'react-native-track-player';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useMainStore} from '../../../zustand/MainStore';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
-const width = Dimensions.get('window').width;
+const {width} = Dimensions.get('window');
 
 type GestureContext = {
   startY: number;
   startX: number;
 };
 
-interface MediaBubbleProps {
-  currentTrack: number;
-  trackTitle: string;
-  progress: Progress;
-}
-
-export default function MediaBubble({
-  currentTrack,
-  trackTitle,
-  progress,
-}: MediaBubbleProps) {
+export default function MediaBubble() {
+  const progress = useProgress();
+  const currentTrackIndex = useMainStore(state => state.main.currentTrackIndex);
+  const currentTrack = useMainStore(state => state.main.currentTrack);
   const statePlayer = useMainStore(state => state.main.statePlayer);
   const placeOfMedia = useMainStore(state => state.main.placeOfMedia);
   const setExpandedMediaDetail = useTabMapStore(
@@ -75,11 +68,21 @@ export default function MediaBubble({
     onEnd: event => {
       const diference = position.value - width / 2;
       if (diference > 15 && event.velocityX > 0) {
-        position.value = withTiming(width, {duration: 100});
-        runOnJS(setCloseBubble)(true);
+        position.value = withTiming(
+          width * 2,
+          {duration: width * 2 - position.value},
+          () => {
+            runOnJS(setCloseBubble)(true);
+          },
+        );
       } else if (-diference > 15 && event.velocityX < 0) {
-        position.value = withTiming(0, {duration: 100});
-        runOnJS(setCloseBubble)(true);
+        position.value = withTiming(
+          -width,
+          {duration: position.value + width},
+          () => {
+            runOnJS(setCloseBubble)(true);
+          },
+        );
       } else {
         position.value = withTiming(width / 2);
       }
@@ -108,10 +111,9 @@ export default function MediaBubble({
   }, [closeBubble]);
 
   return (
-    statePlayer !== State.None &&
-    currentTrack !== null &&
+    currentTrackIndex !== null &&
     placeOfMedia &&
-    trackTitle && (
+    currentTrack.title && (
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View
           style={[
@@ -137,7 +139,9 @@ export default function MediaBubble({
               </View>
               <View style={styles.mediaBubbleInfoContainer}>
                 <View style={styles.mediaBubbleTitleContainer}>
-                  <Text style={styles.mediaBubbleTitleText}>{trackTitle}</Text>
+                  <Text style={styles.mediaBubbleTitleText}>
+                    {currentTrack.title}
+                  </Text>
                 </View>
                 <View style={styles.mediaBubbleLocationContainer}>
                   <Image
@@ -155,7 +159,7 @@ export default function MediaBubble({
                   style={styles.mediaBubblePlayerButtonsImageContainer}
                   onPress={async () => {
                     try {
-                      if (currentTrack === 0) {
+                      if (currentTrackIndex === 0) {
                         await TrackPlayer.seekTo(0);
                       } else {
                         await TrackPlayer.skipToPrevious();

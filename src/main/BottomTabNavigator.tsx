@@ -14,7 +14,10 @@ import MediaComponent from './media/components/MediaComponent';
 import RoutesNavigator from './routes/navigator/RoutesNavigator';
 import ProfileNavigator from './profile/navigator/ProfileNavigator';
 import {Camera, MapView} from '@rnmapbox/maps';
-import {Event, State, useTrackPlayerEvents} from 'react-native-track-player';
+import TrackPlayer, {
+  Event,
+  useTrackPlayerEvents,
+} from 'react-native-track-player';
 import {useTabMapStore} from '../zustand/TabMapStore';
 import {useMainStore} from '../zustand/MainStore';
 import VideoPlayer from './video/VideoPlayer';
@@ -46,10 +49,28 @@ function BottomTabNavigator() {
   );
   const activeTab = useMainStore(state => state.main.activeTab);
   const setActiveTab = useMainStore(state => state.setActiveTab);
-  const statePlayer = useMainStore(state => state.main.statePlayer);
   const setStatePlayer = useMainStore(state => state.setStatePlayer);
+  const setCurrentTrack = useMainStore(state => state.setCurrentTrack);
+  const setCurrentTrackIndex = useMainStore(
+    state => state.setCurrentTrackIndex,
+  );
+
   useTrackPlayerEvents([Event.PlaybackState], async event => {
     setStatePlayer(event.state);
+  });
+
+  useTrackPlayerEvents([Event.PlaybackActiveTrackChanged], async event => {
+    if (
+      event.type === Event.PlaybackActiveTrackChanged &&
+      event.track !== null
+    ) {
+      const track = await TrackPlayer.getActiveTrack();
+      const index = await TrackPlayer.getActiveTrackIndex();
+      console.log('track', track.title);
+      console.log('index', index);
+      setCurrentTrack(track);
+      setCurrentTrackIndex(index);
+    }
   });
 
   const mapRef = useRef<MapView>(null);
@@ -164,7 +185,6 @@ function BottomTabNavigator() {
       </Tab.Navigator>
 
       {placeOfMedia &&
-        statePlayer !== State.None &&
         (activeTab === 'Map'
           ? (markerSelected && showPlaceDetailExpanded) || !markerSelected
           : true) && <MediaComponent />}

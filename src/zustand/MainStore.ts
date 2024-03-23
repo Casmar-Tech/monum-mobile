@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import {State} from 'react-native-track-player';
+import {State, Track} from 'react-native-track-player';
 import {MapView, Camera} from '@rnmapbox/maps';
 import IPlace from '../shared/interfaces/IPlace';
 import {Language} from '../shared/types/Language';
@@ -18,6 +18,8 @@ export interface IMain {
   watchId: number | null;
   videoPlayer: boolean;
   videoUrl: string;
+  currentTrack: Track | null;
+  currentTrackIndex: number | null;
 }
 
 export const defaultMain: IMain = {
@@ -33,6 +35,8 @@ export const defaultMain: IMain = {
   watchId: null,
   videoPlayer: false,
   videoUrl: '',
+  currentTrack: null,
+  currentTrackIndex: null,
 };
 
 interface MainState {
@@ -51,6 +55,8 @@ interface MainState {
   stopWatchingLocation: () => void;
   setVideoPlayer: (videoPlayer: boolean) => void;
   setVideoUrl: (videoUrl: string) => void;
+  setCurrentTrack: (currentTrack: Track | null) => void;
+  setCurrentTrackIndex: (currentTrackIndex: number | null) => void;
 }
 
 export const useMainStore = create<MainState>(set => ({
@@ -115,5 +121,11 @@ export const useMainStore = create<MainState>(set => ({
   },
   setVideoUrl: (videoUrl: string) => {
     set(state => ({main: {...state.main, videoUrl}}));
+  },
+  setCurrentTrack: (currentTrack: Track | null) => {
+    set(state => ({main: {...state.main, currentTrack}}));
+  },
+  setCurrentTrackIndex: (currentTrackIndex: number | null) => {
+    set(state => ({main: {...state.main, currentTrackIndex}}));
   },
 }));

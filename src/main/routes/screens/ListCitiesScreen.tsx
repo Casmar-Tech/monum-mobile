@@ -8,7 +8,6 @@ import {GET_CITIES} from '../../../graphql/queries/routeQueries';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 import ErrorComponent from '../../../shared/components/ErrorComponent';
 import ICity from '../../../shared/interfaces/ICity';
-import {useUserStore} from '../../../zustand/UserStore';
 import {ListCitiesScreenProps} from '../navigator/RoutesNavigator';
 import ListCityPill from '../components/ListCityPill';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
@@ -17,7 +16,6 @@ import {useMainStore} from '../../../zustand/MainStore';
 export default function ListCitiesScreen({navigation}: ListCitiesScreenProps) {
   const setCity = useTabRouteStore(state => state.setCity);
   const safeAreaInsets = useSafeAreaInsets();
-  const user = useUserStore(state => state.user);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
   const [cities, setCities] = useState<ICity[]>([]);
   const language = useMainStore(state => state.main.language);

@@ -22,9 +22,14 @@ export type RoutesStackParamList = {
   };
 };
 
+export interface ListCitiesScreenProps {
+  route: RouteProp<RoutesStackParamList, 'ListCities'>;
+  navigation: any;
+}
+
 export interface ListRoutesScreenProps {
   route: RouteProp<RoutesStackParamList, 'ListRoutes'>;
-  navigation: any; // Puedes tipificar esto más precisamente si lo deseas
+  navigation: any;
 }
 
 export interface RouteDetailScreenProps {

@@ -37,15 +37,19 @@ export default function MediaOfPlacePill({
 
   const onPressAudio = async () => {
     try {
+      const audios = mediasOfPlace.filter(
+        mediaOfPlace => mediaOfPlace.type === 'audio',
+      );
       setPlaceOfMedia(place);
       await TrackPlayer.reset();
       await TrackPlayer.add(
-        mediasOfPlace.map(mediaOfPlace => ({
-          id: mediaOfPlace.id,
-          url: mediaOfPlace.url,
-          title: mediaOfPlace.title,
+        audios.map(audio => ({
+          id: audio.id,
+          url: audio.url,
+          title: audio.title,
           artist: 'Monum',
-          rating: mediaOfPlace.rating,
+          rating: audio.rating,
+          text: audio.text,
         })),
       );
       await TrackPlayer.skip(index);
