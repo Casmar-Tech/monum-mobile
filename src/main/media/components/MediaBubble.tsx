@@ -111,9 +111,8 @@ export default function MediaBubble() {
   }, [closeBubble]);
 
   return (
-    currentTrackIndex !== null &&
     placeOfMedia &&
-    currentTrack.title && (
+    currentTrack?.title && (
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View
           style={[
@@ -140,7 +139,7 @@ export default function MediaBubble() {
               <View style={styles.mediaBubbleInfoContainer}>
                 <View style={styles.mediaBubbleTitleContainer}>
                   <Text style={styles.mediaBubbleTitleText}>
-                    {currentTrack.title}
+                    {currentTrack?.title}
                   </Text>
                 </View>
                 <View style={styles.mediaBubbleLocationContainer}>

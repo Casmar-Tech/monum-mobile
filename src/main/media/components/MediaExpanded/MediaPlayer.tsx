@@ -17,7 +17,7 @@ export default function MediaPlayer() {
   return (
     <View style={{height: 150, width: '100%'}}>
       <View style={styles.basicInfoContainer}>
-        <Text style={[styles.mediaTitle]}>{currentTrack.title}</Text>
+        <Text style={[styles.mediaTitle]}>{currentTrack?.title}</Text>
         <Text style={styles.placeName}>{placeOfMedia?.name}</Text>
       </View>
       <View style={styles.mediaPlayerContainer}>

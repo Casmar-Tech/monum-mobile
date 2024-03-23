@@ -10,8 +10,7 @@ export default function MediaComponent() {
   const currentTrack = useMainStore(state => state.main.currentTrack);
 
   return (
-    currentTrack !== null &&
-    currentTrack.title &&
+    currentTrack?.title &&
     (expandedMediaDetail ? <MediaExpanded /> : <MediaBubble />)
   );
 }

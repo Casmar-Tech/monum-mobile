@@ -66,8 +66,6 @@ function BottomTabNavigator() {
     ) {
       const track = await TrackPlayer.getActiveTrack();
       const index = await TrackPlayer.getActiveTrackIndex();
-      console.log('track', track.title);
-      console.log('index', index);
       setCurrentTrack(track);
       setCurrentTrackIndex(index);
     }
