@@ -33,6 +33,7 @@ import {Slider} from '@rneui/themed';
 import TrackPlayer, {State, useProgress} from 'react-native-track-player';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useMainStore} from '../../../zustand/MainStore';
+import CarouselText from '../../CarouselText';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 const {width} = Dimensions.get('window');
@@ -53,6 +54,7 @@ export default function MediaBubble() {
   );
   const bottomSafeAreaInsets = useSafeAreaInsets().bottom;
   const [closeBubble, setCloseBubble] = useState(false);
+  const [maxTextWidth, setMaxTextWidth] = useState(0);
 
   const position = useSharedValue(width / 2);
   const panGestureEvent = useAnimatedGestureHandler<
@@ -137,12 +139,13 @@ export default function MediaBubble() {
                   resizeMode="cover"
                 />
               </View>
-              <View style={styles.mediaBubbleInfoContainer}>
-                <View style={styles.mediaBubbleTitleContainer}>
-                  <Text style={styles.mediaBubbleTitleText}>
-                    {currentTrack?.title}
-                  </Text>
-                </View>
+              <View
+                style={styles.mediaBubbleInfoContainer}
+                onLayout={e => {
+                  const {width: newWidth} = e.nativeEvent.layout;
+                  setMaxTextWidth(newWidth);
+                }}>
+                <CarouselText text={currentTrack?.title} />
                 <View style={styles.mediaBubbleLocationContainer}>
                   <Image
                     source={media_bubble_location}
@@ -171,7 +174,6 @@ export default function MediaBubble() {
                       const previousTrack = await TrackPlayer.getTrack(
                         previousTrackIndex,
                       );
-                      console.log(previousTrack.title);
                       previousTrack.mediaType === 'text'
                         ? await TrackPlayer.pause()
                         : await TrackPlayer.play();
@@ -214,7 +216,6 @@ export default function MediaBubble() {
                       const nextTrack = await TrackPlayer.getTrack(
                         currentTrackIndex + 1,
                       );
-                      console.log(nextTrack.title);
                       nextTrack.mediaType === 'text'
                         ? await TrackPlayer.pause()
                         : await TrackPlayer.play();
@@ -300,11 +301,6 @@ const styles = StyleSheet.create({
     height: 17,
     marginBottom: 5,
   },
-  mediaBubbleTitleText: {
-    color: '#032000',
-    fontSize: 14,
-    fontFamily: 'Montserrat-Regular',
-  },
   mediaBubbleLocationContainer: {
     width: '100%',
     height: 17,
@@ -312,6 +308,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 12,
     fontFamily: 'Montserrat-Regular',
+    marginTop: 5,
   },
   mediaBubbleLocationImage: {width: 15, height: 15, marginHorizontal: 3},
   mediaBubbleLocationText: {color: '#3F713B', fontSize: 14},

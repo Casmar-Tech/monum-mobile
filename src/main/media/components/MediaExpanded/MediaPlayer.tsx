@@ -53,7 +53,6 @@ export default function MediaPlayer() {
                 const previousTrack = await TrackPlayer.getTrack(
                   previousTrackIndex,
                 );
-                console.log(previousTrack.title);
                 previousTrack.mediaType === 'text'
                   ? await TrackPlayer.pause()
                   : await TrackPlayer.play();
@@ -98,7 +97,6 @@ export default function MediaPlayer() {
                 const nextTrack = await TrackPlayer.getTrack(
                   currentTrackIndex + 1,
                 );
-                console.log(nextTrack.title);
                 nextTrack.mediaType === 'text'
                   ? await TrackPlayer.pause()
                   : await TrackPlayer.play();
