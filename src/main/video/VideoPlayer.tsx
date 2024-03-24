@@ -52,6 +52,7 @@ export default function VideoPlayer() {
         resizeMode="contain"
         style={{width: '100%', height: '100%'}}
         controls={true}
+        ignoreSilentSwitch="ignore"
       />
       {(deviceOrientation === 'PORTRAIT' && Platform.OS === 'android') ||
       Platform.OS === 'ios' ? (

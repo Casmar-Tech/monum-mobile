@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {useEffect, useState} from 'react';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 import IUser from '../../../shared/interfaces/IUser';
 import {useMutation, useQuery} from '@apollo/client';
 import {
@@ -25,7 +25,7 @@ import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 import GoogleAuthService from '../../../auth/services/GoogleAuthService';
 
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
+const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 
 type Props = {
   navigation: any;

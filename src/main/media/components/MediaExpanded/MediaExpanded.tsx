@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -32,9 +39,7 @@ export function secondsToMinutes(seconds: number) {
 }
 
 const {height} = Dimensions.get('window');
-
 const extensionHeight = height * 0.65 + 160;
-
 type GestureContext = {
   startY: number;
 };
@@ -106,6 +111,16 @@ export default function MediaExpanded() {
   const width = Dimensions.get('window').width;
   const imagesUrl = placeOfMedia?.imagesUrl || [];
 
+  const closeMediaDetail = () => {
+    position.value = withTiming(
+      height,
+      {
+        duration: 300,
+      },
+      () => runOnJS(setExpandedMediaDetail)(false),
+    );
+  };
+
   return (
     <View style={styles.container}>
       <PanGestureHandler onGestureEvent={panGestureEvent}>
@@ -154,7 +169,7 @@ export default function MediaExpanded() {
                 })}
               </View>
             )}
-            <View style={styles.arrowContainer}>
+            <Pressable style={styles.arrowContainer} onPress={closeMediaDetail}>
               <LinearGradient
                 start={{x: 0, y: 0}}
                 end={{x: 0, y: 1}}
@@ -166,7 +181,7 @@ export default function MediaExpanded() {
                 style={[styles.arrowIcon, {top: 10 + topSafeAreaInsets}]}
                 resizeMode="contain"
               />
-            </View>
+            </Pressable>
             <View style={styles.mediaPillRatingContainer}>
               <Text style={styles.mediaPillRating}>
                 {`${currentTrack.rating.toFixed(1)}`}

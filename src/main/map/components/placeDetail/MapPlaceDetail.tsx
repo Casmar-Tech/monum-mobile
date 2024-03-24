@@ -30,7 +30,7 @@ import {useMainStore} from '../../../../zustand/MainStore';
 const {height} = Dimensions.get('screen');
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
-const BOTTOM_TAB_HEIGHT = 140;
+const BOTTOM_TAB_HEIGHT = 130;
 const MAX_MARGIN_TOP = 50;
 
 type GestureContext = {
@@ -175,6 +175,14 @@ export default function MapPlaceDetail() {
     }
   }, [showPlaceDetailExpanded, place]);
 
+  const closePlaceDetail = () => {
+    position.value = withTiming(height, {duration: 300}, () => {
+      runOnJS(setCloseDetail)(true);
+      runOnJS(setShowPlaceDetailExpanded)(false);
+      runOnJS(setTabBarVisible)(true);
+    });
+  };
+
   return markerSelected ? (
     <View
       style={[
@@ -188,7 +196,10 @@ export default function MapPlaceDetail() {
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View style={[styles.animatedContainer, animatedStyle]}>
           {showPlaceDetailExpanded && place && Array.isArray(mediasOfPlace) ? (
-            <MapPlaceDetailExpanded importanceIcon={importanceIcon()} />
+            <MapPlaceDetailExpanded
+              importanceIcon={importanceIcon()}
+              closePlaceDetail={closePlaceDetail}
+            />
           ) : (
             <MapPlaceDetailReduced importanceIcon={importanceIcon()} />
           )}

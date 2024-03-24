@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -33,7 +34,7 @@ import TrackPlayer, {State, useProgress} from 'react-native-track-player';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useMainStore} from '../../../zustand/MainStore';
 
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = 56;
+const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 const {width} = Dimensions.get('window');
 
 type GestureContext = {
@@ -119,7 +120,7 @@ export default function MediaBubble() {
             styles.animatedContainer,
             animatedStyle,
             {
-              bottom: bottomSafeAreaInsets + BOTTOM_TAB_NAVIGATOR_HEIGHT + 20,
+              bottom: bottomSafeAreaInsets + BOTTOM_TAB_NAVIGATOR_HEIGHT + 5,
             },
           ]}>
           <TouchableWithoutFeedback
@@ -163,7 +164,17 @@ export default function MediaBubble() {
                       } else {
                         await TrackPlayer.skipToPrevious();
                       }
-                      await TrackPlayer.play();
+                      const previousTrackIndex = Math.max(
+                        0,
+                        currentTrackIndex - 1,
+                      );
+                      const previousTrack = await TrackPlayer.getTrack(
+                        previousTrackIndex,
+                      );
+                      console.log(previousTrack.title);
+                      previousTrack.mediaType === 'text'
+                        ? await TrackPlayer.pause()
+                        : await TrackPlayer.play();
                     } catch (e) {
                       console.log(e);
                     }
@@ -174,29 +185,39 @@ export default function MediaBubble() {
                     resizeMode="contain"
                   />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.mediaBubblePlayerButtonsImageContainer}
-                  onPress={async () =>
-                    statePlayer === State.Paused
-                      ? await TrackPlayer.play()
-                      : await TrackPlayer.pause()
-                  }>
-                  <Image
-                    source={
+                {currentTrack.mediaType !== 'text' ? (
+                  <TouchableOpacity
+                    style={styles.mediaBubblePlayerButtonsImageContainer}
+                    onPress={async () => {
                       statePlayer === State.Paused
-                        ? media_bubble_play
-                        : media_bubble_pause
-                    }
-                    style={styles.mediaBubblePlayerButtonsImagePlay}
-                    resizeMode="contain"
-                  />
-                </TouchableOpacity>
+                        ? await TrackPlayer.play()
+                        : await TrackPlayer.pause();
+                    }}>
+                    <Image
+                      source={
+                        statePlayer === State.Paused
+                          ? media_bubble_play
+                          : media_bubble_pause
+                      }
+                      style={styles.mediaBubblePlayerButtonsImagePlay}
+                      resizeMode="contain"
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <View style={{width: 14, height: 14, flex: 1}} />
+                )}
                 <TouchableOpacity
                   style={styles.mediaBubblePlayerButtonsImageContainer}
                   onPress={async () => {
                     try {
                       await TrackPlayer.skipToNext();
-                      await TrackPlayer.play();
+                      const nextTrack = await TrackPlayer.getTrack(
+                        currentTrackIndex + 1,
+                      );
+                      console.log(nextTrack.title);
+                      nextTrack.mediaType === 'text'
+                        ? await TrackPlayer.pause()
+                        : await TrackPlayer.play();
                     } catch (e) {
                       console.log(e);
                     }
@@ -208,6 +229,7 @@ export default function MediaBubble() {
                   />
                 </TouchableOpacity>
               </View>
+
               <View
                 style={[
                   styles.mediaBubbleSliderContainer,

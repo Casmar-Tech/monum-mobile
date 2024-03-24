@@ -1,9 +1,9 @@
 import {t} from 'i18next';
-import React from 'react';
 import {
   Dimensions,
   Image,
   ImageSourcePropType,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -26,10 +26,12 @@ const BORDER_RADIUS = 24;
 
 interface MapPlaceDetailExpandedProps {
   importanceIcon: ImageSourcePropType;
+  closePlaceDetail: () => void;
 }
 
 export default function MapPlaceDetailExpanded({
   importanceIcon,
+  closePlaceDetail,
 }: MapPlaceDetailExpandedProps) {
   const place = useTabMapStore(state => state.tabMap.place);
   const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
@@ -89,7 +91,7 @@ export default function MapPlaceDetailExpanded({
           })}
         </View>
       )}
-      <View style={styles.arrowContainer}>
+      <Pressable style={styles.arrowContainer} onPress={closePlaceDetail}>
         <LinearGradient
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1}}
@@ -101,7 +103,7 @@ export default function MapPlaceDetailExpanded({
           style={styles.arrowIcon}
           resizeMode="contain"
         />
-      </View>
+      </Pressable>
       <View style={styles.infoContainer}>
         <View style={styles.basicInfoConatiner}>
           <View style={{maxWidth: '70%'}}>

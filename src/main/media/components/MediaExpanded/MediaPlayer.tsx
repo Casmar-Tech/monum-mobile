@@ -49,7 +49,14 @@ export default function MediaPlayer() {
                 } else {
                   await TrackPlayer.skipToPrevious();
                 }
-                await TrackPlayer.play();
+                const previousTrackIndex = Math.max(0, currentTrackIndex - 1);
+                const previousTrack = await TrackPlayer.getTrack(
+                  previousTrackIndex,
+                );
+                console.log(previousTrack.title);
+                previousTrack.mediaType === 'text'
+                  ? await TrackPlayer.pause()
+                  : await TrackPlayer.play();
               } catch (e) {
                 console.log(e);
               }
@@ -60,29 +67,41 @@ export default function MediaPlayer() {
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.mediaPlayerButtons}
-            onPress={async () =>
-              statePlayer === State.Paused
-                ? await TrackPlayer.play()
-                : await TrackPlayer.pause()
-            }>
-            <Image
-              source={
-                statePlayer === State.Paused
-                  ? media_expanded_play
-                  : media_expanded_pause
-              }
-              style={styles.mediaPlayerButtonsPlayImage}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+          {currentTrack.mediaType !== 'text' ? (
+            <TouchableOpacity
+              style={styles.mediaPlayerButtons}
+              onPress={async () => {
+                if (currentTrack.mediaType !== 'text') {
+                  statePlayer === State.Paused
+                    ? await TrackPlayer.play()
+                    : await TrackPlayer.pause();
+                }
+              }}>
+              <Image
+                source={
+                  statePlayer === State.Paused
+                    ? media_expanded_play
+                    : media_expanded_pause
+                }
+                style={styles.mediaPlayerButtonsPlayImage}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          ) : (
+            <View style={{width: 30, height: 30, flex: 1}} />
+          )}
           <TouchableOpacity
             style={styles.mediaPlayerButtons}
             onPress={async () => {
               try {
                 await TrackPlayer.skipToNext();
-                await TrackPlayer.play();
+                const nextTrack = await TrackPlayer.getTrack(
+                  currentTrackIndex + 1,
+                );
+                console.log(nextTrack.title);
+                nextTrack.mediaType === 'text'
+                  ? await TrackPlayer.pause()
+                  : await TrackPlayer.play();
               } catch (e) {
                 console.log(e);
               }

@@ -35,26 +35,28 @@ export default function MediaOfPlacePill({
       ? place_detail_video_media
       : place_detail_text_media;
 
-  const onPressAudio = async () => {
+  const onPressAudioAndText = async () => {
     try {
       const audios = mediasOfPlace.filter(
-        mediaOfPlace => mediaOfPlace.type === 'audio',
+        mediaOfPlace =>
+          mediaOfPlace.type === 'audio' || mediaOfPlace.type === 'text',
       );
       setPlaceOfMedia(place);
       await TrackPlayer.reset();
       await TrackPlayer.add(
         audios.map(audio => ({
           id: audio.id,
-          url: audio.url,
+          url: audio.url || '',
           title: audio.title,
           artist: 'Monum',
           rating: audio.rating,
           text: audio.text,
+          mediaType: audio.type,
         })),
       );
       await TrackPlayer.skip(index);
       await TrackPlayer.setRepeatMode(RepeatMode.Queue);
-      await TrackPlayer.play();
+      mediasOfPlace[index].type !== 'text' && (await TrackPlayer.play());
     } catch (e) {
       console.log(e);
     }
@@ -68,13 +70,7 @@ export default function MediaOfPlacePill({
 
   return (
     <TouchableOpacity
-      onPress={
-        media.type === 'audio'
-          ? onPressAudio
-          : media.type === 'video'
-          ? onPressVideo
-          : undefined
-      }>
+      onPress={media.type === 'video' ? onPressVideo : onPressAudioAndText}>
       <View
         style={[
           styles.placeMediaPillContainer,

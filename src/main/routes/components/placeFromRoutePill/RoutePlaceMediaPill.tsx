@@ -45,7 +45,8 @@ export default function RoutePlaceMediaPill({
   const onPressAudio = async () => {
     try {
       const audios = mediasOfStop.filter(
-        mediaOfStop => mediaOfStop.type === 'audio',
+        mediaOfStop =>
+          mediaOfStop.type === 'audio' || mediaOfStop.type === 'text',
       );
       setPlaceOfMedia(place);
       await TrackPlayer.reset();
@@ -57,11 +58,12 @@ export default function RoutePlaceMediaPill({
           artist: 'Monum',
           rating: audio.rating,
           text: audio.text,
+          mediaType: audio.type,
         })),
       );
       await TrackPlayer.skip(index);
       await TrackPlayer.setRepeatMode(RepeatMode.Queue);
-      await TrackPlayer.play();
+      mediasOfStop[index].type !== 'text' && (await TrackPlayer.play());
     } catch (e) {
       console.log(e);
     }
