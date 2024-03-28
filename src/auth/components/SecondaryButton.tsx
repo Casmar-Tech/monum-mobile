@@ -13,17 +13,19 @@ interface SecondaryButtonProps {
   imageSource?: ImageSourcePropType;
   text: string;
   onPress: (event: GestureResponderEvent) => void;
+  style?: object;
 }
 
 export default function SecondaryButton({
   imageSource,
   text,
   onPress,
+  style,
 }: SecondaryButtonProps) {
   return (
     <TouchableOpacity
       activeOpacity={0.2}
-      style={styles.secondaryButton}
+      style={[styles.secondaryButton, style]}
       onPress={onPress}>
       {imageSource && (
         <Image

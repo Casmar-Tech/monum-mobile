@@ -1,7 +1,7 @@
 // import axios from 'axios';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {changeLanguage, t} from 'i18next';
-import React, {useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -21,7 +21,6 @@ import {styles} from '../styles/LoginStyles';
 import AuthServices from '../services/AuthServices';
 import {useUserStore} from '../../zustand/UserStore';
 import ErrorComponent from '../components/ErrorComponent';
-import {useMainStore} from '../../zustand/MainStore';
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Login'
@@ -34,7 +33,6 @@ type Props = {
 export default function LoginScreen({navigation}: Props) {
   const setAuthToken = useUserStore(state => state.setAuthToken);
   const setUser = useUserStore(state => state.setUser);
-  const setLanguage = useMainStore(state => state.setLanguage);
   const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -156,9 +154,8 @@ export default function LoginScreen({navigation}: Props) {
                     password,
                   );
                   if (user) {
-                    setAuthToken(user.token || '');
+                    await setAuthToken(user.token || '');
                     setUser(user);
-                    setLanguage(user.language || 'en_US');
                     setIsAuthenticated(true);
                     await changeLanguage(user.language || 'en_US');
                   }

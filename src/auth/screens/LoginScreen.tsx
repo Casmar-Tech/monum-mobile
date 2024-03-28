@@ -13,7 +13,7 @@ import {RootStackParamList} from '../navigator/AuthNavigator';
 import GoogleAuthService from '../services/GoogleAuthService';
 import {styles} from '../styles/LoginStyles';
 import {useUserStore} from '../../zustand/UserStore';
-import {useMainStore} from '../../zustand/MainStore';
+import AuthServices from '../services/AuthServices';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -27,7 +27,6 @@ type Props = {
 export default function LoginScreen({navigation}: Props) {
   const setAuthToken = useUserStore(state => state.setAuthToken);
   const setUser = useUserStore(state => state.setUser);
-  const setLanguage = useMainStore(state => state.setLanguage);
   const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
   return (
     <View style={styles.backgroundContainer}>
@@ -46,11 +45,10 @@ export default function LoginScreen({navigation}: Props) {
                 if (user) {
                   await setAuthToken(user.token || '');
                   setUser(user);
-                  setLanguage(user.language || 'en_US');
                   setIsAuthenticated(true);
                   await changeLanguage(user.language || 'en_US');
                 } else {
-                  console.log('ERROR WHEN LOGGING IN WITH GOOGLE');
+                  console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
                 }
               }}
             />
@@ -60,6 +58,22 @@ export default function LoginScreen({navigation}: Props) {
               onPress={() => {
                 navigation.navigate('LoginWithCredentials');
               }}
+            />
+            <SecondaryButton
+              text={t('authScreens.loginAsGuest')}
+              onPress={async () => {
+                const user = await AuthServices.loginAsGuest();
+                console.log('user', user);
+                if (user) {
+                  await setAuthToken(user.token || '');
+                  setUser(user);
+                  setIsAuthenticated(true);
+                  await changeLanguage(user.language || 'en_US');
+                } else {
+                  console.error('ERROR WHEN LOGGING AS GUEST');
+                }
+              }}
+              style={{marginTop: 30}}
             />
           </View>
           <View style={styles.bottomContainer}>

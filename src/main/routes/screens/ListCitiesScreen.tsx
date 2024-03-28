@@ -11,14 +11,14 @@ import ICity from '../../../shared/interfaces/ICity';
 import {ListCitiesScreenProps} from '../navigator/RoutesNavigator';
 import ListCityPill from '../components/ListCityPill';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
-import {useMainStore} from '../../../zustand/MainStore';
+import {useUserStore} from '../../../zustand/UserStore';
 
 export default function ListCitiesScreen({navigation}: ListCitiesScreenProps) {
   const setCity = useTabRouteStore(state => state.setCity);
   const safeAreaInsets = useSafeAreaInsets();
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
   const [cities, setCities] = useState<ICity[]>([]);
-  const language = useMainStore(state => state.main.language);
+  const language = useUserStore(state => state.user.language);
 
   const {loading, error, data, refetch} = useQuery(GET_CITIES, {
     variables: {textSearch: textSearch || '', language},

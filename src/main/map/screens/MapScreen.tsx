@@ -13,6 +13,7 @@ import CurrentPositionMarker from '../components/CurrentPositionMarker';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useMainStore} from '../../../zustand/MainStore';
 import Geolocation from '@react-native-community/geolocation';
+import {useUserStore} from '../../../zustand/UserStore';
 setAccessToken(
   'pk.eyJ1IjoieHBsb3JlYXIiLCJhIjoiY2xqMmU0Z3NyMGFxeTNwbzByNW90dmdxcSJ9.cMT52Rc64Z05YUGPIutXFw',
 );
@@ -21,7 +22,7 @@ export default function MapScreen() {
   const mapRef = useMainStore(state => state.main.mapRef);
   const cameraRef = useMainStore(state => state.main.cameraRef);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
-  const language = useMainStore(state => state.main.language);
+  const language = useUserStore(state => state.user.language);
   const currentUserLocation = useMainStore(
     state => state.main.currentUserLocation,
   );

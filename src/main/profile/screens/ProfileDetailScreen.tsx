@@ -41,8 +41,8 @@ export default function ProfileScreen({navigation}: Props) {
     permission =>
       permission.action.includes('update') && permission.entity === 'user',
   );
-  const applicationLanguage = useMainStore(state => state.main.language);
-  const setApplicationLanguage = useMainStore(state => state.setLanguage);
+  const applicationLanguage = useUserStore(state => state.user.language);
+  const setLanguage = useUserStore(state => state.setLanguage);
   const removeAuthToken = useUserStore(state => state.removeAuthToken);
   const updatePhoto = useUserStore(state => state.updatePhoto);
   const updateUsername = useUserStore(state => state.updateUsername);
@@ -116,10 +116,18 @@ export default function ProfileScreen({navigation}: Props) {
             },
           },
         });
-        updateUsername(provisionalUser.username);
+        provisionalUser.username && updateUsername(provisionalUser.username);
       }
 
-      setApplicationLanguage(provisionalLanguage);
+      await updateUser({
+        variables: {
+          updateUserInput: {
+            id: provisionalUser.id,
+            language: provisionalLanguage,
+          },
+        },
+      });
+      setLanguage(provisionalLanguage);
       await changeLanguage(provisionalLanguage);
 
       await client.resetStore();
@@ -181,20 +189,19 @@ export default function ProfileScreen({navigation}: Props) {
         />
       </View>
       <View style={styles.inputsContainer}>
-        <NameInput
-          labelText={labelText('username')}
-          value={provisionalUser.username}
-          setValue={(newUsername: string) => {
-            setProvisionalUser(prevUser => ({
-              ...prevUser,
-              username: newUsername,
-            }));
-          }}
-        />
-        <LanguageSelector
-          language={applicationLanguage}
-          setProvisionalLanguage={setProvisionalLanguage}
-        />
+        {provisionalUser.username && (
+          <NameInput
+            labelText={labelText('username')}
+            value={provisionalUser.username}
+            setValue={(newUsername: string) => {
+              setProvisionalUser(prevUser => ({
+                ...prevUser,
+                username: newUsername,
+              }));
+            }}
+          />
+        )}
+        <LanguageSelector setProvisionalLanguage={setProvisionalLanguage} />
       </View>
       <View style={styles.updateButtonContainer}>
         {user.hasPassword && hasPermissionToUpdateUser && (
@@ -208,16 +215,18 @@ export default function ProfileScreen({navigation}: Props) {
         )}
         <PrimaryButton text={t('profile.update')} onPress={handleUpdatePress} />
 
-        <Text style={styles.textCreatedAt}>{`${t(
-          'profile.createdAt',
-        )} ${new Date(provisionalUser.createdAt).toLocaleDateString(
-          applicationLanguage.replace('_', '-') || 'en-US',
-          {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          },
-        )}`}</Text>
+        {user.username && user.email && (
+          <Text style={styles.textCreatedAt}>{`${t(
+            'profile.createdAt',
+          )} ${new Date(provisionalUser.createdAt).toLocaleDateString(
+            applicationLanguage.replace('_', '-') || 'en-US',
+            {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            },
+          )}`}</Text>
+        )}
       </View>
       <View
         style={[
@@ -227,15 +236,19 @@ export default function ProfileScreen({navigation}: Props) {
           },
         ]}>
         <SecondaryButton
-          text={t('profile.logout')}
+          text={
+            user.username && user.email
+              ? t('profile.logout')
+              : t('profile.createMyAccount')
+          }
           onPress={async () => {
             (await GoogleSignin.isSignedIn()) && (await GoogleSignin.signOut());
             await GoogleAuthService.configureGoogleSignIn();
-            await setDefaultUser();
+            await removeAuthToken();
+            setDefaultUser();
             setDefaultMain();
             setDefaultTabMap();
             setDefaultTabRoute();
-            removeAuthToken();
           }}
         />
       </View>

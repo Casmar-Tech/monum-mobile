@@ -43,7 +43,8 @@
     "newPasswordText": "Introdueix la teva nova contrasenya i confirma-la per a restablir-la",
     "passwordChangedTitle": "Contrasenya actualitzada!",
     "passwordChangedMessage": "La teva contrasenya ha estat actualitzada correctament. Ara pots accedir amb la teva nova contrasenya.",
-    "passwordChangedButton": "Accedir"
+    "passwordChangedButton": "Accedir",
+    "loginAsGuest": "Continuar com a convidat"
   },
   "placeDetailExpanded": {
     "mediaIntro": "Què coneixeràs?"
@@ -62,7 +63,8 @@
     "introChangePassword": "Emplena els camps per a configurar la teva nova contrasenya",
     "currentPassword": "Contrasenya actual",
     "newPassword": "Nova contrasenya",
-    "confirmNewPassword": "Confirmar nova contrasenya"
+    "confirmNewPassword": "Confirmar nova contrasenya",
+    "createMyAccount": "Crear el meu compte"
   },
   "languages": {
     "en_US": "Anglès",

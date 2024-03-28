@@ -2,7 +2,6 @@ import {create} from 'zustand';
 import {State, Track} from 'react-native-track-player';
 import {MapView, Camera} from '@rnmapbox/maps';
 import IPlace from '../shared/interfaces/IPlace';
-import {Language} from '../shared/types/Language';
 import Geolocation from '@react-native-community/geolocation';
 
 export interface IMain {
@@ -12,7 +11,6 @@ export interface IMain {
   mapRef: React.RefObject<MapView> | null;
   cameraRef: React.RefObject<Camera> | null;
   placeOfMedia: IPlace | null;
-  language: Language;
   currentUserLocation: [number, number] | null;
   hasInitByUrl: boolean;
   watchId: number | null;
@@ -29,7 +27,6 @@ export const defaultMain: IMain = {
   mapRef: null,
   cameraRef: null,
   placeOfMedia: null,
-  language: 'en_US',
   currentUserLocation: null,
   hasInitByUrl: false,
   watchId: null,
@@ -47,7 +44,6 @@ interface MainState {
   setMapRef: (mapRef: React.RefObject<MapView> | null) => void;
   setCameraRef: (cameraRef: React.RefObject<Camera> | null) => void;
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => void;
-  setLanguage: (language: Language) => void;
   setCurrentUserLocation: (currentUserLocation: [number, number]) => void;
   setHasInitByUrl: (hasInitByUrl: boolean) => void;
   setDefaultMain: () => void;
@@ -78,9 +74,6 @@ export const useMainStore = create<MainState>(set => ({
   },
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => {
     set(state => ({main: {...state.main, placeOfMedia}}));
-  },
-  setLanguage: (language: Language) => {
-    set(state => ({main: {...state.main, language}}));
   },
   setCurrentUserLocation: (currentUserLocation: [number, number]) => {
     set(state => ({main: {...state.main, currentUserLocation}}));

@@ -26,6 +26,7 @@ import MapPlaceDetailReduced from './MapPlaceDetailReduced';
 import MapServices from '../../services/MapServices';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
 import {useMainStore} from '../../../../zustand/MainStore';
+import {useUserStore} from '../../../../zustand/UserStore';
 
 const {height} = Dimensions.get('screen');
 
@@ -52,7 +53,7 @@ export default function MapPlaceDetail() {
   const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
 
   const setTabBarVisible = useMainStore(state => state.setTabBarVisible);
-  const language = useMainStore(state => state.main.language);
+  const language = useUserStore(state => state.user.language);
 
   const BOTTOM_TOTAL_TAB_HEIGHT =
     useSafeAreaInsets().bottom +

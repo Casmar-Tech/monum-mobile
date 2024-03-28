@@ -1,11 +1,11 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useUserStore} from '../../../zustand/UserStore';
+import default_user_avatar from '../../../assets/images/icons/default_user_avatar.png';
 
 interface ProfilePhotoComponentProps {
   url: string | undefined;
-  username: string;
+  username?: string;
   setNewPhoto: (photoBase64: string) => void;
 }
 export default function ProfilePhotoComponent({
@@ -40,10 +40,12 @@ export default function ProfilePhotoComponent({
       <View style={styles.container}>
         {url ? (
           <Image source={{uri: url}} style={styles.profilePhoto} />
-        ) : (
+        ) : username ? (
           <Text style={styles.profileInitialPhotoSubstitute}>
-            {username.slice(0, 1).toUpperCase()}
+            {username?.slice(0, 1).toUpperCase()}
           </Text>
+        ) : (
+          <Image source={default_user_avatar} style={styles.profilePhoto} />
         )}
         {hasPermissionToUpdateUser && (
           <View style={styles.addButtonContainer}>

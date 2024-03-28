@@ -81,13 +81,43 @@ export const LOGIN_GOOGLE_USER = gql`
   }
 `;
 
+export const LOGIN_USER_AS_GUEST = gql`
+  mutation LoginUserAsGuest($deviceId: String!, $language: String!) {
+    loginUserAsGuest(deviceId: $deviceId, language: $language) {
+      id
+      email
+      username
+      createdAt
+      googleId
+      token
+      language
+      name
+      photo
+      hasPassword
+      roleId
+      organizationId
+      permissions {
+        id
+        name
+        description
+        action
+        entity
+        max
+        min
+        createdAt
+        updatedAt
+      }
+      deviceId
+    }
+  }
+`;
+
 export const GET_USER_BY_ID = gql`
   query User {
     user {
       id
       email
       username
-      isTemporalPassword
       createdAt
       googleId
       token
@@ -141,37 +171,5 @@ export const UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD = gql`
     updatePasswordWithoutOld(
       updatePasswordWithoutOldInput: $updatePasswordWithoutOldInput
     )
-  }
-`;
-
-export const GET_ORGANIZATION_ID_OF_PLACE = gql`
-  query Query($placeId: ID!) {
-    getOrganizationIdOfAPlace(placeId: $placeId)
-  }
-`;
-
-export const GET_TOURIST_USER_OF_ORGANIZATION = gql`
-  query GetTouristUserOfOrganization($organizationId: String) {
-    getTouristUserOfOrganization(organizationId: $organizationId) {
-      id
-      email
-      username
-      isTemporalPassword
-      createdAt
-      googleId
-      token
-      name
-      language
-      photo
-      hasPassword
-      roleId
-      organizationId
-      permissions {
-        action
-        entity
-        max
-        min
-      }
-    }
   }
 `;

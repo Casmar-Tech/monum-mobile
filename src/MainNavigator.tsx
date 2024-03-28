@@ -8,7 +8,6 @@ import BottomTabNavigator from './main/BottomTabNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import {setupPlayerService} from './track-player/service';
 import {useUserStore} from './zustand/UserStore';
-import {useMainStore} from './zustand/MainStore';
 import LoadingSpinner from './shared/components/LoadingSpinner';
 import {Platform} from 'react-native';
 

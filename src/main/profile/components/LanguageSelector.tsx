@@ -1,11 +1,11 @@
 import {t} from 'i18next';
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Language} from '../../../shared/types/Language';
+import {useUserStore} from '../../../zustand/UserStore';
 
 interface LanguageSelectorProps {
-  language: Language;
   setProvisionalLanguage: (string: Language) => void;
 }
 
@@ -15,30 +15,22 @@ interface LanguageSelectorPill {
 }
 
 export default function LanguageSelector({
-  language,
   setProvisionalLanguage,
 }: LanguageSelectorProps) {
+  const language = useUserStore(state => state.user.language);
   useEffect(() => {
-    setAvailableLanguages([
-      {label: t('languages.en_US'), value: 'en_US'},
-      {label: t('languages.es_ES'), value: 'es_ES'},
-      {label: t('languages.ca_ES'), value: 'ca_ES'},
-      {label: t('languages.fr_FR'), value: 'fr_FR'},
-    ]);
     setValue(language);
   }, [language]);
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(language);
 
-  // TO DO: Get languages from API
-  const [availableLanguages, setAvailableLanguages] = useState<
-    LanguageSelectorPill[]
-  >([
+  const availableLanguages: LanguageSelectorPill[] = [
     {label: t('languages.en_US'), value: 'en_US'},
     {label: t('languages.es_ES'), value: 'es_ES'},
     {label: t('languages.ca_ES'), value: 'ca_ES'},
     {label: t('languages.fr_FR'), value: 'fr_FR'},
-  ]);
+  ];
 
   return (
     <View style={styles.container}>
@@ -50,10 +42,9 @@ export default function LanguageSelector({
           items={availableLanguages}
           setOpen={setOpen}
           setValue={setValue}
-          onChangeValue={(selectedLanguage: Language) => {
-            setProvisionalLanguage(selectedLanguage);
+          onChangeValue={(selectedLanguage: Language | null) => {
+            selectedLanguage && setProvisionalLanguage(selectedLanguage);
           }}
-          setItems={setAvailableLanguages}
           style={styles.dropDown}
           dropDownContainerStyle={styles.dropDownContainer}
           textStyle={styles.dropDownText}

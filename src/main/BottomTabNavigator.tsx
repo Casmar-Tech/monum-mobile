@@ -1,6 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Orientation from 'react-native-orientation-locker';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationContainerRef,
+} from '@react-navigation/native';
 import {useEffect, useRef} from 'react';
 import {StyleSheet, Image, StatusBar, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -40,6 +43,7 @@ export type BottomTabBarIconProps = {
 const Tab = createBottomTabNavigator<RootBottomTabList>();
 
 function BottomTabNavigator() {
+  const navigationRef = useRef<NavigationContainerRef<RootBottomTabList>>();
   const bottomSafeArea = useSafeAreaInsets().bottom;
   const isTabBarVisible = useMainStore(state => state.main.isTabBarVisible);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
@@ -66,8 +70,10 @@ function BottomTabNavigator() {
     ) {
       const track = await TrackPlayer.getActiveTrack();
       const index = await TrackPlayer.getActiveTrackIndex();
-      setCurrentTrack(track);
-      setCurrentTrackIndex(index);
+      if (track && index) {
+        setCurrentTrack(track);
+        setCurrentTrackIndex(index);
+      }
     }
   });
 
@@ -86,6 +92,18 @@ function BottomTabNavigator() {
       setCameraRef(null);
     };
   }, []);
+
+  useEffect(() => {
+    if (navigationRef.current) {
+      if (
+        activeTab === 'Routes' ||
+        activeTab === 'Map' ||
+        activeTab === 'Profile'
+      ) {
+        navigationRef.current.navigate(activeTab);
+      }
+    }
+  }, [activeTab]);
 
   const renderTabBarIcon = ({focused, name}: BottomTabBarIconProps) => {
     let source;
@@ -126,7 +144,7 @@ function BottomTabNavigator() {
   }, [videoPlayer]);
 
   return (
-    <NavigationContainer independent={true}>
+    <NavigationContainer independent={true} ref={navigationRef}>
       <StatusBar translucent barStyle="dark-content" />
       <Tab.Navigator
         initialRouteName="Map"

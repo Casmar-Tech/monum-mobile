@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import GoogleAuthService from './src/auth/services/GoogleAuthService';
 import MainNavigator from './src/MainNavigator';
@@ -31,7 +31,6 @@ function App() {
   const setMapCameraCoordinates = useTabMapStore(
     state => state.setMapCameraCoordinates,
   );
-  const setLanguage = useMainStore(state => state.setLanguage);
   const setCurrentUserLocation = useMainStore(
     state => state.setCurrentUserLocation,
   );
@@ -46,25 +45,32 @@ function App() {
     state => state.setForceUpdateMapCamera,
   );
   const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
+  const user = useUserStore(state => state.user);
+  const setActiveTab = useMainStore(state => state.setActiveTab);
+
+  const isAuthenticatedRef = useRef(isAuthenticated);
 
   useEffect(() => {
-    const handleOpenURL = async ({url}: any) => {
+    isAuthenticatedRef.current = isAuthenticated;
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    async function handleOpenURL(url: string) {
+      console.log('isAuthenticated1', isAuthenticatedRef.current);
       try {
         const [, placeId] = url.match(/place\/([^?]+)/) || [];
-
         if (placeId) {
           setHasInitByUrl(true);
-          const organizationId = await AuthServices.getOrganizationIdOfPlace(
-            placeId,
-          );
-          const user = await AuthServices.getTouristUserOfOrganization(
-            organizationId,
-          );
-          setAuthToken(user.token);
-          setUser(user);
-          setIsAuthenticated(true);
-          setLanguage(user.language);
-          await changeLanguage(user.language || 'en_US');
+          if (!isAuthenticatedRef.current) {
+            console.log('isAuthenticated2', isAuthenticatedRef.current);
+            console.log('user1', user);
+            const guestUser = await AuthServices.loginAsGuest();
+            console.log('user2', guestUser);
+            setUser(guestUser);
+            await setAuthToken(guestUser.token);
+            await changeLanguage(guestUser.language);
+            setIsAuthenticated(true);
+          }
           const markersData = await MapServices.getMarkers(
             '',
             [0, 0],
@@ -82,17 +88,19 @@ function App() {
               selected: marker.id === placeId,
             })),
           );
+          setActiveTab('Map');
           setMarkerSelected(placeId);
           const placeData = await MapServices.getPlaceInfo(placeId);
           setPlace(placeData);
           const mediasFetched = await MapServices.getPlaceMedia(placeId);
           setMediasOfPlace(mediasFetched);
           setShowPlaceDetailExpanded(false);
+          setForceUpdateMapCamera(true);
         }
       } catch (e) {
         console.log('error', e);
       }
-    };
+    }
 
     const initializeApp = async () => {
       try {
@@ -101,15 +109,18 @@ function App() {
           skipPermissionRequests: false,
         });
 
-        const initialURL = await Linking.getInitialURL();
+        let initialURL = await Linking.getInitialURL();
+        console.log('initialURL', initialURL);
         if (initialURL) {
-          await handleOpenURL({url: initialURL});
+          await handleOpenURL(initialURL);
         }
       } catch (error) {
         console.log('Error initializing app:', error);
       }
 
-      Linking.addEventListener('url', handleOpenURL);
+      Linking.addEventListener('url', async link => {
+        await handleOpenURL(link.url);
+      });
 
       return () => {
         Linking.removeAllListeners('url');
@@ -120,6 +131,9 @@ function App() {
 
   useEffect(() => {
     async function prepareWhenAuthenticated() {
+      if (!isAuthenticated) {
+        return;
+      }
       try {
         let userLocation = currentUserLocation;
         if (!userLocation) {

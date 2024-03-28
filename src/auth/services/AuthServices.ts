@@ -8,9 +8,11 @@ import {
   RESET_PASSWORD,
   VERIFICATE_CODE,
   UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD,
-  GET_ORGANIZATION_ID_OF_PLACE,
-  GET_TOURIST_USER_OF_ORGANIZATION,
+  LOGIN_USER_AS_GUEST,
 } from '../../graphql/queries/userQueries';
+import {getDeviceId} from 'react-native-device-info';
+import {getLocales} from 'react-native-localize';
+import deviceLanguageToLanguage from '../../shared/functions/utils';
 
 interface LoginGoogle {
   email: string;
@@ -96,6 +98,25 @@ class AuthService {
     }
   }
 
+  public async loginAsGuest() {
+    try {
+      const deviceId = getDeviceId();
+      const deviceLanguage = getLocales()[0].languageCode;
+      const language = deviceLanguageToLanguage(deviceLanguage);
+      const response = await client.mutate({
+        mutation: LOGIN_USER_AS_GUEST,
+        variables: {
+          deviceId,
+          language,
+        },
+      });
+      const user = response.data?.loginUserAsGuest;
+      return user;
+    } catch (error: any) {
+      console.error('Error al iniciar sesión como invitado:', error);
+    }
+  }
+
   public async resetPassword(email: string, resend: boolean = false) {
     try {
       const response = await client.mutate({
@@ -153,23 +174,6 @@ class AuthService {
     }
   }
 
-  public async getOrganizationIdOfPlace(placeId: string) {
-    const response = await client.query({
-      query: GET_ORGANIZATION_ID_OF_PLACE,
-      variables: {placeId},
-    });
-    return response.data?.getOrganizationIdOfAPlace;
-  }
-
-  public async getTouristUserOfOrganization(organizationId: string) {
-    const response = await client.query({
-      query: GET_TOURIST_USER_OF_ORGANIZATION,
-      variables: {organizationId},
-    });
-    const user = response.data?.getTouristUserOfOrganization;
-    return user;
-  }
-
   public async logout() {
     await this.removeAuthToken();
     // Add other steps required for logout, such as clearing the application state
@@ -178,7 +182,7 @@ class AuthService {
   public async isAuthenticated(): Promise<boolean> {
     try {
       const authToken = await AsyncStorage.getItem('authToken');
-      return !!authToken; // Verify if an authentication token exists.
+      return !!authToken;
     } catch (error) {
       console.error('Error al verificar la autenticación:', error);
       return false;

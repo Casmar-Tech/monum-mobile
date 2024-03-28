@@ -1,6 +1,7 @@
 import {create} from 'zustand';
 import IUser from '../shared/interfaces/IUser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Language} from '../shared/types/Language';
 
 interface UserState {
   user: IUser;
@@ -12,6 +13,7 @@ interface UserState {
   updateUsername: (username: string) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setDefaultUser: () => Promise<void>;
+  setLanguage: (language: Language) => void;
 }
 
 export const undefinedUser: IUser = {
@@ -24,6 +26,7 @@ export const undefinedUser: IUser = {
   googleId: '',
   token: '',
   hasPassword: false,
+  language: 'en_US',
   permissions: [],
 };
 
@@ -50,9 +53,11 @@ export const useUserStore = create<UserState>(set => ({
   setDefaultUser: async () => {
     set(() => ({user: undefinedUser}));
     set(() => ({isAuthenticated: false}));
-    await AsyncStorage.removeItem('authToken');
   },
   setIsAuthenticated: (isAuthenticated: boolean) => {
     set(() => ({isAuthenticated}));
+  },
+  setLanguage: (language: Language) => {
+    set(state => ({user: {...state.user, language}}));
   },
 }));

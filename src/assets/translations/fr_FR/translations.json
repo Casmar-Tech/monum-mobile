@@ -43,7 +43,8 @@
     "newPasswordText": "Entrez votre nouveau mot de passe et confirmez-le pour le réinitialiser.",
     "passwordChangedTitle": "Réinitialisation du mot de passe!",
     "passwordChangedMessage": "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant accéder à votre compte avec votre nouveau mot de passe.",
-    "passwordChangedButton": "Accéder"
+    "passwordChangedButton": "Accéder",
+    "loginAsGuest": "Continuer en tant qu'invité"
   },
   "placeDetailExpanded": {
     "mediaIntro": "Qu'allez-vous découvrir ?"
@@ -62,7 +63,8 @@
     "introChangePassword": "Remplissez les champs pour définir votre nouveau mot de passe",
     "currentPassword": "Mot de passe actuel",
     "newPassword": "Nouveau mot de passe",
-    "confirmNewPassword": "Confirmer le nouveau mot de passe"
+    "confirmNewPassword": "Confirmer le nouveau mot de passe",
+    "createMyAccount": "Créer mon compte"
   },
   "languages": {
     "en_US": "Anglais",

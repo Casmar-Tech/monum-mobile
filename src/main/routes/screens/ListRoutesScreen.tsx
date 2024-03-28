@@ -14,13 +14,13 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {t} from 'i18next';
 import ListRoutePill from '../components/ListRoutePill';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
-import {useMainStore} from '../../../zustand/MainStore';
+import {useUserStore} from '../../../zustand/UserStore';
 
 export default function ListRoutesScreen({navigation}: ListRoutesScreenProps) {
   const city = useTabRouteStore(state => state.city);
   const setRouteOfCity = useTabRouteStore(state => state.setRouteOfCity);
   const safeAreaInsets = useSafeAreaInsets();
-  const language = useMainStore(state => state.main.language);
+  const language = useUserStore(state => state.user.language);
   const [routes, setRoutes] = useState<IRouteOfCity[]>([]);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
 

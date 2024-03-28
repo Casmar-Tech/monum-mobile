@@ -43,7 +43,8 @@
     "newPasswordText": "Introduce tu nueva contraseña y confírmala para restablecerla.",
     "passwordChangedTitle": "¡Contraseña restablecida!",
     "passwordChangedMessage": "Tu contraseña ha sido restablecida con éxito. Ahora puedes acceder a tu cuenta con tu nueva contraseña.",
-    "passwordChangedButton": "Acceder"
+    "passwordChangedButton": "Acceder",
+    "loginAsGuest": "Continuar como invitado"
   },
   "placeDetailExpanded": {
     "mediaIntro": "¿Qué vas a conocer?"
@@ -62,7 +63,8 @@
     "introChangePassword": "Rellena los campos para configurar tu nueva contraseña",
     "currentPassword": "Contraseña actual",
     "newPassword": "Nueva contraseña",
-    "confirmedNewPassword": "Confirmar nueva contraseña"
+    "confirmedNewPassword": "Confirmar nueva contraseña",
+    "createMyAccount": "Crear mi cuenta"
   },
   "languages": {
     "en_US": "Inglés",
