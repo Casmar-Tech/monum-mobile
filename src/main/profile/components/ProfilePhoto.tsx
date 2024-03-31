@@ -14,17 +14,21 @@ export default function ProfilePhotoComponent({
   setNewPhoto,
 }: ProfilePhotoComponentProps) {
   const pickImage = async () => {
-    const image = (await ImagePicker.openPicker({
-      width: 400,
-      height: 400,
-      cropping: true,
-      multiple: false,
-      includeBase64: true,
-    })) as any;
-    // Ahora, la imagen en base64 estará en image.data
-    if (image.data) {
-      const base64Image = `data:${image.mime};base64,${image.data}`;
-      setNewPhoto(base64Image);
+    try {
+      const image = (await ImagePicker.openPicker({
+        width: 400,
+        height: 400,
+        cropping: true,
+        multiple: false,
+        includeBase64: true,
+      })) as any;
+      // Ahora, la imagen en base64 estará en image.data
+      if (image.data) {
+        const base64Image = `data:${image.mime};base64,${image.data}`;
+        setNewPhoto(base64Image);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

@@ -13,7 +13,7 @@ class MapServices {
   public async getMarkers(
     textSearch: string | undefined,
     centerCoordinates: [number, number],
-    sortField: 'importance' | 'name' | 'rating',
+    sortField: 'importance' | 'name',
     sortOrder: 'asc' | 'desc',
     language?: Language,
   ): Promise<MarkerResponse[]> {
@@ -42,9 +42,9 @@ class MapServices {
     try {
       const response = await client.query({
         query: GET_PLACE_INFO,
-        variables: {placeId, imageSize: 'original', language},
+        variables: {placeId, imageSize: 'medium', language},
       });
-      return response.data?.place || null;
+      return response.data?.place;
     } catch (error) {
       console.error('Error trying to get place info:', error);
       return null;

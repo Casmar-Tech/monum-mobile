@@ -20,7 +20,6 @@ export const REGISTER_USER = gql`
       photo
       hasPassword
       roleId
-      organizationId
       permissions {
         action
         entity
@@ -45,7 +44,6 @@ export const LOGIN_USER = gql`
       photo
       hasPassword
       roleId
-      organizationId
       permissions {
         action
         entity
@@ -70,7 +68,6 @@ export const LOGIN_GOOGLE_USER = gql`
       photo
       hasPassword
       roleId
-      organizationId
       permissions {
         action
         entity
@@ -95,7 +92,6 @@ export const LOGIN_USER_AS_GUEST = gql`
       photo
       hasPassword
       roleId
-      organizationId
       permissions {
         id
         name
@@ -126,7 +122,6 @@ export const GET_USER_BY_ID = gql`
       photo
       hasPassword
       roleId
-      organizationId
       permissions {
         action
         entity

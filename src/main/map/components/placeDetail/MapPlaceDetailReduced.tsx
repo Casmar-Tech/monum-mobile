@@ -10,9 +10,9 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 import place_pre_detail_arrow_top from '../../../../assets/images/icons/place_pre_detail_arrow_top.png';
-import ShowRatingStars from '../ShowRatingStars';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
 import {useMainStore} from '../../../../zustand/MainStore';
+import {t} from 'i18next';
 
 interface MapPlaceDetailReducedProps {
   importanceIcon: ImageSourcePropType;
@@ -63,7 +63,7 @@ export default function MapPlaceDetailReduced({
               )}
             </View>
             <View style={styles.textInformationContainer}>
-              <Text numberOfLines={2} style={styles.textPlaceName}>
+              <Text numberOfLines={1} style={styles.textPlaceName}>
                 {place?.name}
               </Text>
               <Text
@@ -71,7 +71,18 @@ export default function MapPlaceDetailReduced({
                 style={
                   styles.textPlaceAddress
                 }>{`${place?.address.city}, ${place?.address.country}`}</Text>
-              <ShowRatingStars rating={place?.rating || 0} />
+              <View style={styles.createdByContainer}>
+                <Text numberOfLines={2} style={styles.createdByText}>{`${t(
+                  'mapScreen.createdBy',
+                )}: ${place?.createdBy.username}`}</Text>
+                {place?.createdBy?.photo && (
+                  <Image
+                    style={styles.createdByIcon}
+                    resizeMode="contain"
+                    source={{uri: place?.createdBy.photo}}
+                  />
+                )}
+              </View>
             </View>
             <View style={styles.importanceIconContainer}>
               <Image
@@ -136,6 +147,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#032000',
     fontFamily: 'Montserrat-Regular',
+  },
+  createdByContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 16,
+  },
+  createdByText: {
+    fontSize: 14,
+    color: '#3F713B',
+    fontFamily: 'Montserrat-Regular',
+  },
+  createdByIcon: {
+    width: 16,
+    height: 16,
+    borderRadius: 20,
+    marginLeft: 5,
+    borderWidth: 1,
+    borderColor: '#3F713B',
   },
   importanceIconContainer: {flex: 1, marginHorizontal: '6%'},
   importanceIconImage: {width: 40, height: 40},

@@ -63,7 +63,6 @@ export default function LoginScreen({navigation}: Props) {
               text={t('authScreens.loginAsGuest')}
               onPress={async () => {
                 const user = await AuthServices.loginAsGuest();
-                console.log('user', user);
                 if (user) {
                   await setAuthToken(user.token || '');
                   setUser(user);

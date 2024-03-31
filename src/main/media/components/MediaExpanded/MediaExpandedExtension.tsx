@@ -79,7 +79,9 @@ export default function MediaExpandedText({
             height: 20,
           }}>
           <Text style={styles.placeMediaIntroText}>
-            {t('mediaDetailExpanded.introToReadIt')}
+            {currentTrack?.mediaType === 'text'
+              ? t('mediaDetailExpanded.itIsText')
+              : t('mediaDetailExpanded.introToReadIt')}
           </Text>
         </View>
       </Pressable>

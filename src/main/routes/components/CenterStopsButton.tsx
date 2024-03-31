@@ -1,21 +1,19 @@
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-import map_center_coordinates from '../../../assets/images/icons/map_center_coordinates.png';
+import map_center_stops from '../../../assets/images/icons/map_center_stops.png';
 
-interface CenterCoordinatesButtonProps {
+interface CenterStopsButtonProps {
   onPress: () => void;
 }
 
-export default function CenterCoordinatesButton({
-  onPress,
-}: CenterCoordinatesButtonProps) {
+export default function CenterStopsButton({onPress}: CenterStopsButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.centerCoordinatesContainer, {bottom: 10}]}
+      style={[styles.centerStopsContainer, {bottom: 70}]}
       onPress={onPress}>
       <Image
-        source={map_center_coordinates}
-        style={styles.centerCoordinatesIcon}
+        source={map_center_stops}
+        style={styles.centerStopsIcon}
         resizeMode="contain"
       />
     </TouchableOpacity>
@@ -23,7 +21,7 @@ export default function CenterCoordinatesButton({
 }
 
 const styles = StyleSheet.create({
-  centerCoordinatesContainer: {
+  centerStopsContainer: {
     position: 'absolute',
     backgroundColor: 'white',
     width: 40,
@@ -38,7 +36,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4,
   },
-  centerCoordinatesIcon: {
+  centerStopsIcon: {
     width: 28,
     height: 28,
   },

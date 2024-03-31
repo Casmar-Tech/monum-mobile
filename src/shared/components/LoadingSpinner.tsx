@@ -1,4 +1,3 @@
-import React from 'react';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
 
 export default function LoadingSpinner() {
@@ -15,5 +14,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
+    marginTop: 10,
   },
 });

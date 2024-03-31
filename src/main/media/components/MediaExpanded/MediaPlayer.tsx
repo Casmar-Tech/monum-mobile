@@ -31,6 +31,7 @@ export default function MediaPlayer() {
           style={{
             height: 16,
             width: '100%',
+            display: currentTrack?.mediaType === 'text' ? 'none' : 'flex',
           }}
           minimumValue={0}
           maximumTrackTintColor="grey"
@@ -66,11 +67,11 @@ export default function MediaPlayer() {
               resizeMode="contain"
             />
           </TouchableOpacity>
-          {currentTrack.mediaType !== 'text' ? (
+          {currentTrack?.mediaType !== 'text' ? (
             <TouchableOpacity
               style={styles.mediaPlayerButtons}
               onPress={async () => {
-                if (currentTrack.mediaType !== 'text') {
+                if (currentTrack?.mediaType !== 'text') {
                   statePlayer === State.Paused
                     ? await TrackPlayer.play()
                     : await TrackPlayer.pause();
@@ -111,7 +112,11 @@ export default function MediaPlayer() {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.durationMediaContainer}>
+        <View
+          style={[
+            styles.durationMediaContainer,
+            {display: currentTrack?.mediaType === 'text' ? 'none' : 'flex'},
+          ]}>
           <Text style={styles.durationMediaText}>
             {secondsToMinutes(progress.position)}
           </Text>

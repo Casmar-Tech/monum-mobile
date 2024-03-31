@@ -27,7 +27,7 @@ export default function ListRoutePill({route, onPress}: ListRoutePillProps) {
           style={[styles.placeMediaPill, {opacity: globalPressed ? 0.2 : 1}]}>
           <Text style={styles.placeMediaPillTitle}>{route.title}</Text>
           <Text style={styles.placeMediaPillDuration}>
-            {`${route.stopsCount} ${t('stops')}`}
+            {`${route.stopsCount} ${t('routes.stops')}`}
           </Text>
         </View>
         <RatingPill

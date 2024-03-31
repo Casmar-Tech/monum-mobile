@@ -46,11 +46,15 @@
     "passwordChangedButton": "Acceder",
     "loginAsGuest": "Continuar como invitado"
   },
+  "mapScreen": {
+    "createdBy": "Creado por"
+  },
   "placeDetailExpanded": {
     "mediaIntro": "¿Qué vas a conocer?"
   },
   "mediaDetailExpanded": {
-    "introToReadIt": "¿Quieres leerlo?"
+    "introTextMediaType": "Historias para descubrir leyendo",
+    "introAudioMediaType": "¿Quieres leerlo?"
   },
   "profile": {
     "language": "Idioma",

@@ -49,6 +49,7 @@ export default function MediaBubble() {
   const currentTrack = useMainStore(state => state.main.currentTrack);
   const statePlayer = useMainStore(state => state.main.statePlayer);
   const placeOfMedia = useMainStore(state => state.main.placeOfMedia);
+  const imagesUrl = placeOfMedia?.imagesUrl || [];
   const setExpandedMediaDetail = useTabMapStore(
     state => state.setExpandedMediaDetail,
   );
@@ -131,9 +132,7 @@ export default function MediaBubble() {
               <View style={styles.mediaBubbleImageContainer}>
                 <Image
                   source={{
-                    uri: Array.isArray(placeOfMedia.imagesUrl)
-                      ? placeOfMedia.imagesUrl[0]
-                      : '',
+                    uri: Array.isArray(imagesUrl) ? imagesUrl[0] : '',
                   }}
                   style={styles.mediaBubbleImage}
                   resizeMode="cover"
@@ -162,21 +161,23 @@ export default function MediaBubble() {
                   style={styles.mediaBubblePlayerButtonsImageContainer}
                   onPress={async () => {
                     try {
-                      if (currentTrackIndex === 0) {
-                        await TrackPlayer.seekTo(0);
-                      } else {
-                        await TrackPlayer.skipToPrevious();
+                      if (currentTrackIndex) {
+                        if (currentTrackIndex === 0) {
+                          await TrackPlayer.seekTo(0);
+                        } else {
+                          await TrackPlayer.skipToPrevious();
+                        }
+                        const previousTrackIndex = Math.max(
+                          0,
+                          currentTrackIndex - 1,
+                        );
+                        const previousTrack = await TrackPlayer.getTrack(
+                          previousTrackIndex,
+                        );
+                        previousTrack?.mediaType === 'text'
+                          ? await TrackPlayer.pause()
+                          : await TrackPlayer.play();
                       }
-                      const previousTrackIndex = Math.max(
-                        0,
-                        currentTrackIndex - 1,
-                      );
-                      const previousTrack = await TrackPlayer.getTrack(
-                        previousTrackIndex,
-                      );
-                      previousTrack.mediaType === 'text'
-                        ? await TrackPlayer.pause()
-                        : await TrackPlayer.play();
                     } catch (e) {
                       console.log(e);
                     }

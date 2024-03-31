@@ -17,9 +17,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import place_pre_detail_importance_1 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_1.png';
 import place_pre_detail_importance_2 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_2.png';
 import place_pre_detail_importance_3 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_3.png';
-import place_pre_detail_importance_4 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_4.png';
-import place_pre_detail_importance_5 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_5.png';
-import place_pre_detail_importance_star from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_star.png';
 
 import MapPlaceDetailExpanded from './MapPlaceDetailExpanded';
 import MapPlaceDetailReduced from './MapPlaceDetailReduced';
@@ -71,12 +68,6 @@ export default function MapPlaceDetail() {
         return place_pre_detail_importance_2;
       case 3:
         return place_pre_detail_importance_3;
-      case 4:
-        return place_pre_detail_importance_4;
-      case 5:
-        return place_pre_detail_importance_5;
-      case 6:
-        return place_pre_detail_importance_star;
       default:
         return place_pre_detail_importance_1;
     }

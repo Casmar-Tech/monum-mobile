@@ -56,16 +56,12 @@ function App() {
 
   useEffect(() => {
     async function handleOpenURL(url: string) {
-      console.log('isAuthenticated1', isAuthenticatedRef.current);
       try {
         const [, placeId] = url.match(/place\/([^?]+)/) || [];
         if (placeId) {
           setHasInitByUrl(true);
           if (!isAuthenticatedRef.current) {
-            console.log('isAuthenticated2', isAuthenticatedRef.current);
-            console.log('user1', user);
             const guestUser = await AuthServices.loginAsGuest();
-            console.log('user2', guestUser);
             setUser(guestUser);
             await setAuthToken(guestUser.token);
             await changeLanguage(guestUser.language);
@@ -110,7 +106,6 @@ function App() {
         });
 
         let initialURL = await Linking.getInitialURL();
-        console.log('initialURL', initialURL);
         if (initialURL) {
           await handleOpenURL(initialURL);
         }
@@ -135,6 +130,7 @@ function App() {
         return;
       }
       try {
+        await changeLanguage(user.language);
         let userLocation = currentUserLocation;
         if (!userLocation) {
           const position: any = await new Promise((resolve, reject) => {

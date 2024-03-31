@@ -30,23 +30,31 @@ export const GET_MARKERS = gql`
 export const GET_PLACE_INFO = gql`
   query Place($placeId: ID!, $imageSize: ImageSize, $language: Language) {
     place(id: $placeId, imageSize: $imageSize, language: $language) {
+      id
+      name
       address {
-        city
         coordinates {
           lat
           lng
         }
-        country
+        street
+        city
         postalCode
         province
-        street
+        country
       }
       description
-      id
       importance
-      name
       rating
       imagesUrl
+      createdBy {
+        username
+        organization {
+          name
+          description
+        }
+        photo
+      }
     }
   }
 `;

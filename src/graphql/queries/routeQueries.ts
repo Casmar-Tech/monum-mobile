@@ -55,16 +55,7 @@ export const GET_ROUTE_DETAIL = gql`
           }
           description
           importance
-          rating
           imagesUrl
-          googleId
-          googleMapsUri
-          internationalPhoneNumber
-          nationalPhoneNumber
-          types
-          primaryType
-          userRatingCount
-          websiteUri
         }
         medias {
           id

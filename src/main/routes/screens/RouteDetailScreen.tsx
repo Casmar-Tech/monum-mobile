@@ -29,6 +29,7 @@ import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 import {useMainStore} from '../../../zustand/MainStore';
 import {PERMISSIONS, RESULTS, check, request} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
+import CenterStopsButton from '../components/CenterStopsButton';
 
 export default function RouteDetailScreen({
   navigation,
@@ -72,6 +73,42 @@ export default function RouteDetailScreen({
     },
   });
 
+  const centerStopsCamera = async () => {
+    // Calculate the center of the markers
+    const centerLat =
+      markers.reduce((acc, marker) => acc + marker.coordinates[1], 0) /
+      markers.length;
+    const centerLng =
+      markers.reduce((acc, marker) => acc + marker.coordinates[0], 0) /
+      markers.length;
+    setCenterCoordinates([centerLng, centerLat]);
+
+    // Find the limits of the markers and current user location
+    let minLng = currentUserLocation
+      ? currentUserLocation[0]
+      : markers[0]?.coordinates[0];
+    let maxLng = currentUserLocation
+      ? currentUserLocation[0]
+      : markers[0]?.coordinates[0];
+    let minLat = currentUserLocation
+      ? currentUserLocation[1]
+      : markers[0]?.coordinates[1];
+    let maxLat = currentUserLocation
+      ? currentUserLocation[1]
+      : markers[0]?.coordinates[1];
+
+    markers.forEach(marker => {
+      if (marker.coordinates[0] < minLng) minLng = marker.coordinates[0];
+      if (marker.coordinates[0] > maxLng) maxLng = marker.coordinates[0];
+      if (marker.coordinates[1] < minLat) minLat = marker.coordinates[1];
+      if (marker.coordinates[1] > maxLat) maxLat = marker.coordinates[1];
+    });
+
+    const southWest = [minLng, minLat];
+    const northEast = [maxLng, maxLat];
+    cameraRef?.current?.fitBounds(southWest, northEast, 50, 500);
+  };
+
   useEffect(() => {
     if (data) {
       setOriginalData(data);
@@ -80,31 +117,7 @@ export default function RouteDetailScreen({
 
   useEffect(() => {
     if (Array.isArray(markers) && markers.length > 0) {
-      // Calculate the center of the markers
-      const centerLat =
-        markers.reduce((acc, marker) => acc + marker.coordinates[1], 0) /
-        markers.length;
-      const centerLng =
-        markers.reduce((acc, marker) => acc + marker.coordinates[0], 0) /
-        markers.length;
-      setCenterCoordinates([centerLng, centerLat]);
-
-      // Find the limits of the markers
-      let minLng = markers[0]?.coordinates[0];
-      let maxLng = markers[0]?.coordinates[0];
-      let minLat = markers[0]?.coordinates[1];
-      let maxLat = markers[0]?.coordinates[1];
-
-      markers.forEach(marker => {
-        if (marker.coordinates[0] < minLng) minLng = marker.coordinates[0];
-        if (marker.coordinates[0] > maxLng) maxLng = marker.coordinates[0];
-        if (marker.coordinates[1] < minLat) minLat = marker.coordinates[1];
-        if (marker.coordinates[1] > maxLat) maxLat = marker.coordinates[1];
-      });
-
-      const southWest = [minLng, minLat];
-      const northEast = [maxLng, maxLat];
-      cameraRef?.current?.fitBounds(southWest, northEast, 100, 0);
+      centerStopsCamera();
     }
   }, [markers]);
 
@@ -266,6 +279,7 @@ export default function RouteDetailScreen({
             ref={cameraRef}
           />
         </MapView>
+        <CenterStopsButton onPress={async () => await centerStopsCamera()} />
         <CenterCoordinatesButton
           onPress={async () => await centerCoordinatesButtonAction()}
         />

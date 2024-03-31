@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import RatingPill from '../RatingPill';
 import route_detail_contract_place from '../../../../assets/images/icons/route_detail_contract_place.png';
 import route_detail_expand_place from '../../../../assets/images/icons/route_detail_expand_place.png';
 import Animated, {
@@ -96,6 +95,7 @@ const PlaceFromRoutePill = forwardRef<
       height: animationValue.value * 150 + 60, // Interpolación manual entre 60 y 210
     };
   });
+
   return (
     <View
       style={[
@@ -142,7 +142,7 @@ const PlaceFromRoutePill = forwardRef<
                 <View
                   style={{
                     flexDirection: 'row',
-                    alignItems: 'flex-end',
+                    alignItems: 'flex-start',
                   }}>
                   <TouchableOpacity
                     onPress={() => {
@@ -155,20 +155,20 @@ const PlaceFromRoutePill = forwardRef<
                     }}>
                     <View
                       style={{
-                        width: 30 * 0.9,
-                        height: 30 * 0.9,
+                        width: 24,
+                        height: 24,
                         marginRight: 10,
                         justifyContent: 'flex-end',
                         alignItems: 'center',
                       }}>
                       <View
                         style={{
-                          width: 30 * 0.9,
-                          height: 30 * 0.9,
+                          width: 24,
+                          height: 24,
                           backgroundColor: '#3F713B',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          borderRadius: 30 * 0.9,
+                          borderRadius: 24,
                         }}>
                         <Image
                           source={place_detail_direction_white}
@@ -256,10 +256,6 @@ const PlaceFromRoutePill = forwardRef<
           )}
         </View>
       </Animated.View>
-      <RatingPill
-        number={place.rating || 0}
-        additionalStyle={{position: 'absolute', top: 0, left: 10}}
-      />
     </View>
   );
 });
@@ -298,8 +294,8 @@ const styles = StyleSheet.create({
     color: '#3F713B',
     fontFamily: 'Montserrat-Regular',
   },
-  directionIcon: {width: 16, height: 16},
-  importanceIcon: {width: 30, height: 30},
+  directionIcon: {width: 14, height: 14},
+  importanceIcon: {width: 24, height: 30},
   audiosNumberText: {
     fontSize: 10,
     color: '#3F713B',

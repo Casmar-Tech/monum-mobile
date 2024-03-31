@@ -15,7 +15,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import place_detail_arrow_bottom_white from '../../../../assets/images/icons/place_detail_arrow_bottom_white.png';
 import place_detail_direction_white from '../../../../assets/images/icons/place_detail_direction_white.png';
 import IMedia from '../../../../shared/interfaces/IMedia';
-import ShowRatingStars from '../ShowRatingStars';
 import MediaOfPlacePill from './MediaOfPlacePill';
 import Carousel from 'react-native-reanimated-carousel';
 import {useSharedValue} from 'react-native-reanimated';
@@ -114,7 +113,18 @@ export default function MapPlaceDetailExpanded({
               style={
                 styles.placeAddress
               }>{`${place?.address.city}, ${place?.address.country}`}</Text>
-            <ShowRatingStars rating={place?.rating || 0} />
+            <View style={styles.createdByContainer}>
+              <Text numberOfLines={2} style={styles.createdByText}>{`${t(
+                'mapScreen.createdBy',
+              )}: ${place?.createdBy.username}`}</Text>
+              {place?.createdBy?.photo && (
+                <Image
+                  style={styles.createdByIcon}
+                  resizeMode="contain"
+                  source={{uri: place?.createdBy.photo}}
+                />
+              )}
+            </View>
           </View>
           <View
             style={{
@@ -131,8 +141,8 @@ export default function MapPlaceDetailExpanded({
               }}>
               <View
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 36,
+                  height: 36,
                   marginRight: 10,
                   justifyContent: 'flex-end',
                   alignItems: 'center',
@@ -144,7 +154,7 @@ export default function MapPlaceDetailExpanded({
                     backgroundColor: '#3F713B',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    borderRadius: 20,
+                    borderRadius: 18,
                   }}>
                   <Image
                     source={place_detail_direction_white}
@@ -154,7 +164,11 @@ export default function MapPlaceDetailExpanded({
                 </View>
               </View>
             </TouchableOpacity>
-            <View>
+            <View
+              style={{
+                width: 36,
+                height: 43,
+              }}>
               <Image
                 source={importanceIcon}
                 style={styles.importanceIcon}
@@ -240,7 +254,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   directionIcon: {width: 22, height: 22},
-  importanceIcon: {width: 40, height: 40},
+  importanceIcon: {width: 36, height: 43},
   descriptionContainer: {paddingBottom: 20},
   descriptionText: {
     color: '#032000',
@@ -264,5 +278,23 @@ const styles = StyleSheet.create({
     color: '#3F713B',
     fontSize: 12,
     fontFamily: 'Montserrat-SemiBold',
+  },
+  createdByText: {
+    fontSize: 14,
+    color: '#3F713B',
+    fontFamily: 'Montserrat-Regular',
+  },
+  createdByIcon: {
+    width: 16,
+    height: 16,
+    borderRadius: 20,
+    marginLeft: 5,
+    borderWidth: 1,
+    borderColor: '#3F713B',
+  },
+  createdByContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 16,
   },
 });

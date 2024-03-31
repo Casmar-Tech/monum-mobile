@@ -105,8 +105,15 @@ export default function MediaExpanded() {
   });
 
   useEffect(() => {
-    position.value = withTiming(0, {duration: 300});
-  }, []);
+    if (currentTrack?.mediaType === 'text') {
+      setIsFullExtended(true);
+      position.value = withTiming(-extensionHeight, {duration: 300}, () => {
+        runOnJS(setIsMain)(false);
+      });
+    } else {
+      position.value = withTiming(0, {duration: 300});
+    }
+  }, [currentTrack]);
 
   const width = Dimensions.get('window').width;
   const imagesUrl = placeOfMedia?.imagesUrl || [];
@@ -184,7 +191,7 @@ export default function MediaExpanded() {
             </Pressable>
             <View style={styles.mediaPillRatingContainer}>
               <Text style={styles.mediaPillRating}>
-                {`${currentTrack.rating.toFixed(1)}`}
+                {`${currentTrack?.rating?.toFixed(1)}`}
               </Text>
               <View>
                 <Image

@@ -1,8 +1,9 @@
+import IUser from './IUser';
+
 export default interface IPlace {
   id: string;
   name: string;
   description: string;
-  rating: number;
   importance: number;
   address: {
     city: string;
@@ -15,4 +16,5 @@ export default interface IPlace {
     };
   };
   imagesUrl?: string[];
+  createdBy: IUser;
 }

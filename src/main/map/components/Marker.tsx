@@ -6,11 +6,9 @@ import {Image, TouchableOpacity} from 'react-native';
 import map_marker_importance_1 from '../../../assets/images/icons/map_marker_importance_1.png';
 import map_marker_importance_2 from '../../../assets/images/icons/map_marker_importance_2.png';
 import map_marker_importance_3 from '../../../assets/images/icons/map_marker_importance_3.png';
-import map_marker_importance_4 from '../../../assets/images/icons/map_marker_importance_4.png';
-import map_marker_importance_5 from '../../../assets/images/icons/map_marker_importance_5.png';
-import map_marker_importance_star from '../../../assets/images/icons/map_marker_importance_star.png';
-import map_marker_importance_star_selected from '../../../assets/images/icons/map_marker_importance_star_selected.png';
-import map_marker_importance_selected from '../../../assets/images/icons/map_marker_importance_selected.png';
+import map_marker_importance_1_selected from '../../../assets/images/icons/map_marker_importance_1_selected.png';
+import map_marker_importance_2_selected from '../../../assets/images/icons/map_marker_importance_2_selected.png';
+import map_marker_importance_3_selected from '../../../assets/images/icons/map_marker_importance_3_selected.png';
 import {IMarker} from '../../../shared/interfaces/IMarker';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 
@@ -25,47 +23,27 @@ export function MarkerComponent({id, coordinates, importance}: IMarker) {
     switch (importance) {
       case 1:
         setIcon(
-          selected ? map_marker_importance_selected : map_marker_importance_1,
+          selected ? map_marker_importance_1_selected : map_marker_importance_1,
         );
-        setDimensions(36);
+        setDimensions(50);
         break;
       case 2:
         setIcon(
-          selected ? map_marker_importance_selected : map_marker_importance_2,
+          selected ? map_marker_importance_2_selected : map_marker_importance_2,
         );
-        setDimensions(42);
+        setDimensions(50);
         break;
       case 3:
         setIcon(
-          selected ? map_marker_importance_selected : map_marker_importance_3,
+          selected ? map_marker_importance_3_selected : map_marker_importance_3,
         );
-        setDimensions(48);
-        break;
-      case 4:
-        setIcon(
-          selected ? map_marker_importance_selected : map_marker_importance_4,
-        );
-        setDimensions(54);
-        break;
-      case 5:
-        setIcon(
-          selected ? map_marker_importance_selected : map_marker_importance_5,
-        );
-        setDimensions(60);
-        break;
-      case 6:
-        setIcon(
-          selected
-            ? map_marker_importance_star_selected
-            : map_marker_importance_star,
-        );
-        setDimensions(60);
+        setDimensions(50);
         break;
       default:
         setIcon(
-          selected ? map_marker_importance_selected : map_marker_importance_1,
+          selected ? map_marker_importance_1_selected : map_marker_importance_1,
         );
-        setDimensions(60);
+        setDimensions(50);
         break;
     }
   };
