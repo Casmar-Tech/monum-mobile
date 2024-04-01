@@ -3,8 +3,9 @@ import {Camera, MapView, setAccessToken} from '@rnmapbox/maps';
 import {useEffect, useState} from 'react';
 import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
-
-import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
+import map_qr_scanner from '../../../assets/images/icons/map_qr_scanner.png';
+import map_center_coordinates from '../../../assets/images/icons/map_center_coordinates.png';
+import MapScreenButton from '../components/MapScreenButton';
 import {MarkerComponent} from '../components/Marker';
 import MapPlaceDetail from '../components/placeDetail/MapPlaceDetail';
 import MapServices from '../services/MapServices';
@@ -18,7 +19,7 @@ setAccessToken(
   'pk.eyJ1IjoieHBsb3JlYXIiLCJhIjoiY2xqMmU0Z3NyMGFxeTNwbzByNW90dmdxcSJ9.cMT52Rc64Z05YUGPIutXFw',
 );
 
-export default function MapScreen() {
+export default function MapScreen({navigation}: {navigation: any}) {
   const mapRef = useMainStore(state => state.main.mapRef);
   const cameraRef = useMainStore(state => state.main.cameraRef);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
@@ -175,8 +176,14 @@ export default function MapScreen() {
           />
         </MapView>
         {/* <FilterComponent filters={filters} setFilters={setFilters} /> */}
-        <CenterCoordinatesButton
+        <MapScreenButton
+          onPress={() => navigation.navigate('QRScannerScreen')}
+          image={map_qr_scanner}
+          additionalBottom={60}
+        />
+        <MapScreenButton
           onPress={async () => await centerCoordinatesButtonAction()}
+          image={map_center_coordinates}
         />
         {/* <TextSearchMap
           textSearch={textSearch}

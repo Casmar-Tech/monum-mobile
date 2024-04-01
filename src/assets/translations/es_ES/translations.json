@@ -49,6 +49,12 @@
   "mapScreen": {
     "createdBy": "Creado por"
   },
+  "qrScannerScreen": {
+    "cancel": "Cancelar",
+    "scanQRText": "Escanea un QR",
+    "writeItManually": "Escribe el código manualmente",
+    "search": "Buscar"
+  },
   "placeDetailExpanded": {
     "mediaIntro": "¿Qué vas a conocer?"
   },

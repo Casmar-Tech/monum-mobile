@@ -24,6 +24,7 @@ import TrackPlayer, {
 import {useTabMapStore} from '../zustand/TabMapStore';
 import {useMainStore} from '../zustand/MainStore';
 import VideoPlayer from './video/VideoPlayer';
+import MapNavigator from './map/navigator/MapNavigator';
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 
@@ -157,7 +158,6 @@ function BottomTabNavigator() {
           ],
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarHideOnKeyboard: true,
         }}>
         <Tab.Screen
           name="Routes"
@@ -185,7 +185,7 @@ function BottomTabNavigator() {
               },
             ],
           }}>
-          {() => <MapScreen />}
+          {() => <MapNavigator />}
         </Tab.Screen>
         <Tab.Screen
           name="Profile"

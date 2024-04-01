@@ -28,7 +28,7 @@ import {useUserStore} from '../../../../zustand/UserStore';
 const {height} = Dimensions.get('screen');
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
-const BOTTOM_TAB_HEIGHT = 130;
+const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 150 : 140;
 const MAX_MARGIN_TOP = 50;
 
 type GestureContext = {
@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     zIndex: 3,
+    flex: 1,
   },
   animatedContainer: {
     borderTopLeftRadius: 24,

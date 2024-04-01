@@ -203,9 +203,12 @@ export default function MapPlaceDetailExpanded({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    backgroundColor: 'red',
   },
   imageContainer: {
     height: 200,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -235,7 +238,10 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
   },
-  infoContainer: {backgroundColor: 'white', paddingHorizontal: 15},
+  infoContainer: {
+    backgroundColor: 'white',
+    paddingHorizontal: 15,
+  },
   basicInfoConatiner: {
     paddingVertical: 15,
     justifyContent: 'space-between',

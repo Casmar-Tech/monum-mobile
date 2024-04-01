@@ -19,7 +19,7 @@ type RegisterScreenNavigationProp = StackNavigationProp<
 >;
 
 export interface ProfileScreenProps {
-  navigation: any; // Puedes tipificar esto más precisamente si lo deseas
+  navigation: any;
 }
 
 const ProfileStack = createStackNavigator<ProfileStackParamList>();

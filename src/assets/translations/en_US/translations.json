@@ -47,7 +47,13 @@
     "loginAsGuest": "Continue as guest"
   },
   "mapScreen": {
-    "createdBy": "Created by"
+    "createdBy": "Created by",
+    "scanQRText": "Scan a QR",
+    "writeItManually": "Write the code manually",
+    "search": "Search"
+  },
+  "qrScannerScreen": {
+    "cancel": "Cancel"
   },
   "placeDetailExpanded": {
     "mediaIntro": "What are you going to learn?"
