@@ -42,6 +42,8 @@ export default function ScanScreen({navigation}: any) {
   const [isScanError, setIsScanError] = useState(false);
   const [scanErrorMessage, setScanErrorMessage] = useState('');
 
+  const [isCameraReady, setIsCameraReady] = useState(false);
+
   useEffect(() => {
     let timer: any;
     if (isScanError) {
@@ -225,8 +227,9 @@ export default function ScanScreen({navigation}: any) {
               device={device}
               isActive={true}
               codeScanner={codeScanner}
+              onInitialized={() => setIsCameraReady(true)}
             />
-            {isLoading ? (
+            {isLoading || !isCameraReady ? (
               <QRSpinner />
             ) : isScanSuccess ? (
               <QRSuccess />
