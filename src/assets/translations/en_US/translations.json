@@ -47,13 +47,18 @@
     "loginAsGuest": "Continue as guest"
   },
   "mapScreen": {
-    "createdBy": "Created by",
-    "scanQRText": "Scan a QR",
-    "writeItManually": "Write the code manually",
-    "search": "Search"
+    "createdBy": "Created by"
   },
   "qrScannerScreen": {
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "scanQRText": "Scan a QR",
+    "writeItManually": "Write the code manually",
+    "search": "Search",
+    "success": "QR scanned successfully!",
+    "manualSuccess": "The code has been found!",
+    "errorInvalidQR": "The QR code is not valid. Please try again.",
+    "errorRandom": "Something went wrong. Please try again later.",
+    "manualError": "The code entered is not valid."
   },
   "placeDetailExpanded": {
     "mediaIntro": "What are you going to learn?"

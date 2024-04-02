@@ -17,7 +17,9 @@ import {t} from 'i18next';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import MapServices from '../services/MapServices';
 import {useMainStore} from '../../../zustand/MainStore';
-import LoadingSpinner from '../../../shared/components/LoadingSpinner';
+import QRSpinner from '../components/QRSpinner';
+import QRSuccess from '../components/QRSuccess';
+import QRError from '../components/QRError';
 
 export default function ScanScreen({navigation}: any) {
   const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
@@ -26,21 +28,39 @@ export default function ScanScreen({navigation}: any) {
     state => state.setShowPlaceDetailExpanded,
   );
   const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
-  const setForceUpdateMapCamera = useTabMapStore(
-    state => state.setForceUpdateMapCamera,
-  );
   const cameraRef = useMainStore(state => state.main.cameraRef);
 
   const device = useCameraDevice('back');
+
   const [manualCode, setManualCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [isManualSuccess, setIsManualSuccess] = useState(false);
+  const [isManualError, setIsManualError] = useState(false);
+  const [manualErrorMessage, setManualErrorMessage] = useState('');
+
+  const [isScanSuccess, setIsScanSuccess] = useState(false);
+  const [isScanError, setIsScanError] = useState(false);
+  const [scanErrorMessage, setScanErrorMessage] = useState('');
 
   useEffect(() => {
-    console.log('manualCode:', manualCode);
-  }, [manualCode]);
+    let timer: any;
+    if (isScanError) {
+      timer = setTimeout(() => {
+        setIsScanError(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [isScanError]);
+
+  useEffect(() => {
+    let timer: any;
+    if (isManualError) {
+      timer = setTimeout(() => {
+        setIsManualError(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [isManualError]);
 
   useEffect(() => {
     async function requestPermission() {
@@ -53,35 +73,59 @@ export default function ScanScreen({navigation}: any) {
     requestPermission();
   }, []);
 
+  const searchForCode = async (placeId: string, isScanner: boolean) => {
+    try {
+      const placeData = await MapServices.getPlaceInfo(placeId);
+      if (!placeData) {
+        setTimeout(() => {
+          isScanner ? setIsScanError(true) : setIsManualError(true);
+          isScanner
+            ? setScanErrorMessage(t('qrScannerScreen.errorInvalidQR'))
+            : setManualErrorMessage(t('qrScannerScreen.manualError'));
+        }, 2000);
+        return;
+      }
+      const mediasFetched = await MapServices.getPlaceMedia(placeId);
+      isScanner ? setIsScanSuccess(true) : setIsManualSuccess(true);
+      setTimeout(() => {
+        navigation.navigate('MapScreen');
+        cameraRef.current.setCamera({
+          pitch: 60,
+          centerCoordinate: [
+            placeData.address.coordinates.lng,
+            placeData.address.coordinates.lat,
+          ],
+          zoomLevel: 17,
+          animationDuration: 2000,
+        });
+        setPlace(placeData);
+        setMarkerSelected(placeId);
+        setMediasOfPlace(mediasFetched);
+        setShowPlaceDetailExpanded(false);
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        isScanner ? setIsScanError(true) : setIsManualError(true);
+        isScanner
+          ? setScanErrorMessage(t('qrScannerScreen.errorRandom'))
+          : setManualErrorMessage(t('qrScannerScreen.manualError'));
+      }, 2000);
+    }
+  };
+
   const codeScanner = useCodeScanner({
     codeTypes: ['qr', 'ean-13'],
     onCodeScanned: async (codes: any[]) => {
       setIsLoading(true);
-      setIsSuccess(false);
-      setIsError(false);
-      setErrorMessage('');
       const [, placeId] = codes[0]?.value?.match(/place\/([^?]+)/) || [];
       if (placeId) {
-        try {
-          setMarkerSelected(placeId);
-          const placeData = await MapServices.getPlaceInfo(placeId);
-          setPlace(placeData);
-          const mediasFetched = await MapServices.getPlaceMedia(placeId);
-          setMediasOfPlace(mediasFetched);
-          setShowPlaceDetailExpanded(false);
-          setForceUpdateMapCamera(true);
-          setIsSuccess(true);
-
-          navigation.navigate('MapScreen');
-          cameraRef.current.setCamera({pitch: 60, animationDuration: 1000});
-        } catch (error) {
-          console.log(error);
-          setIsError(true);
-          setErrorMessage('Algo ha ido mal. Inténtalo de nuevo.');
-        }
+        searchForCode(placeId, true);
       } else {
-        setIsError(true);
-        setErrorMessage('QR no válido. Inténtalo de nuevo.');
+        setTimeout(() => {
+          setIsScanError(true);
+          setScanErrorMessage(t('qrScannerScreen.errorInvalidQR'));
+        }, 2000);
       }
       setIsLoading(false);
     },
@@ -95,13 +139,6 @@ export default function ScanScreen({navigation}: any) {
           paddingTop: useSafeAreaInsets().top + 50,
         },
       ]}>
-      {isLoading && <LoadingSpinner />}
-      {isSuccess && <Text>✅ QR procesado correctamente</Text>}
-      {isError && (
-        <View>
-          <Text>❌ {errorMessage}</Text>
-        </View>
-      )}
       <View style={styles.qrIntroContainer}>
         <Text style={styles.qrIntroText}>
           {t('qrScannerScreen.scanQRText')}
@@ -114,16 +151,37 @@ export default function ScanScreen({navigation}: any) {
             value={manualCode}
             onChangeText={setManualCode}
             autoCapitalize="characters"
+            numberOfLines={1}
           />
           <TouchableOpacity
             style={styles.qrSearchButton}
-            onPress={() => {
-              console.log('Search pressed');
+            onPress={async () => {
+              await searchForCode(manualCode.toLowerCase(), false);
+              setIsLoading(false);
             }}>
             <Text style={styles.qrSearchButtonText}>
               {t('qrScannerScreen.search')}
             </Text>
           </TouchableOpacity>
+        </View>
+        <View>
+          <Text
+            numberOfLines={1}
+            style={{
+              color: isManualError
+                ? '#BF1C39'
+                : isManualSuccess
+                  ? '#3F713B'
+                  : 'transparent',
+              fontSize: 14,
+              marginTop: 10,
+              fontFamily: 'Montserrat-SemiBold',
+              height: 20,
+            }}>
+            {isManualError
+              ? t(manualErrorMessage)
+              : t('qrScannerScreen.manualSuccess')}
+          </Text>
         </View>
       </View>
       <View
@@ -136,6 +194,8 @@ export default function ScanScreen({navigation}: any) {
             width: '100%',
             padding: 5,
             height: 350,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
           <Camera
             style={{
@@ -146,6 +206,13 @@ export default function ScanScreen({navigation}: any) {
             isActive={true}
             codeScanner={codeScanner}
           />
+          {isLoading ? (
+            <QRSpinner />
+          ) : isScanSuccess ? (
+            <QRSuccess />
+          ) : (
+            isScanError && <QRError text={scanErrorMessage} />
+          )}
         </View>
         <View style={[styles.corner, styles.topLeftCorner]} />
         <View style={[styles.corner, styles.topRightCorner]} />
@@ -198,7 +265,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     alignItems: 'center',
     paddingHorizontal: 20,
-    fontSize: 14,
+    fontSize: 12,
     color: 'grey',
   },
   qrSearchButton: {

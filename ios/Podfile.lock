@@ -9,7 +9,6 @@ PODS:
   - BVLinearGradient (2.8.3):
     - React-Core
   - DoubleConversion (1.1.6)
-  - DVAssetLoaderDelegate (0.3.3)
   - FBLazyVector (0.73.6)
   - FBReactNativeSpec (0.73.6):
     - RCT-Folly (= 2022.05.16.00)
@@ -56,7 +55,6 @@ PODS:
     - PromisesObjC (~> 2.1)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - GoogleAds-IMA-iOS-SDK (3.18.5)
   - GoogleAppMeasurement (10.23.1):
     - GoogleAppMeasurement/AdIdSupport (= 10.23.1)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
@@ -146,8 +144,6 @@ PODS:
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
   - PromisesObjC (2.4.0)
-  - PromisesSwift (2.4.0):
-    - PromisesObjC (= 2.4.0)
   - RCT-Folly (2022.05.16.00):
     - boost
     - DoubleConversion
@@ -1036,16 +1032,11 @@ PODS:
   - react-native-track-player (4.1.1):
     - React-Core
     - SwiftAudioEx (= 1.1.0)
-  - react-native-video (6.0.0-beta.7):
+  - react-native-video (5.2.1):
     - React-Core
-    - react-native-video/Video (= 6.0.0-beta.7)
-  - react-native-video/Video (6.0.0-beta.7):
-    - DVAssetLoaderDelegate (~> 0.3.1)
-    - GoogleAds-IMA-iOS-SDK (~> 3.18.1)
-    - GoogleAds-IMA-tvOS-SDK (~> 4.2)
-    - PromisesSwift
+    - react-native-video/Video (= 5.2.1)
+  - react-native-video/Video (5.2.1):
     - React-Core
-    - SPTPersistentCache (~> 1.1.0)
   - React-nativeconfig (0.73.6)
   - React-NativeModulesApple (0.73.6):
     - glog
@@ -1267,7 +1258,6 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
   - SocketRocket (0.6.1)
-  - SPTPersistentCache (1.1.0)
   - SwiftAudioEx (1.1.0)
   - TOCropViewController (2.6.1)
   - Turf (2.7.0)
@@ -1359,14 +1349,12 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
-    - DVAssetLoaderDelegate
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreInternal
     - FirebaseInstallations
     - fmt
-    - GoogleAds-IMA-iOS-SDK
     - GoogleAppMeasurement
     - GoogleSignIn
     - GoogleUtilities
@@ -1378,9 +1366,7 @@ SPEC REPOS:
     - MapboxMaps
     - nanopb
     - PromisesObjC
-    - PromisesSwift
     - SocketRocket
-    - SPTPersistentCache
     - SwiftAudioEx
     - TOCropViewController
     - Turf
@@ -1533,7 +1519,6 @@ SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
-  DVAssetLoaderDelegate: 0caec20e4e08b8560b691131539e9180024d4bce
   FBLazyVector: f64d1e2ea739b4d8f7e4740cde18089cd97fe864
   FBReactNativeSpec: 9f2b8b243131565335437dba74923a8d3015e780
   Firebase: 333ec7c6b12fa09c77b5162cda6b862102211d50
@@ -1543,7 +1528,6 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 42d6ead4605d6eafb3b6683674e80e18eb6f2c35
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
-  GoogleAds-IMA-iOS-SDK: 7dbef0755db43698f2f6a3a7ac51a88571945399
   GoogleAppMeasurement: 794d1d2f71fdf77a077a3986258a5c2dac0f9d48
   GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
@@ -1556,7 +1540,6 @@ SPEC CHECKSUMS:
   MapboxMaps: 1c219108691a2000cb842b02e64d82158d74e6cd
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   RCT-Folly: 7169b2b1c44399c76a47b5deaaba715eeeb476c0
   RCTRequired: ca1d7414aba0b27efcfa2ccd37637edb1ab77d96
   RCTTypeSafety: 678e344fb976ff98343ca61dc62e151f3a042292
@@ -1579,12 +1562,12 @@ SPEC CHECKSUMS:
   React-logger: 3eb80a977f0d9669468ef641a5e1fabbc50a09ec
   React-Mapbuffer: d81d930c1b7f4db284e1d721fe7fdc99230ca108
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
-  react-native-geolocation: a2d03a79332e5bdcd6a295eaf4e04318abf0152f
+  react-native-geolocation: fff5fb51dd294e845aa203c2e747958421425087
   react-native-orientation-locker: 4409c5b12b65f942e75449872b4f078b6f27af81
-  react-native-safe-area-context: 962141233f99bc8287b8dc50357f9e1fad77d872
+  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-track-player: 6313a3d5ce21726577f26551f801a9ff03a96407
-  react-native-video: 3e3f477e0ddfe750a5e497486b94b9ca6978aff7
+  react-native-track-player: 82ef1756ffeea61140fea17519ecd6d64ec3cf3e
+  react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
   React-nativeconfig: e700ac3ec3d66329076bd2c2787a204411815d43
   React-NativeModulesApple: f7fa541118d195ac850ca2ea460f338152ced167
   React-perflogger: 5f49905de275bac07ac7ea7f575a70611fa988f2
@@ -1605,25 +1588,24 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 4fa81221f3bb96df737d682fa828b574bea3827c
   React-utils: a45dd70919baff681d43a4a457e9884ef96b4581
   ReactCommon: e168ee1704806f10f47ee8c7f825b5850b18eaea
-  RNCAsyncStorage: 9fdd15bfacec112394e11e7091b1a19148d82cd7
-  RNDeviceInfo: 5362eb14292ef9b0a68fb56851adf7884f1e64bc
+  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
+  RNDeviceInfo: 4f9c7cfd6b9db1b05eb919620a001cf35b536423
   RNFBApp: 3fd1f8d5b50cfaf718255e1faef207827c561d47
-  RNFlashList: fdb9685feadd9b11b3723ddd49f5acd33c773feb
+  RNFlashList: b521ebdd7f9352673817f1d98e8bdc0c8cf8545b
   RNGestureHandler: 0c8b0283d2aff561162b2f55c604d2f1f8e2c4ea
-  RNGoogleSignin: e1a0d29bf8376297b7dca598b3167279fc3d1eca
+  RNGoogleSignin: 24d3b3261f78b0fae0aa013f8ab6f8d25e369b0c
   RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
-  RNLocalize: b381e2e124c196700fa0afc1e1ed82eb661ead2c
+  RNLocalize: 4222a3756cdbe2dc9a5bdf445765a4d2572107cb
   rnmapbox-maps: 04fdf09ce004b83522ea09adef485d8a2e0bfa82
-  RNPermissions: d9ee389837b1480085b9f9e9ced10d531fb81041
+  RNPermissions: a4c964f030841f35d918ab3248df9dec9db5f44d
   RNReanimated: de95bb2cf26ccfa2b6fdf7e1a57158fb5c9d9515
   RNScreens: 97a2a32820e632c5978d75250afa397ed9053910
   RNVectorIcons: 81e919c3a9e56e4916f9e74cfe9cd2e489146f08
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  SPTPersistentCache: df36ea46762d7cf026502bbb86a8b79d0080dff4
   SwiftAudioEx: f6aa653770f3a0d3851edaf8d834a30aee4a7646
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Turf: 13d1a92d969ca0311bbc26e8356cca178ce95da2
-  VisionCamera: e264ebc579673febfd79aab107bffee69c299936
+  VisionCamera: 36c460338692788a0d377dce7d32f8ba049fb4f2
   Yoga: 805bf71192903b20fc14babe48080582fee65a80
 
 PODFILE CHECKSUM: 5fb634795f2cce07da6b6632bcdfd9b41dab6d6d

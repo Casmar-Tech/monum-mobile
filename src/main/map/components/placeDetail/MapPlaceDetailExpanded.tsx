@@ -41,6 +41,7 @@ export default function MapPlaceDetailExpanded({
   if (!place) {
     return null;
   }
+  console.log('imagesUrl', imagesUrl);
   return (
     <View style={styles.container}>
       <Carousel
@@ -48,9 +49,9 @@ export default function MapPlaceDetailExpanded({
         style={{
           borderTopLeftRadius: BORDER_RADIUS,
           borderTopRightRadius: BORDER_RADIUS,
+          height: 200,
         }}
         width={width}
-        height={heightImage}
         data={imagesUrl}
         scrollAnimationDuration={500}
         onProgressChange={(_, absoluteProgress) =>

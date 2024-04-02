@@ -1,18 +1,20 @@
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
 
-export default function LoadingSpinner() {
+export default function QRSpinner() {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#3F713B" />
+      <ActivityIndicator size="large" color="white" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
   },
 });

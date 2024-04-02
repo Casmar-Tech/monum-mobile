@@ -53,7 +53,12 @@
     "cancel": "Annuler",
     "scanQRText": "Scanner un QR",
     "writeItManually": "Écrire le code manuellement",
-    "search": "Recherche"
+    "search": "Recherche",
+    "success": "QR scanné avec succès!",
+    "manualSuccess": "Le code a été trouvé!",
+    "errorInvalidQR": "Le QR n'est pas valide. Veuillez réessayer.",
+    "errorRandom": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+    "manualError": "Le code saisi n'est pas valide."
   },
   "placeDetailExpanded": {
     "mediaIntro": "Qu'allez-vous découvrir ?"

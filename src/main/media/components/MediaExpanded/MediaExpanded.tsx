@@ -39,7 +39,7 @@ export function secondsToMinutes(seconds: number) {
 }
 
 const {height} = Dimensions.get('window');
-const extensionHeight = height * 0.65 + 160;
+const extensionHeight = height * 0.65 + 130;
 type GestureContext = {
   startY: number;
 };

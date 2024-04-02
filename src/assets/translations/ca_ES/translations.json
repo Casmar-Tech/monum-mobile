@@ -53,7 +53,12 @@
     "cancel": "Cancel·lar",
     "scanQRText": "Escaneja un QR",
     "writeItManually": "Escriu el codi manualment",
-    "search": "Cerca"
+    "search": "Cerca",
+    "success": "QR escanejat amb èxit!",
+    "manualSuccess": "S'ha trobat el codi!",
+    "errorInvalidQR": "Aquest QR no és vàlid. Si us plau, intenta-ho amb un altre.",
+    "errorRandom": "Ha succeït un error inesperat. Si us plau, torna-ho a intentar.",
+    "manualError": "El codi introduït no és vàlid."
   },
   "placeDetailExpanded": {
     "mediaIntro": "Què coneixeràs?"
