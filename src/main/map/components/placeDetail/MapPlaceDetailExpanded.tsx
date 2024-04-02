@@ -44,31 +44,33 @@ export default function MapPlaceDetailExpanded({
   console.log('imagesUrl', imagesUrl);
   return (
     <View style={styles.container}>
-      <Carousel
-        loop
-        style={{
-          borderTopLeftRadius: BORDER_RADIUS,
-          borderTopRightRadius: BORDER_RADIUS,
-          height: 200,
-        }}
-        width={width}
-        data={imagesUrl}
-        scrollAnimationDuration={500}
-        onProgressChange={(_, absoluteProgress) =>
-          (progressValue.value = absoluteProgress)
-        }
-        renderItem={({index}) => (
-          <View style={styles.imageContainer}>
-            <Image
-              source={{
-                uri: imagesUrl[index],
-              }}
-              resizeMode="cover"
-              style={styles.image}
-            />
-          </View>
-        )}
-      />
+      <View style={{height: heightImage}}>
+        <Carousel
+          loop
+          style={{
+            borderTopLeftRadius: BORDER_RADIUS,
+            borderTopRightRadius: BORDER_RADIUS,
+            height: 200,
+          }}
+          width={width}
+          data={imagesUrl}
+          scrollAnimationDuration={500}
+          onProgressChange={(_, absoluteProgress) =>
+            (progressValue.value = absoluteProgress)
+          }
+          renderItem={({index}) => (
+            <View style={styles.imageContainer}>
+              <Image
+                source={{
+                  uri: imagesUrl[index],
+                }}
+                resizeMode="cover"
+                style={styles.image}
+              />
+            </View>
+          )}
+        />
+      </View>
       {!!progressValue && (
         <View
           style={{
@@ -205,7 +207,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'red',
   },
   imageContainer: {
     height: 200,

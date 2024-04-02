@@ -58,7 +58,8 @@
     "manualSuccess": "S'ha trobat el codi!",
     "errorInvalidQR": "Aquest QR no és vàlid. Si us plau, intenta-ho amb un altre.",
     "errorRandom": "Ha succeït un error inesperat. Si us plau, torna-ho a intentar.",
-    "manualError": "El codi introduït no és vàlid."
+    "manualError": "El codi introduït no és vàlid.",
+    "noCamera": "No es pot accedir a la càmera. Si us plau, revisi la seva configuració o introdueixi el codi manualment."
   },
   "placeDetailExpanded": {
     "mediaIntro": "Què coneixeràs?"

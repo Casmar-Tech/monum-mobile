@@ -58,7 +58,8 @@
     "manualSuccess": "Le code a été trouvé!",
     "errorInvalidQR": "Le QR n'est pas valide. Veuillez réessayer.",
     "errorRandom": "Une erreur s'est produite. Veuillez réessayer plus tard.",
-    "manualError": "Le code saisi n'est pas valide."
+    "manualError": "Le code saisi n'est pas valide.",
+    "noCamera": "La caméra n'est pas accessible. Veuillez vérifier vos paramètres ou saisir le code manuellement."
   },
   "placeDetailExpanded": {
     "mediaIntro": "Qu'allez-vous découvrir ?"

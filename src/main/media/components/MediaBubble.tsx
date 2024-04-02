@@ -144,7 +144,9 @@ export default function MediaBubble() {
                   const {width: newWidth} = e.nativeEvent.layout;
                   setMaxTextWidth(newWidth);
                 }}>
-                <CarouselText text={currentTrack?.title} />
+                <View style={styles.mediaBubbleTitleContainer}>
+                  <CarouselText text={currentTrack?.title} />
+                </View>
                 <View style={styles.mediaBubbleLocationContainer}>
                   <Image
                     source={media_bubble_location}
@@ -246,7 +248,7 @@ export default function MediaBubble() {
                       ? 0
                       : progress.position / progress.duration
                   }
-                  style={{height: 1}}
+                  style={{height: 1, display: currentTrack?.mediaType === 'text' ? 'none' : 'flex'}}
                   minimumValue={0}
                   trackStyle={{height: 2}}
                   thumbStyle={{height: 6, width: 6}}
@@ -309,9 +311,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 12,
     fontFamily: 'Montserrat-Regular',
-    marginTop: 5,
+
   },
-  mediaBubbleLocationImage: {width: 15, height: 15, marginHorizontal: 3},
+  mediaBubbleLocationImage: {width: 15, height: 15, marginRight: 5},
   mediaBubbleLocationText: {color: '#3F713B', fontSize: 14},
   mediaBubblePlayerButtonsContainer: {
     flexDirection: 'row',

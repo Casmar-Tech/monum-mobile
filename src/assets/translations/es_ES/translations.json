@@ -58,7 +58,8 @@
     "manualSuccess": "¡Se ha encontrado el código!",
     "errorInvalidQR": "El QR no es válido. Por favor, prueba con otro.",
     "errorRandom": "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.",
-    "manualError": "El código introducido no es válido."
+    "manualError": "El código introducido no es válido.",
+    "noCamera": "No se puede acceder a la cámara. Por favor, revise su configuración o introduce el código manualmente."
   },
   "placeDetailExpanded": {
     "mediaIntro": "¿Qué vas a conocer?"

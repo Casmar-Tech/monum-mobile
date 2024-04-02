@@ -80,8 +80,8 @@ export default function MediaExpandedText({
           }}>
           <Text style={styles.placeMediaIntroText}>
             {currentTrack?.mediaType === 'text'
-              ? t('mediaDetailExpanded.itIsText')
-              : t('mediaDetailExpanded.introToReadIt')}
+              ? t('mediaDetailExpanded.introTextMediaType')
+              : t('mediaDetailExpanded.introAudioMediaType')}
           </Text>
         </View>
       </Pressable>

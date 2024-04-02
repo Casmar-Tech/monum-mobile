@@ -189,31 +189,52 @@ export default function ScanScreen({navigation}: any) {
           width: '100%',
           position: 'relative',
         }}>
-        <View
-          style={{
-            width: '100%',
-            padding: 5,
-            height: 350,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Camera
+        {device == null ? (
+          <View
             style={{
               width: '100%',
-              height: '100%',
-            }}
-            device={device}
-            isActive={true}
-            codeScanner={codeScanner}
-          />
-          {isLoading ? (
-            <QRSpinner />
-          ) : isScanSuccess ? (
-            <QRSuccess />
-          ) : (
-            isScanError && <QRError text={scanErrorMessage} />
-          )}
-        </View>
+              padding: 20,
+              height: 350,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 16,
+                textAlign: 'center',
+                fontFamily: 'Montserrat-SemiBold',
+              }}>
+              {t('qrScannerScreen.noCamera')}
+            </Text>
+          </View>
+        ) : (
+          <View
+            style={{
+              width: '100%',
+              padding: 5,
+              height: 350,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Camera
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+              device={device}
+              isActive={true}
+              codeScanner={codeScanner}
+            />
+            {isLoading ? (
+              <QRSpinner />
+            ) : isScanSuccess ? (
+              <QRSuccess />
+            ) : (
+              isScanError && <QRError text={scanErrorMessage} />
+            )}
+          </View>
+        )}
         <View style={[styles.corner, styles.topLeftCorner]} />
         <View style={[styles.corner, styles.topRightCorner]} />
         <View style={[styles.corner, styles.bottomLeftCorner]} />

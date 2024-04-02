@@ -39,7 +39,7 @@ export function secondsToMinutes(seconds: number) {
 }
 
 const {height} = Dimensions.get('window');
-const extensionHeight = height * 0.65 + 130;
+const extensionHeight = height * 0.65 + 160;
 type GestureContext = {
   startY: number;
 };
@@ -133,27 +133,29 @@ export default function MediaExpanded() {
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View style={[styles.animatedContainer, animatedStyle]}>
           <View style={{flex: 1}}>
-            <Carousel
-              loop
-              width={width}
-              height={height * 0.65}
-              data={imagesUrl}
-              scrollAnimationDuration={500}
-              onProgressChange={(_, absoluteProgress) =>
-                (progressValue.value = absoluteProgress)
-              }
-              renderItem={({index}) => (
-                <View>
-                  <Image
-                    source={{
-                      uri: imagesUrl[index],
-                    }}
-                    resizeMode="cover"
-                    style={styles.image}
-                  />
-                </View>
-              )}
-            />
+            <View style={{height: height * 0.65}}>
+              <Carousel
+                loop
+                width={width}
+                height={height * 0.65}
+                data={imagesUrl}
+                scrollAnimationDuration={500}
+                onProgressChange={(_, absoluteProgress) =>
+                  (progressValue.value = absoluteProgress)
+                }
+                renderItem={({index}) => (
+                  <View>
+                    <Image
+                      source={{
+                        uri: imagesUrl[index],
+                      }}
+                      resizeMode="cover"
+                      style={styles.image}
+                    />
+                  </View>
+                )}
+              />
+            </View>
             {!!progressValue && (
               <View
                 style={{
