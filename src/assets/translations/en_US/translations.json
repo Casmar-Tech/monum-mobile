@@ -92,8 +92,8 @@
     "search": "Search",
     "errorGettingAvailableCities": "Error getting available cities",
     "stops": "stops",
-    "audio": "audio",
-    "audios": "audios"
+    "resource": "resource",
+    "resources": "resources"
   },
   "actionSheets": {
     "directionSheet": {

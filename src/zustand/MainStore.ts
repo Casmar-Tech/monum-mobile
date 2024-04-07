@@ -16,8 +16,8 @@ export interface IMain {
   watchId: number | null;
   videoPlayer: boolean;
   videoUrl: string;
-  currentTrack: Track | null;
-  currentTrackIndex: number | null;
+  currentTrack: Track | undefined;
+  currentTrackIndex: number | undefined;
 }
 
 export const defaultMain: IMain = {
@@ -32,8 +32,8 @@ export const defaultMain: IMain = {
   watchId: null,
   videoPlayer: false,
   videoUrl: '',
-  currentTrack: null,
-  currentTrackIndex: null,
+  currentTrack: undefined,
+  currentTrackIndex: undefined,
 };
 
 interface MainState {
@@ -51,8 +51,8 @@ interface MainState {
   stopWatchingLocation: () => void;
   setVideoPlayer: (videoPlayer: boolean) => void;
   setVideoUrl: (videoUrl: string) => void;
-  setCurrentTrack: (currentTrack: Track | null) => void;
-  setCurrentTrackIndex: (currentTrackIndex: number | null) => void;
+  setCurrentTrack: (currentTrack: Track | undefined) => void;
+  setCurrentTrackIndex: (currentTrackIndex: number | undefined) => void;
 }
 
 export const useMainStore = create<MainState>(set => ({
@@ -97,7 +97,7 @@ export const useMainStore = create<MainState>(set => ({
       (error: any) => {
         console.error('Error watching position:', error);
       },
-      {enableHighAccuracy: true, distanceFilter: 5, interval: 5000},
+      {enableHighAccuracy: true, distanceFilter: 1, interval: 1000},
     );
     set(state => ({main: {...state.main, watchId}}));
   },
@@ -115,10 +115,10 @@ export const useMainStore = create<MainState>(set => ({
   setVideoUrl: (videoUrl: string) => {
     set(state => ({main: {...state.main, videoUrl}}));
   },
-  setCurrentTrack: (currentTrack: Track | null) => {
+  setCurrentTrack: (currentTrack: Track | undefined) => {
     set(state => ({main: {...state.main, currentTrack}}));
   },
-  setCurrentTrackIndex: (currentTrackIndex: number | null) => {
+  setCurrentTrackIndex: (currentTrackIndex: number | undefined) => {
     set(state => ({main: {...state.main, currentTrackIndex}}));
   },
 }));

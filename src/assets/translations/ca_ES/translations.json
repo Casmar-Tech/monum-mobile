@@ -65,7 +65,7 @@
     "mediaIntro": "Què coneixeràs?"
   },
   "mediaDetailExpanded": {
-    "introTextMediaType": "Històries per descubrir llegint",
+    "introTextMediaType": "Històries per descobrir llegint",
     "introAudioMediaType": "Vols llegir-ho?"
   },
   "profile": {
@@ -92,8 +92,8 @@
     "search": "Cerca",
     "errorGettingAvailableCities": "Error al obtenir les ciutats disponibles",
     "stops": "aturades",
-    "audio": "audio",
-    "audios": "audios"
+    "resource": "recurs",
+    "resources": "recursos"
   },
   "actionSheets": {
     "directionSheet": {

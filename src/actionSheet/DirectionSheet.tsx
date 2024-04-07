@@ -9,21 +9,10 @@ import {
   View,
 } from 'react-native';
 import ActionSheet, {SheetProps} from 'react-native-actions-sheet';
-import {getApps, GetAppResult} from 'react-native-map-link';
+import {getApps, GetAppsResponse} from 'react-native-map-link';
 
-interface DirectionSheetProps {
-  payload?: {
-    coordinates: {
-      lat: number;
-      lng: number;
-    };
-    label: string;
-  };
-  sheetId?: string;
-}
-
-export default function DirectionSheet(props: DirectionSheetProps) {
-  const [availableApps, setAvailableApps] = useState<GetAppResult[]>([]);
+export default function DirectionSheet(props: SheetProps<'direction-sheet'>) {
+  const [availableApps, setAvailableApps] = useState<GetAppsResponse[]>([]);
 
   useEffect(() => {
     (async () => {

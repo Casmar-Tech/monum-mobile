@@ -16,8 +16,7 @@ export function MarkerComponent({id, coordinates, importance}: IMarker) {
   const setMarkerSelected = useTabRouteStore(state => state.setMarkerSelected);
   const markerSelected = useTabRouteStore(state => state.markerSelected);
   const [icon, setIcon] = useState(map_marker_importance_1);
-  const [dimensions, setDimensions] = useState(30);
-  // const [backgroundColor, setBackgroundColor] = useState('white');
+  const dimensions = 50;
   const chooseIcon = () => {
     const selected = markerSelected === id;
     switch (importance) {
@@ -25,25 +24,21 @@ export function MarkerComponent({id, coordinates, importance}: IMarker) {
         setIcon(
           selected ? map_marker_importance_1_selected : map_marker_importance_1,
         );
-        setDimensions(50);
         break;
       case 2:
         setIcon(
           selected ? map_marker_importance_2_selected : map_marker_importance_2,
         );
-        setDimensions(50);
         break;
       case 3:
         setIcon(
           selected ? map_marker_importance_3_selected : map_marker_importance_3,
         );
-        setDimensions(50);
         break;
       default:
         setIcon(
           selected ? map_marker_importance_1_selected : map_marker_importance_1,
         );
-        setDimensions(50);
         break;
     }
   };

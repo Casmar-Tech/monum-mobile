@@ -4,14 +4,13 @@ import {
   NavigationContainer,
   NavigationContainerRef,
 } from '@react-navigation/native';
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Image, StatusBar, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import bottom_bar_list_inactive from '../assets/images/icons/bottom_bar_list_inactive.png';
 import bottom_bar_map_inactive from '../assets/images/icons/bottom_bar_map_inactive.png';
 import bottom_bar_config_inactive from '../assets/images/icons/bottom_bar_config_inactive.png';
-import MapScreen from './map/screens/MapScreen';
 
 import MediaComponent from './media/components/MediaComponent';
 import RoutesNavigator from './routes/navigator/RoutesNavigator';
@@ -44,7 +43,7 @@ export type BottomTabBarIconProps = {
 const Tab = createBottomTabNavigator<RootBottomTabList>();
 
 function BottomTabNavigator() {
-  const navigationRef = useRef<NavigationContainerRef<RootBottomTabList>>();
+  const navigationRef = useRef<NavigationContainerRef<RootBottomTabList>>(null);
   const bottomSafeArea = useSafeAreaInsets().bottom;
   const isTabBarVisible = useMainStore(state => state.main.isTabBarVisible);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
@@ -55,10 +54,13 @@ function BottomTabNavigator() {
   const activeTab = useMainStore(state => state.main.activeTab);
   const setActiveTab = useMainStore(state => state.setActiveTab);
   const setStatePlayer = useMainStore(state => state.setStatePlayer);
+  const currentTrack = useMainStore(state => state.main.currentTrack);
   const setCurrentTrack = useMainStore(state => state.setCurrentTrack);
   const setCurrentTrackIndex = useMainStore(
     state => state.setCurrentTrackIndex,
   );
+
+  const [showMedia, setShowMedia] = useState(false);
 
   useTrackPlayerEvents([Event.PlaybackState], async event => {
     setStatePlayer(event.state);
@@ -71,7 +73,8 @@ function BottomTabNavigator() {
     ) {
       const track = await TrackPlayer.getActiveTrack();
       const index = await TrackPlayer.getActiveTrackIndex();
-      if (track && index) {
+
+      if (track !== null && index !== null) {
         setCurrentTrack(track);
         setCurrentTrackIndex(index);
       }
@@ -144,6 +147,30 @@ function BottomTabNavigator() {
     }
   }, [videoPlayer]);
 
+  useEffect(() => {
+    if (!placeOfMedia) {
+      setShowMedia(false);
+      return;
+    }
+    if (activeTab !== 'Map') {
+      setShowMedia(true);
+    } else {
+      if (!markerSelected) {
+        setShowMedia(true);
+      } else if (markerSelected && showPlaceDetailExpanded) {
+        setShowMedia(true);
+      } else {
+        setShowMedia(false);
+      }
+    }
+  }, [
+    placeOfMedia,
+    activeTab,
+    markerSelected,
+    showPlaceDetailExpanded,
+    currentTrack,
+  ]);
+
   return (
     <NavigationContainer independent={true} ref={navigationRef}>
       <StatusBar translucent barStyle="dark-content" />
@@ -199,11 +226,7 @@ function BottomTabNavigator() {
           {() => <ProfileNavigator />}
         </Tab.Screen>
       </Tab.Navigator>
-
-      {placeOfMedia &&
-        (activeTab === 'Map'
-          ? (markerSelected && showPlaceDetailExpanded) || !markerSelected
-          : true) && <MediaComponent />}
+      {showMedia && <MediaComponent />}
       {videoPlayer && <VideoPlayer />}
     </NavigationContainer>
   );

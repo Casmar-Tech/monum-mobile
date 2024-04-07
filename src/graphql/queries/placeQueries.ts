@@ -27,6 +27,25 @@ export const GET_MARKERS = gql`
   }
 `;
 
+export const GET_ALL_MARKERS = gql`
+  query Places(
+    $sortOrder: SortOrder
+    $sortField: SortField
+    $language: Language
+  ) {
+    places(sortOrder: $sortOrder, sortField: $sortField, language: $language) {
+      id
+      address {
+        coordinates {
+          lat
+          lng
+        }
+      }
+      importance
+    }
+  }
+`;
+
 export const GET_PLACE_INFO = gql`
   query Place($placeId: ID!, $imageSize: ImageSize, $language: Language) {
     place(id: $placeId, imageSize: $imageSize, language: $language) {
@@ -59,8 +78,26 @@ export const GET_PLACE_INFO = gql`
   }
 `;
 
-export const GET_PLACE_SEARCHER_SUGGESTIONS = gql`
-  query Query($textSearch: String!) {
-    placeSearcherSuggestions(textSearch: $textSearch)
+export const GET_MAP_SEARCHER_RESULTS = gql`
+  query GetMapSearcherResults(
+    $getMapSearcherResultsInput: GetMapSearcherResultsInput!
+  ) {
+    getMapSearcherResults(
+      getMapSearcherResultsInput: $getMapSearcherResultsInput
+    ) {
+      id
+      name
+      city
+      country
+      coordinates {
+        lat
+        lng
+      }
+      distance
+      importance
+      hasMonums
+      type
+      region
+    }
   }
 `;

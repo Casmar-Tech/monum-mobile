@@ -2,6 +2,7 @@ import {create} from 'zustand';
 import IPlace from '../shared/interfaces/IPlace';
 import IMedia from '../shared/interfaces/IMedia';
 import {IMarker} from '../shared/interfaces/IMarker';
+import {ISearchResult} from '../shared/interfaces/ISearchResult';
 
 export interface ITabMap {
   markerSelected: string | null;
@@ -12,6 +13,11 @@ export interface ITabMap {
   markers: IMarker[];
   mapCameraCoordinates: [number, number];
   forceUpdateMapCamera: boolean;
+  textSearch: string | undefined;
+  searcherResults: ISearchResult[];
+  textSearchIsLoading: boolean;
+  zoomLevel: number;
+  animationDuration: number;
 }
 
 export const defaultTabMap: ITabMap = {
@@ -23,6 +29,11 @@ export const defaultTabMap: ITabMap = {
   markers: [],
   mapCameraCoordinates: [0, 0],
   forceUpdateMapCamera: false,
+  textSearch: undefined,
+  searcherResults: [],
+  textSearchIsLoading: false,
+  zoomLevel: 17,
+  animationDuration: 1000,
 };
 
 interface TabMapState {
@@ -36,6 +47,11 @@ interface TabMapState {
   setMapCameraCoordinates: (mapCameraCoordinates: [number, number]) => void;
   setForceUpdateMapCamera: (forceUpdateMapCamera: boolean) => void;
   setDefaultTabMap: () => void;
+  setTextSearch: (textSearch: string | undefined) => void;
+  setSearcherResults: (searcherResults: ISearchResult[]) => void;
+  setTextSearchIsLoading: (textSearchIsLoading: boolean) => void;
+  setZoomLevel: (zoomLevel: number) => void;
+  setAnimationDuration: (animationDuration: number) => void;
 }
 
 export const useTabMapStore = create<TabMapState>(set => ({
@@ -68,5 +84,20 @@ export const useTabMapStore = create<TabMapState>(set => ({
   },
   setDefaultTabMap: () => {
     set(() => ({tabMap: defaultTabMap}));
+  },
+  setTextSearch: (textSearch: string | undefined) => {
+    set(state => ({tabMap: {...state.tabMap, textSearch}}));
+  },
+  setSearcherResults: (searcherResults: ISearchResult[]) => {
+    set(state => ({tabMap: {...state.tabMap, searcherResults}}));
+  },
+  setTextSearchIsLoading: (textSearchIsLoading: boolean) => {
+    set(state => ({tabMap: {...state.tabMap, textSearchIsLoading}}));
+  },
+  setZoomLevel: (zoomLevel: number) => {
+    set(state => ({tabMap: {...state.tabMap, zoomLevel}}));
+  },
+  setAnimationDuration: (animationDuration: number) => {
+    set(state => ({tabMap: {...state.tabMap, animationDuration}}));
   },
 }));

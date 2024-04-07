@@ -115,153 +115,163 @@ export default function MediaBubble() {
   }, [closeBubble]);
 
   return (
-    placeOfMedia &&
-    currentTrack?.title && (
-      <PanGestureHandler onGestureEvent={panGestureEvent}>
-        <Animated.View
-          style={[
-            styles.animatedContainer,
-            animatedStyle,
-            {
-              bottom: bottomSafeAreaInsets + BOTTOM_TAB_NAVIGATOR_HEIGHT + 5,
-            },
-          ]}>
-          <TouchableWithoutFeedback
-            onPress={() => setExpandedMediaDetail(true)}>
-            <View style={styles.mediaBubbleContainer}>
-              <View style={styles.mediaBubbleImageContainer}>
+    <PanGestureHandler onGestureEvent={panGestureEvent}>
+      <Animated.View
+        style={[
+          styles.animatedContainer,
+          animatedStyle,
+          {
+            bottom: bottomSafeAreaInsets + BOTTOM_TAB_NAVIGATOR_HEIGHT + 5,
+          },
+        ]}>
+        <TouchableWithoutFeedback onPress={() => setExpandedMediaDetail(true)}>
+          <View style={styles.mediaBubbleContainer}>
+            <View style={styles.mediaBubbleImageContainer}>
+              <Image
+                source={{
+                  uri: Array.isArray(imagesUrl) ? imagesUrl[0] : '',
+                }}
+                style={styles.mediaBubbleImage}
+                resizeMode="cover"
+              />
+            </View>
+            <View
+              style={styles.mediaBubbleInfoContainer}
+              onLayout={e => {
+                const {width: newWidth} = e.nativeEvent.layout;
+                setMaxTextWidth(newWidth);
+              }}>
+              <View style={styles.mediaBubbleTitleContainer}>
+                <CarouselText text={currentTrack?.title || ''} />
+              </View>
+              <View style={styles.mediaBubbleLocationContainer}>
                 <Image
-                  source={{
-                    uri: Array.isArray(imagesUrl) ? imagesUrl[0] : '',
-                  }}
-                  style={styles.mediaBubbleImage}
-                  resizeMode="cover"
+                  source={media_bubble_location}
+                  style={styles.mediaBubbleLocationImage}
+                  resizeMode="contain"
                 />
+                <Text style={styles.mediaBubbleLocationText}>
+                  {placeOfMedia?.address?.city}
+                </Text>
               </View>
-              <View
-                style={styles.mediaBubbleInfoContainer}
-                onLayout={e => {
-                  const {width: newWidth} = e.nativeEvent.layout;
-                  setMaxTextWidth(newWidth);
-                }}>
-                <View style={styles.mediaBubbleTitleContainer}>
-                  <CarouselText text={currentTrack?.title} />
-                </View>
-                <View style={styles.mediaBubbleLocationContainer}>
-                  <Image
-                    source={media_bubble_location}
-                    style={styles.mediaBubbleLocationImage}
-                    resizeMode="contain"
-                  />
-                  <Text style={styles.mediaBubbleLocationText}>
-                    {placeOfMedia?.address?.city}
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.mediaBubblePlayerButtonsContainer}>
-                <TouchableOpacity
-                  style={styles.mediaBubblePlayerButtonsImageContainer}
-                  onPress={async () => {
-                    try {
-                      if (currentTrackIndex) {
-                        if (currentTrackIndex === 0) {
-                          await TrackPlayer.seekTo(0);
-                        } else {
-                          await TrackPlayer.skipToPrevious();
-                        }
-                        const previousTrackIndex = Math.max(
-                          0,
-                          currentTrackIndex - 1,
-                        );
-                        const previousTrack = await TrackPlayer.getTrack(
-                          previousTrackIndex,
-                        );
-                        previousTrack?.mediaType === 'text'
-                          ? await TrackPlayer.pause()
-                          : await TrackPlayer.play();
+            </View>
+            <View style={styles.mediaBubblePlayerButtonsContainer}>
+              <TouchableOpacity
+                style={styles.mediaBubblePlayerButtonsImageContainer}
+                onPress={async () => {
+                  try {
+                    if (
+                      currentTrackIndex !== null &&
+                      currentTrackIndex !== undefined
+                    ) {
+                      if (currentTrackIndex === 0) {
+                        await TrackPlayer.seekTo(0);
+                      } else {
+                        await TrackPlayer.skipToPrevious();
                       }
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  }}>
-                  <Image
-                    source={media_bubble_back}
-                    style={styles.mediaBubblePlayerButtonsImage}
-                    resizeMode="contain"
-                  />
-                </TouchableOpacity>
-                {currentTrack.mediaType !== 'text' ? (
-                  <TouchableOpacity
-                    style={styles.mediaBubblePlayerButtonsImageContainer}
-                    onPress={async () => {
-                      statePlayer === State.Paused
-                        ? await TrackPlayer.play()
-                        : await TrackPlayer.pause();
-                    }}>
-                    <Image
-                      source={
-                        statePlayer === State.Paused
-                          ? media_bubble_play
-                          : media_bubble_pause
-                      }
-                      style={styles.mediaBubblePlayerButtonsImagePlay}
-                      resizeMode="contain"
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <View style={{width: 14, height: 14, flex: 1}} />
-                )}
-                <TouchableOpacity
-                  style={styles.mediaBubblePlayerButtonsImageContainer}
-                  onPress={async () => {
-                    try {
-                      await TrackPlayer.skipToNext();
-                      const nextTrack = await TrackPlayer.getTrack(
-                        currentTrackIndex + 1,
+                      const previousTrackIndex = Math.max(
+                        0,
+                        currentTrackIndex - 1,
                       );
-                      nextTrack.mediaType === 'text'
+                      const previousTrack =
+                        await TrackPlayer.getTrack(previousTrackIndex);
+                      previousTrack?.mediaType === 'text'
                         ? await TrackPlayer.pause()
                         : await TrackPlayer.play();
-                    } catch (e) {
-                      console.log(e);
                     }
+                  } catch (e) {
+                    console.log(e);
+                  }
+                }}>
+                <Image
+                  source={media_bubble_back}
+                  style={styles.mediaBubblePlayerButtonsImage}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              {currentTrack?.mediaType !== 'text' ? (
+                <TouchableOpacity
+                  style={styles.mediaBubblePlayerButtonsImageContainer}
+                  onPress={async () => {
+                    statePlayer === State.Paused
+                      ? await TrackPlayer.play()
+                      : await TrackPlayer.pause();
                   }}>
                   <Image
-                    source={media_bubble_forward}
+                    source={
+                      statePlayer === State.Paused
+                        ? media_bubble_play
+                        : media_bubble_pause
+                    }
                     style={styles.mediaBubblePlayerButtonsImagePlay}
                     resizeMode="contain"
                   />
                 </TouchableOpacity>
-              </View>
-
-              <View
-                style={[
-                  styles.mediaBubbleSliderContainer,
-                  {width: width * 0.65},
-                ]}>
-                <Slider
-                  onSlidingComplete={value => {
-                    TrackPlayer.seekTo(value * progress.duration);
-                  }}
-                  value={
-                    progress.duration === 0
-                      ? 0
-                      : progress.position / progress.duration
+              ) : (
+                <View style={{width: 14, height: 14, flex: 1}} />
+              )}
+              <TouchableOpacity
+                style={styles.mediaBubblePlayerButtonsImageContainer}
+                onPress={async () => {
+                  try {
+                    if (
+                      currentTrackIndex !== null &&
+                      currentTrackIndex !== undefined
+                    ) {
+                      await TrackPlayer.skipToNext();
+                      const nextTrack = await TrackPlayer.getTrack(
+                        currentTrackIndex + 1,
+                      );
+                      if (nextTrack) {
+                        nextTrack.mediaType === 'text'
+                          ? await TrackPlayer.pause()
+                          : await TrackPlayer.play();
+                      } else {
+                        await TrackPlayer.pause();
+                      }
+                    }
+                  } catch (e) {
+                    console.log(e);
                   }
-                  style={{height: 1, display: currentTrack?.mediaType === 'text' ? 'none' : 'flex'}}
-                  minimumValue={0}
-                  trackStyle={{height: 2}}
-                  thumbStyle={{height: 6, width: 6}}
-                  maximumTrackTintColor="grey"
-                  minimumTrackTintColor="#032000"
-                  thumbTintColor="#032000"
+                }}>
+                <Image
+                  source={media_bubble_forward}
+                  style={styles.mediaBubblePlayerButtonsImagePlay}
+                  resizeMode="contain"
                 />
-              </View>
+              </TouchableOpacity>
             </View>
-          </TouchableWithoutFeedback>
-        </Animated.View>
-      </PanGestureHandler>
-    )
+
+            <View
+              style={[
+                styles.mediaBubbleSliderContainer,
+                {width: width * 0.65},
+              ]}>
+              <Slider
+                onSlidingComplete={value => {
+                  TrackPlayer.seekTo(value * progress.duration);
+                }}
+                value={
+                  progress.duration === 0
+                    ? 0
+                    : progress.position / progress.duration
+                }
+                style={{
+                  height: 1,
+                  display: currentTrack?.mediaType === 'text' ? 'none' : 'flex',
+                }}
+                minimumValue={0}
+                trackStyle={{height: 2}}
+                thumbStyle={{height: 6, width: 6}}
+                maximumTrackTintColor="grey"
+                minimumTrackTintColor="#032000"
+                thumbTintColor="#032000"
+              />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Animated.View>
+    </PanGestureHandler>
   );
 }
 
@@ -311,7 +321,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 12,
     fontFamily: 'Montserrat-Regular',
-
   },
   mediaBubbleLocationImage: {width: 15, height: 15, marginRight: 5},
   mediaBubbleLocationText: {color: '#3F713B', fontSize: 14},

@@ -142,7 +142,7 @@ const PlaceFromRoutePill = forwardRef<
                 <View
                   style={{
                     flexDirection: 'row',
-                    alignItems: 'flex-start',
+                    alignItems: 'center',
                   }}>
                   <TouchableOpacity
                     onPress={() => {
@@ -194,7 +194,9 @@ const PlaceFromRoutePill = forwardRef<
                   }}>
                   <Text style={styles.audiosNumberText}>
                     {`${medias?.length} ${
-                      medias.length > 1 ? t('routes.audios') : t('routes.audio')
+                      medias.length > 1
+                        ? t('routes.resources')
+                        : t('routes.resource')
                     }`}
                   </Text>
                   <Image

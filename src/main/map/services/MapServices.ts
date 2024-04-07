@@ -4,7 +4,8 @@ import client from '../../../graphql/connection';
 import {
   GET_MARKERS,
   GET_PLACE_INFO,
-  GET_PLACE_SEARCHER_SUGGESTIONS,
+  GET_MAP_SEARCHER_RESULTS,
+  GET_ALL_MARKERS,
 } from '../../../graphql/queries/placeQueries';
 import {GET_PLACE_MEDIA} from '../../../graphql/queries/mediaQueries';
 import {Language} from '../../../shared/types/Language';
@@ -23,6 +24,27 @@ class MapServices {
         variables: {
           textSearch: textSearch,
           centerCoordinates,
+          sortField,
+          sortOrder,
+          language,
+        },
+      });
+      return response.data.places || [];
+    } catch (error) {
+      console.error('Error trying to get markers:', error);
+      return [];
+    }
+  }
+
+  public async getAllMarkers(
+    sortField: 'importance' | 'name',
+    sortOrder: 'asc' | 'desc',
+    language?: Language,
+  ): Promise<MarkerResponse[]> {
+    try {
+      const response = await client.query({
+        query: GET_ALL_MARKERS,
+        variables: {
           sortField,
           sortOrder,
           language,
@@ -64,13 +86,16 @@ class MapServices {
     }
   }
 
-  public async getPlaceSearcherSuggestions(textSearch: string) {
+  public async getMapSearcherResults(
+    coordinates: {lat: number; lng: number},
+    textSearch?: string,
+  ) {
     try {
       const response = await client.query({
-        query: GET_PLACE_SEARCHER_SUGGESTIONS,
-        variables: {textSearch},
+        query: GET_MAP_SEARCHER_RESULTS,
+        variables: {getMapSearcherResultsInput: {textSearch, coordinates}},
       });
-      return response.data?.placeSearcherSuggestions || [];
+      return response.data?.getMapSearcherResults || [];
     } catch (error) {
       console.error('Error trying to get place searcher suggestions:', error);
       return [];

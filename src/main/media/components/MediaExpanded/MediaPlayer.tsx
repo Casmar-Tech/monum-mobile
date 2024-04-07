@@ -45,18 +45,22 @@ export default function MediaPlayer() {
             style={styles.mediaPlayerButtons}
             onPress={async () => {
               try {
-                if (currentTrackIndex === 0) {
-                  await TrackPlayer.seekTo(0);
-                } else {
-                  await TrackPlayer.skipToPrevious();
+                if (
+                  currentTrackIndex !== null &&
+                  currentTrackIndex !== undefined
+                ) {
+                  if (currentTrackIndex === 0) {
+                    await TrackPlayer.seekTo(0);
+                  } else {
+                    await TrackPlayer.skipToPrevious();
+                  }
+                  const previousTrackIndex = Math.max(0, currentTrackIndex - 1);
+                  const previousTrack =
+                    await TrackPlayer.getTrack(previousTrackIndex);
+                  previousTrack?.mediaType === 'text'
+                    ? await TrackPlayer.pause()
+                    : await TrackPlayer.play();
                 }
-                const previousTrackIndex = Math.max(0, currentTrackIndex - 1);
-                const previousTrack = await TrackPlayer.getTrack(
-                  previousTrackIndex,
-                );
-                previousTrack.mediaType === 'text'
-                  ? await TrackPlayer.pause()
-                  : await TrackPlayer.play();
               } catch (e) {
                 console.log(e);
               }
@@ -94,13 +98,22 @@ export default function MediaPlayer() {
             style={styles.mediaPlayerButtons}
             onPress={async () => {
               try {
-                await TrackPlayer.skipToNext();
-                const nextTrack = await TrackPlayer.getTrack(
-                  currentTrackIndex + 1,
-                );
-                nextTrack.mediaType === 'text'
-                  ? await TrackPlayer.pause()
-                  : await TrackPlayer.play();
+                if (
+                  currentTrackIndex !== null &&
+                  currentTrackIndex !== undefined
+                ) {
+                  await TrackPlayer.skipToNext();
+                  const nextTrack = await TrackPlayer.getTrack(
+                    currentTrackIndex + 1,
+                  );
+                  if (nextTrack) {
+                    nextTrack.mediaType === 'text'
+                      ? await TrackPlayer.pause()
+                      : await TrackPlayer.play();
+                  } else {
+                    await TrackPlayer.pause();
+                  }
+                }
               } catch (e) {
                 console.log(e);
               }

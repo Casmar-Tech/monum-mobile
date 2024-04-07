@@ -41,7 +41,6 @@ export default function MapPlaceDetailExpanded({
   if (!place) {
     return null;
   }
-  console.log('imagesUrl', imagesUrl);
   return (
     <View style={styles.container}>
       <View style={{height: heightImage}}>

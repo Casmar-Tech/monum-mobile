@@ -9,12 +9,13 @@ import MapScreenButton from '../components/MapScreenButton';
 import {MarkerComponent} from '../components/Marker';
 import MapPlaceDetail from '../components/placeDetail/MapPlaceDetail';
 import MapServices from '../services/MapServices';
-import TextSearchMap from '../components/TextSearchMap';
 import CurrentPositionMarker from '../components/CurrentPositionMarker';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useMainStore} from '../../../zustand/MainStore';
 import Geolocation from '@react-native-community/geolocation';
 import {useUserStore} from '../../../zustand/UserStore';
+import TextSearchMapScreen from '../components/TextSearchMapScreen';
+
 setAccessToken(
   'pk.eyJ1IjoieHBsb3JlYXIiLCJhIjoiY2xqMmU0Z3NyMGFxeTNwbzByNW90dmdxcSJ9.cMT52Rc64Z05YUGPIutXFw',
 );
@@ -37,12 +38,6 @@ export default function MapScreen({navigation}: {navigation: any}) {
   );
   const hasInitByUrl = useMainStore(state => state.main.hasInitByUrl);
 
-  const [textSearch, setTextSearch] = useState<string | undefined>('');
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-  const toggleDropdown = (visible: boolean) => {
-    setIsDropdownVisible(visible);
-  };
   const setCurrentUserLocation = useMainStore(
     state => state.setCurrentUserLocation,
   );
@@ -52,12 +47,18 @@ export default function MapScreen({navigation}: {navigation: any}) {
   const setForceUpdateMapCamera = useTabMapStore(
     state => state.setForceUpdateMapCamera,
   );
+  const zoomLevel = useTabMapStore(state => state.tabMap.zoomLevel);
+  const setZoomLevel = useTabMapStore(state => state.setZoomLevel);
+  const animationDuration = useTabMapStore(
+    state => state.tabMap.animationDuration,
+  );
+  const setAnimationDuration = useTabMapStore(
+    state => state.setAnimationDuration,
+  );
 
   useEffect(() => {
     const fetchMarkers = async () => {
-      const markersData = await MapServices.getMarkers(
-        textSearch,
-        currentUserLocation || [2.15, 41.38],
+      const markersData = await MapServices.getAllMarkers(
         'importance',
         'asc',
         language,
@@ -75,7 +76,7 @@ export default function MapScreen({navigation}: {navigation: any}) {
       );
     };
     fetchMarkers();
-  }, [textSearch]);
+  }, []);
 
   useEffect(() => {
     if (markerSelected && markers.length > 0) {
@@ -92,10 +93,12 @@ export default function MapScreen({navigation}: {navigation: any}) {
   useEffect(() => {
     if (forceUpdateMapCamera) {
       cameraRef?.current?.setCamera({
-        animationDuration: 1000,
-        zoomLevel: 17,
+        animationDuration: animationDuration || 1000,
+        zoomLevel: zoomLevel || 17,
         centerCoordinate: mapCameraCoordinates,
       });
+      setAnimationDuration(1000);
+      setZoomLevel(17);
       setForceUpdateMapCamera(false);
     }
   }, [mapCameraCoordinates, forceUpdateMapCamera]);
@@ -175,7 +178,6 @@ export default function MapScreen({navigation}: {navigation: any}) {
             animationDuration={1000}
           />
         </MapView>
-        {/* <FilterComponent filters={filters} setFilters={setFilters} /> */}
         <MapScreenButton
           onPress={() => navigation.navigate('QRScannerScreen')}
           image={map_qr_scanner}
@@ -185,13 +187,12 @@ export default function MapScreen({navigation}: {navigation: any}) {
           onPress={async () => await centerCoordinatesButtonAction()}
           image={map_center_coordinates}
         />
-        {/* <TextSearchMap
-          textSearch={textSearch}
-          setTextSearch={setTextSearch}
-          isDropdownVisible={isDropdownVisible}
-          toggleDropdown={toggleDropdown}
-        /> */}
         <MapPlaceDetail />
+        <TextSearchMapScreen
+          onPress={() => {
+            navigation.navigate('TextSearchScreen');
+          }}
+        />
       </View>
     </View>
   );

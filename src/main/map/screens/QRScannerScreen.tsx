@@ -91,7 +91,7 @@ export default function ScanScreen({navigation}: any) {
       isScanner ? setIsScanSuccess(true) : setIsManualSuccess(true);
       setTimeout(() => {
         navigation.navigate('MapScreen');
-        cameraRef.current.setCamera({
+        cameraRef?.current?.setCamera({
           pitch: 60,
           centerCoordinate: [
             placeData.address.coordinates.lng,
