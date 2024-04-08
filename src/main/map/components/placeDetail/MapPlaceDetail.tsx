@@ -136,7 +136,7 @@ export default function MapPlaceDetail() {
     }
     return {
       top: position.value,
-      height: height - position.value,
+      height: 0,
     };
   });
 
@@ -176,15 +176,7 @@ export default function MapPlaceDetail() {
   };
 
   return markerSelected ? (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: showPlaceDetailExpanded
-            ? 'rgba(0, 0, 0, 0.8)'
-            : 'rgba(0, 0, 0, 0)',
-        },
-      ]}>
+    <View style={styles.container}>
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View style={[styles.animatedContainer, animatedStyle]}>
           {showPlaceDetailExpanded && place && Array.isArray(mediasOfPlace) ? (
@@ -206,7 +198,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     zIndex: 3,
-    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   animatedContainer: {
     borderTopLeftRadius: 24,

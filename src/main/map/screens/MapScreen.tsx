@@ -93,11 +93,11 @@ export default function MapScreen({navigation}: {navigation: any}) {
   useEffect(() => {
     if (forceUpdateMapCamera) {
       cameraRef?.current?.setCamera({
-        animationDuration: animationDuration || 1000,
+        animationDuration: animationDuration || 2000,
         zoomLevel: zoomLevel || 17,
         centerCoordinate: mapCameraCoordinates,
       });
-      setAnimationDuration(1000);
+      setAnimationDuration(2000);
       setZoomLevel(17);
       setForceUpdateMapCamera(false);
     }
@@ -170,12 +170,15 @@ export default function MapScreen({navigation}: {navigation: any}) {
               centerCoordinate: mapCameraCoordinates || currentUserLocation,
               zoomLevel: 10,
               pitch: hasInitByUrl ? 60 : 0,
+              animationMode: 'flyTo',
+              animationDuration: 2000,
             }}
             zoomLevel={17}
             pitch={hasInitByUrl ? 60 : 0}
             ref={cameraRef}
             centerCoordinate={mapCameraCoordinates || currentUserLocation}
-            animationDuration={1000}
+            animationDuration={2000}
+            animationMode="flyTo"
           />
         </MapView>
         <MapScreenButton

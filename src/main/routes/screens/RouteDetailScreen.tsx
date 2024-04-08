@@ -191,7 +191,7 @@ export default function RouteDetailScreen({
   useEffect(() => {
     if (forceUpdateRouteCamera) {
       cameraRef?.current?.setCamera({
-        animationDuration: 1000,
+        animationDuration: 2000,
         zoomLevel: 17,
         centerCoordinate: routeCameraCoordinates,
       });
@@ -346,8 +346,8 @@ export default function RouteDetailScreen({
                 index === 0
                   ? {}
                   : index === placesFromRoute.length - 1
-                  ? {paddingBottom: 40}
-                  : {}
+                    ? {paddingBottom: 40}
+                    : {}
               }
               {...placeFromRoute}
             />

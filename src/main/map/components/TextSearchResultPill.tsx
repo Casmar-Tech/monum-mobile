@@ -1,4 +1,4 @@
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Platform, Text, TouchableOpacity, View} from 'react-native';
 import {ISearchResult} from '../../../shared/interfaces/ISearchResult';
 import place_pre_detail_importance_1 from '../../../assets/images/icons/placeImportance/place_pre_detail_importance_1.png';
 import place_pre_detail_importance_2 from '../../../assets/images/icons/placeImportance/place_pre_detail_importance_2.png';
@@ -19,6 +19,7 @@ export default function TextSearchMapResultPill({
   searcherResult,
   navigation,
 }: TextSearchMapResultPillProps) {
+  const cameraRef = useMainStore(state => state.main.cameraRef);
   const setPlace = useTabMapStore(state => state.setPlace);
   const setShowPlaceDetailExpanded = useTabMapStore(
     state => state.setShowPlaceDetailExpanded,
@@ -56,7 +57,11 @@ export default function TextSearchMapResultPill({
     if (searcherResult.distance < 1000) {
       return `${searcherResult.distance.toFixed(1).replace('.', ',')} m`;
     }
-    return `${(searcherResult.distance / 1000).toFixed(1).replace('.', ',')} km`;
+    const distanceKm = searcherResult.distance / 1000;
+    let distanceKmString =
+      distanceKm > 100 ? distanceKm.toFixed(0) : distanceKm.toFixed(1);
+    distanceKmString = distanceKmString.replace('.', ',');
+    return `${distanceKmString} km`;
   };
   return (
     <TouchableOpacity
@@ -76,13 +81,24 @@ export default function TextSearchMapResultPill({
           setMediasOfPlace(mediasFetched);
           setShowPlaceDetailExpanded(false);
         } else {
-          setZoomLevel(10);
-          setAnimationDuration(1000);
-          setMapCameraCoordinates([
-            searcherResult.coordinates.lng,
-            searcherResult.coordinates.lat,
-          ]);
-          setForceUpdateMapCamera(true);
+          if (Platform.OS === 'ios') {
+            setZoomLevel(12);
+            setAnimationDuration(2000);
+            setMapCameraCoordinates([
+              searcherResult.coordinates.lng,
+              searcherResult.coordinates.lat,
+            ]);
+            setForceUpdateMapCamera(true);
+          } else {
+            cameraRef?.current?.setCamera({
+              animationDuration: 2000,
+              zoomLevel: 10,
+              centerCoordinate: [
+                searcherResult.coordinates.lng,
+                searcherResult.coordinates.lat,
+              ],
+            });
+          }
         }
       }}>
       <View
@@ -138,7 +154,7 @@ export default function TextSearchMapResultPill({
             width: '100%',
             justifyContent: 'center',
             height: '100%',
-            paddingHorizontal: 15,
+            paddingHorizontal: 10,
           }}>
           <Text
             style={{

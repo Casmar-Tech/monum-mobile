@@ -36,28 +36,35 @@ export default function TextSearchMapDisabled({
       }}>
       <Pressable onPress={onPress} style={{flex: 1}}>
         <View style={styles.container}>
-          <View style={{marginRight: 5, width: 30}}>
-            <Image
-              source={routes_text_search}
-              style={
-                Platform.OS === 'android'
-                  ? styles.imageAndroid
-                  : styles.imageIOS
-              }
-            />
-          </View>
-          <Text
+          <View
             style={{
-              color: '#3F713B',
-              paddingRight: 50,
+              marginRight: 5,
+              width: 30,
+              height: '100%',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 16,
-              fontFamily: 'Montserrat-Regular',
-            }}
-            numberOfLines={1}>
-            {textSearch || t('routes.search') || 'Search'}
-          </Text>
+            }}>
+            <Image source={routes_text_search} style={styles.image} />
+          </View>
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                color: '#3F713B',
+                marginRight: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 16,
+                fontFamily: 'Montserrat-Regular',
+              }}
+              numberOfLines={1}>
+              {textSearch || t('routes.search') || 'Search'}
+            </Text>
+          </View>
           {textSearchIsLoading && (
             <View
               style={{
@@ -81,10 +88,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     borderRadius: 12,
-    justifyContent: Platform.OS === 'android' ? 'center' : undefined,
-    alignItems: Platform.OS === 'android' ? undefined : 'center',
-    flexDirection: Platform.OS === 'android' ? undefined : 'row',
-    paddingHorizontal: 15,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
     height: 42,
     width: '100%',
     zIndex: 999,
@@ -94,14 +100,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  imageIOS: {width: 22, height: 22, marginRight: 10},
-  imageAndroid: {
-    width: 22,
-    height: 22,
-    marginRight: 10,
-    position: 'absolute',
-    left: 15,
-  },
+  image: {width: 20, height: 20},
   textInput: {
     color: '#3F713B',
     paddingRight: 50,
@@ -109,6 +108,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontSize: 16,
     fontFamily: 'Montserrat-Regular',
-    marginLeft: Platform.OS === 'android' ? 30 : undefined,
   },
 });

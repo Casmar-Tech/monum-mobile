@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -40,7 +39,13 @@ export default function MapPlaceDetailReduced({
           setTabBarVisible(false);
         }}
         style={{zIndex: 999}}>
-        <View>
+        <View
+          style={{
+            backgroundColor: 'white',
+            height: 400,
+            borderTopLeftRadius: 24,
+            borderTopRightRadius: 24,
+          }}>
           <View style={styles.arrowContainer}>
             <Image
               source={place_pre_detail_arrow_top}
@@ -108,8 +113,6 @@ const styles = StyleSheet.create({
     height: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
   },
   arrowIcon: {
     height: 24,
@@ -172,5 +175,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
+    backgroundColor: 'white',
   },
 });

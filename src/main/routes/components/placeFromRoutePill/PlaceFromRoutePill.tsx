@@ -191,8 +191,9 @@ const PlaceFromRoutePill = forwardRef<
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'flex-end',
+                    paddingLeft: 10,
                   }}>
-                  <Text style={styles.audiosNumberText}>
+                  <Text style={styles.audiosNumberText} numberOfLines={1}>
                     {`${medias?.length} ${
                       medias.length > 1
                         ? t('routes.resources')

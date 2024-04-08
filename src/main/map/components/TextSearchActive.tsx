@@ -37,27 +37,29 @@ export default function TextSearchMap({onPress}: TextSearchMapProps) {
           colors={['#3C6AF62E', '#3F713B14']}
           style={styles.linearGradient}
         />
-        <View style={{marginRight: 5, width: 30}}>
+        <View
+          style={{
+            marginRight: Platform.OS === 'ios' ? 5 : 2,
+            width: 30,
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
           <TouchableOpacity onPress={onPress}>
-            <Image
-              source={text_search_back}
-              style={
-                Platform.OS === 'android'
-                  ? styles.imageAndroid
-                  : styles.imageIOS
-              }
-            />
+            <Image source={text_search_back} style={styles.image} />
           </TouchableOpacity>
         </View>
-        <TextInput
-          ref={input => input && input.focus()}
-          placeholder={t('routes.search') || 'Search'}
-          placeholderTextColor="#3F713B"
-          value={textSearch}
-          onChangeText={setTextSearch}
-          style={styles.textInput}
-          numberOfLines={1}
-        />
+        <View style={{width: '100%', height: '100%', justifyContent: 'center'}}>
+          <TextInput
+            ref={input => input && input.focus()}
+            placeholder={t('routes.search') || 'Search'}
+            placeholderTextColor="#3F713B"
+            value={textSearch}
+            onChangeText={setTextSearch}
+            style={styles.textInput}
+            numberOfLines={1}
+          />
+        </View>
         {textSearch && textSearch.length > 0 && (
           <View
             style={{
@@ -91,10 +93,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F4FFF4',
     borderRadius: 12,
-    justifyContent: Platform.OS === 'android' ? 'center' : undefined,
-    alignItems: Platform.OS === 'android' ? undefined : 'center',
-    flexDirection: Platform.OS === 'android' ? undefined : 'row',
-    paddingHorizontal: 15,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
     height: 42,
     opacity: 1,
     shadowColor: '#000',
@@ -113,14 +114,7 @@ const styles = StyleSheet.create({
     right: 0,
     borderRadius: 12,
   },
-  imageIOS: {width: 16, height: 16, marginRight: 10},
-  imageAndroid: {
-    width: 16,
-    height: 16,
-    marginRight: 10,
-    position: 'absolute',
-    left: 15,
-  },
+  image: {width: 14, height: 14},
   textInput: {
     color: '#3F713B',
     paddingRight: 50,
@@ -128,6 +122,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontSize: 16,
     fontFamily: 'Montserrat-Regular',
-    marginLeft: Platform.OS === 'android' ? 30 : undefined,
   },
 });

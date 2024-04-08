@@ -33,7 +33,7 @@ export const defaultTabMap: ITabMap = {
   searcherResults: [],
   textSearchIsLoading: false,
   zoomLevel: 17,
-  animationDuration: 1000,
+  animationDuration: 2000,
 };
 
 interface TabMapState {

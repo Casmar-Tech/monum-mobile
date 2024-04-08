@@ -6,11 +6,10 @@ import {useMainStore} from '../../../zustand/MainStore';
 import MapServices from '../services/MapServices';
 import {ScrollView} from 'react-native-gesture-handler';
 import TextSearchResultPill from '../components/TextSearchResultPill';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function TextSearchScreen({navigation}: any) {
   const textSearch = useTabMapStore(state => state.tabMap.textSearch);
-  const setTextSearch = useTabMapStore(state => state.setTextSearch);
   const currentUserLocation = useMainStore(
     state => state.main.currentUserLocation,
   );
@@ -36,8 +35,20 @@ export default function TextSearchScreen({navigation}: any) {
       style={{
         flex: 1,
         backgroundColor: 'white',
-        paddingBottom: useSafeAreaInsets().bottom,
+        paddingBottom: 30,
       }}>
+      <LinearGradient
+        start={{x: 0, y: 1}}
+        end={{x: 0, y: 0}}
+        colors={['#0002', '#0000']}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          backgroundColor: 'white',
+          height: 100,
+        }}
+      />
       <TextSearchActive onPress={() => navigation.navigate('MapScreen')} />
       <ScrollView style={{paddingHorizontal: 10}}>
         {searcherResults.map((searcherResult, index) => (

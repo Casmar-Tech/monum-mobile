@@ -141,9 +141,8 @@ const styles = StyleSheet.create({
   },
   goBackText: {
     fontSize: 16,
-    fontWeight: 'bold',
     color: '#032000',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'Montserrat-SemiBold',
   },
   introductionText: {
     fontSize: 14,
