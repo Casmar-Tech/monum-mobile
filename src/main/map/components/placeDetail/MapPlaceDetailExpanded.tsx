@@ -43,7 +43,11 @@ export default function MapPlaceDetailExpanded({
   }
   return (
     <View style={styles.container}>
-      <View style={{height: heightImage}}>
+      <View
+        style={{
+          height: heightImage,
+          width: '100%',
+        }}>
         <Carousel
           loop
           style={{
@@ -204,8 +208,10 @@ export default function MapPlaceDetailExpanded({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
     width: '100%',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
   },
   imageContainer: {
     height: 200,
@@ -220,11 +226,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: BORDER_RADIUS,
   },
   arrowContainer: {
+    top: 0,
     position: 'absolute',
     width: '100%',
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    borderTopLeftRadius: BORDER_RADIUS,
+    borderTopRightRadius: BORDER_RADIUS,
   },
   linearGradient: {
     position: 'absolute',

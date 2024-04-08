@@ -29,6 +29,7 @@ export default function TextSearchMap({onPress}: TextSearchMapProps) {
         marginTop: 60,
         paddingHorizontal: 15,
         alignSelf: 'center',
+        marginBottom: 5,
       }}>
       <View style={[styles.container]}>
         <LinearGradient
@@ -37,18 +38,18 @@ export default function TextSearchMap({onPress}: TextSearchMapProps) {
           colors={['#3C6AF62E', '#3F713B14']}
           style={styles.linearGradient}
         />
-        <View
-          style={{
-            marginRight: Platform.OS === 'ios' ? 5 : 2,
-            width: 30,
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={onPress}>
+          <View
+            style={{
+              marginRight: Platform.OS === 'ios' ? 5 : 2,
+              width: 30,
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             <Image source={text_search_back} style={styles.image} />
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
         <View style={{width: '100%', height: '100%', justifyContent: 'center'}}>
           <TextInput
             ref={input => input && input.focus()}

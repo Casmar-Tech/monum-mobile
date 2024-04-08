@@ -28,8 +28,8 @@ import {useUserStore} from '../../../../zustand/UserStore';
 const {height} = Dimensions.get('screen');
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
-const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 150 : 140;
-const MAX_MARGIN_TOP = 50;
+const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 100 : 140;
+const MAX_MARGIN_TOP = Platform.OS === 'android' ? 100 : 50;
 
 type GestureContext = {
   startY: number;
@@ -58,7 +58,7 @@ export default function MapPlaceDetail() {
     BOTTOM_TAB_HEIGHT;
 
   const [closeDetail, setCloseDetail] = useState(false);
-  const position = useSharedValue(height);
+  const position = useSharedValue(0);
 
   const importanceIcon = () => {
     switch (place?.importance) {
@@ -81,16 +81,16 @@ export default function MapPlaceDetail() {
       context.startY = position.value;
     },
     onActive: (event, context) => {
-      const newPosition = context.startY + event.translationY;
+      const newPosition = context.startY - event.translationY;
       if (!showPlaceDetailExpanded) {
-        if (height - newPosition >= BOTTOM_TOTAL_TAB_HEIGHT) {
-          position.value = height - BOTTOM_TOTAL_TAB_HEIGHT;
+        if (newPosition >= BOTTOM_TOTAL_TAB_HEIGHT) {
+          position.value = BOTTOM_TOTAL_TAB_HEIGHT;
         } else {
           position.value = newPosition;
         }
       } else {
-        if (newPosition <= MAX_MARGIN_TOP) {
-          position.value = MAX_MARGIN_TOP;
+        if (newPosition >= height - MAX_MARGIN_TOP) {
+          position.value = height - MAX_MARGIN_TOP;
         } else {
           position.value = newPosition;
         }
@@ -99,44 +99,37 @@ export default function MapPlaceDetail() {
     onEnd: event => {
       if (!showPlaceDetailExpanded) {
         if (
-          position.value > height - BOTTOM_TOTAL_TAB_HEIGHT / 2 ||
+          position.value < BOTTOM_TOTAL_TAB_HEIGHT / 2 ||
           event.velocityY > 0
         ) {
-          position.value = withTiming(height, {duration: 300}, () => {
+          position.value = withTiming(0, {duration: 300}, () => {
             runOnJS(setCloseDetail)(true);
             runOnJS(setTabBarVisible)(true);
           });
         } else {
-          position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT);
+          position.value = withTiming(BOTTOM_TOTAL_TAB_HEIGHT);
         }
       } else {
-        if (position.value > height / 2 || event.velocityY > 0) {
-          position.value = withTiming(height, {duration: 300}, () => {
+        if (position.value < height / 2 || event.velocityY > 0) {
+          position.value = withTiming(0, {duration: 300}, () => {
             runOnJS(setCloseDetail)(true);
             runOnJS(setShowPlaceDetailExpanded)(false);
             runOnJS(setTabBarVisible)(true);
           });
         } else {
-          position.value = withTiming(MAX_MARGIN_TOP);
+          position.value = withTiming(height - MAX_MARGIN_TOP);
         }
       }
     },
   });
   const animatedStyle = useAnimatedStyle(() => {
-    if (position.value === height && closeDetail === true) {
+    if (position.value === 0 && closeDetail === true) {
       runOnJS(setMarkerSelected)(null);
       runOnJS(setCloseDetail)(false);
     }
-    if (showPlaceDetailExpanded) {
-      return {
-        marginTop: position.value,
-        top: 0,
-        height,
-      };
-    }
     return {
-      top: position.value,
-      height: 0,
+      bottom: 0,
+      height: position.value,
     };
   });
 
@@ -153,7 +146,7 @@ export default function MapPlaceDetail() {
           language,
         );
         setMediasOfPlace(mediasFetched);
-        position.value = withTiming(height - BOTTOM_TOTAL_TAB_HEIGHT, {
+        position.value = withTiming(BOTTOM_TOTAL_TAB_HEIGHT, {
           duration: 300,
         });
       };
@@ -163,12 +156,12 @@ export default function MapPlaceDetail() {
 
   useEffect(() => {
     if (place && showPlaceDetailExpanded) {
-      position.value = withTiming(MAX_MARGIN_TOP, {duration: 300});
+      position.value = withTiming(height - MAX_MARGIN_TOP, {duration: 300});
     }
   }, [showPlaceDetailExpanded, place]);
 
   const closePlaceDetail = () => {
-    position.value = withTiming(height, {duration: 300}, () => {
+    position.value = withTiming(0, {duration: 300}, () => {
       runOnJS(setCloseDetail)(true);
       runOnJS(setShowPlaceDetailExpanded)(false);
       runOnJS(setTabBarVisible)(true);
@@ -176,7 +169,17 @@ export default function MapPlaceDetail() {
   };
 
   return markerSelected ? (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          top: showPlaceDetailExpanded ? 0 : undefined,
+        },
+      ]}>
       <PanGestureHandler onGestureEvent={panGestureEvent}>
         <Animated.View style={[styles.animatedContainer, animatedStyle]}>
           {showPlaceDetailExpanded && place && Array.isArray(mediasOfPlace) ? (
@@ -198,17 +201,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     zIndex: 3,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   animatedContainer: {
+    position: 'absolute',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     backgroundColor: 'white',
-    flex: 1,
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 10,
+    width: '100%',
   },
 });

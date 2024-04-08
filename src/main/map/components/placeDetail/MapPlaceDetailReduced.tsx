@@ -37,15 +37,8 @@ export default function MapPlaceDetailReduced({
         onPress={() => {
           setShowPlaceDetailExpanded(true);
           setTabBarVisible(false);
-        }}
-        style={{zIndex: 999}}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            height: 400,
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-          }}>
+        }}>
+        <View>
           <View style={styles.arrowContainer}>
             <Image
               source={place_pre_detail_arrow_top}
@@ -105,8 +98,10 @@ export default function MapPlaceDetailReduced({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    zIndex: 999,
+    height: '100%',
+    width: '100%',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
   },
   arrowContainer: {
     width: '100%',
@@ -175,6 +170,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    backgroundColor: 'white',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
   },
 });
