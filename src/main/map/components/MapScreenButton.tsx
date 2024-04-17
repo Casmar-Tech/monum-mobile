@@ -12,7 +12,7 @@ interface MapScreenButtonProps {
   image: ImageSourcePropType;
   additionalBottom?: number;
 }
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 60 : 70;
+const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 90 : 70;
 
 export default function MapScreenButton({
   onPress,

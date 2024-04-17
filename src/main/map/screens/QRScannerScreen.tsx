@@ -199,8 +199,9 @@ export default function ScanScreen({navigation}: any) {
               height: 350,
               justifyContent: 'center',
               alignItems: 'center',
+              backgroundColor: 'black',
             }}>
-            <Text
+            {/* <Text
               style={{
                 color: 'white',
                 fontSize: 16,
@@ -208,7 +209,7 @@ export default function ScanScreen({navigation}: any) {
                 fontFamily: 'Montserrat-SemiBold',
               }}>
               {t('qrScannerScreen.noCamera')}
-            </Text>
+            </Text> */}
           </View>
         ) : (
           <View

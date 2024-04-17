@@ -28,7 +28,7 @@ import {useUserStore} from '../../../../zustand/UserStore';
 const {height} = Dimensions.get('screen');
 
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
-const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 100 : 140;
+const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 140 : 140;
 const MAX_MARGIN_TOP = Platform.OS === 'android' ? 100 : 50;
 
 type GestureContext = {
@@ -175,8 +175,6 @@ export default function MapPlaceDetail() {
         {
           bottom: 0,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
           top: showPlaceDetailExpanded ? 0 : undefined,
         },
       ]}>
