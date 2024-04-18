@@ -21,7 +21,7 @@ export default function ListCitiesScreen({navigation}: ListCitiesScreenProps) {
   const language = useUserStore(state => state.user.language);
 
   const {loading, error, data, refetch} = useQuery(GET_CITIES, {
-    variables: {textSearch: textSearch || '', language},
+    variables: {textSearch: textSearch || '', language, hasRoutes: true},
   });
 
   useEffect(() => {

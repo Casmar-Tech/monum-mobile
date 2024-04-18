@@ -64,7 +64,6 @@ export const GET_PLACE_INFO = gql`
       }
       description
       importance
-      rating
       imagesUrl
       createdBy {
         username

@@ -1,8 +1,12 @@
 import {gql} from '@apollo/client';
 
 export const GET_CITIES = gql`
-  query Query($textSearch: String, $language: Language) {
-    cities(textSearch: $textSearch, language: $language) {
+  query Query($textSearch: String, $language: Language, $hasRoutes: Boolean) {
+    cities(
+      textSearch: $textSearch
+      language: $language
+      hasRoutes: $hasRoutes
+    ) {
       id
       name
       imageUrl
