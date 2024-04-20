@@ -19,26 +19,16 @@ export default function TextSearchMapResultPill({
   searcherResult,
   navigation,
 }: TextSearchMapResultPillProps) {
-  const cameraRef = useMainStore(state => state.main.cameraRef);
+  const setCamera = useTabMapStore(state => state.setCamera);
   const setPlace = useTabMapStore(state => state.setPlace);
   const setShowPlaceDetailExpanded = useTabMapStore(
     state => state.setShowPlaceDetailExpanded,
-  );
-  const setZoomLevel = useTabMapStore(state => state.setZoomLevel);
-  const setAnimationDuration = useTabMapStore(
-    state => state.setAnimationDuration,
   );
   const setTextSearch = useTabMapStore(state => state.setTextSearch);
   const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
   const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
   const setTextSearchIsLoading = useTabMapStore(
     state => state.setTextSearchIsLoading,
-  );
-  const setMapCameraCoordinates = useTabMapStore(
-    state => state.setMapCameraCoordinates,
-  );
-  const setForceUpdateMapCamera = useTabMapStore(
-    state => state.setForceUpdateMapCamera,
   );
 
   const importanceIcon = () => {
@@ -81,24 +71,21 @@ export default function TextSearchMapResultPill({
           setMediasOfPlace(mediasFetched);
           setShowPlaceDetailExpanded(false);
         } else {
-          if (Platform.OS === 'ios') {
-            setZoomLevel(12);
-            setAnimationDuration(2000);
-            setMapCameraCoordinates([
+          setTextSearchIsLoading(true);
+          setPlace(null);
+          setMarkerSelected(null);
+          setMediasOfPlace(null);
+          setShowPlaceDetailExpanded(false);
+          setCamera({
+            zoomLevel: 10,
+            pitch: 0,
+            centerCoordinate: [
               searcherResult.coordinates.lng,
               searcherResult.coordinates.lat,
-            ]);
-            setForceUpdateMapCamera(true);
-          } else {
-            cameraRef?.current?.setCamera({
-              animationDuration: 2000,
-              zoomLevel: 10,
-              centerCoordinate: [
-                searcherResult.coordinates.lng,
-                searcherResult.coordinates.lat,
-              ],
-            });
-          }
+            ],
+            animationDuration: 2000,
+          });
+          setTextSearchIsLoading(false);
         }
       }}>
       <View

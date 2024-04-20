@@ -16,8 +16,13 @@ export interface ITabMap {
   textSearch: string | undefined;
   searcherResults: ISearchResult[];
   textSearchIsLoading: boolean;
-  zoomLevel: number;
-  animationDuration: number;
+  citySelectedCoordinates: [number, number] | null;
+  camera: {
+    zoomLevel: number;
+    pitch: number;
+    centerCoordinate: [number, number];
+    animationDuration: number;
+  };
 }
 
 export const defaultTabMap: ITabMap = {
@@ -32,8 +37,13 @@ export const defaultTabMap: ITabMap = {
   textSearch: undefined,
   searcherResults: [],
   textSearchIsLoading: false,
-  zoomLevel: 17,
-  animationDuration: 2000,
+  citySelectedCoordinates: null,
+  camera: {
+    zoomLevel: 0,
+    pitch: 0,
+    centerCoordinate: [0, 0],
+    animationDuration: 0,
+  },
 };
 
 interface TabMapState {
@@ -50,8 +60,11 @@ interface TabMapState {
   setTextSearch: (textSearch: string | undefined) => void;
   setSearcherResults: (searcherResults: ISearchResult[]) => void;
   setTextSearchIsLoading: (textSearchIsLoading: boolean) => void;
-  setZoomLevel: (zoomLevel: number) => void;
-  setAnimationDuration: (animationDuration: number) => void;
+  setCitySelectedCoordinates: (
+    citySelectedCoordinates: [number, number] | null,
+  ) => void;
+  setCamera: (camera: ITabMap['camera']) => void;
+  setPitch: (pitch: number) => void;
 }
 
 export const useTabMapStore = create<TabMapState>(set => ({
@@ -94,10 +107,17 @@ export const useTabMapStore = create<TabMapState>(set => ({
   setTextSearchIsLoading: (textSearchIsLoading: boolean) => {
     set(state => ({tabMap: {...state.tabMap, textSearchIsLoading}}));
   },
-  setZoomLevel: (zoomLevel: number) => {
-    set(state => ({tabMap: {...state.tabMap, zoomLevel}}));
+  setCitySelectedCoordinates: (
+    citySelectedCoordinates: [number, number] | null,
+  ) => {
+    set(state => ({tabMap: {...state.tabMap, citySelectedCoordinates}}));
   },
-  setAnimationDuration: (animationDuration: number) => {
-    set(state => ({tabMap: {...state.tabMap, animationDuration}}));
+  setCamera: (camera: ITabMap['camera']) => {
+    set(state => ({tabMap: {...state.tabMap, camera}}));
+  },
+  setPitch: (pitch: number) => {
+    set(state => ({
+      tabMap: {...state.tabMap, camera: {...state.tabMap.camera, pitch}},
+    }));
   },
 }));

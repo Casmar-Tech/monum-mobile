@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useQuery} from '@apollo/client';
 import {GET_USER_BY_ID} from './graphql/queries/userQueries'; // Importa la consulta GraphQL
-
 import AuthNavigator from './auth/navigator/AuthNavigator';
 import BottomTabNavigator from './main/BottomTabNavigator';
 import {NavigationContainer} from '@react-navigation/native';

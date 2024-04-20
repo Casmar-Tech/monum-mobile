@@ -8,8 +8,6 @@ export interface IMain {
   isTabBarVisible: boolean;
   activeTab: string;
   statePlayer: State;
-  mapRef: React.RefObject<MapView> | null;
-  cameraRef: React.RefObject<Camera> | null;
   placeOfMedia: IPlace | null;
   currentUserLocation: [number, number] | null;
   hasInitByUrl: boolean;
@@ -24,8 +22,6 @@ export const defaultMain: IMain = {
   isTabBarVisible: true,
   activeTab: 'Map',
   statePlayer: State.Paused,
-  mapRef: null,
-  cameraRef: null,
   placeOfMedia: null,
   currentUserLocation: null,
   hasInitByUrl: false,
@@ -41,8 +37,6 @@ interface MainState {
   setTabBarVisible: (isTabBarVisible: boolean) => void;
   setActiveTab: (activeTab: string) => void;
   setStatePlayer: (statePlayer: State) => void;
-  setMapRef: (mapRef: React.RefObject<MapView> | null) => void;
-  setCameraRef: (cameraRef: React.RefObject<Camera> | null) => void;
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => void;
   setCurrentUserLocation: (currentUserLocation: [number, number]) => void;
   setHasInitByUrl: (hasInitByUrl: boolean) => void;
@@ -66,12 +60,6 @@ export const useMainStore = create<MainState>(set => ({
   setStatePlayer: (statePlayer: State) => {
     set(state => ({main: {...state.main, statePlayer}}));
   },
-  setMapRef: (mapRef: React.RefObject<MapView> | null) => {
-    set(state => ({main: {...state.main, mapRef}}));
-  },
-  setCameraRef: (cameraRef: React.RefObject<Camera> | null) => {
-    set(state => ({main: {...state.main, cameraRef}}));
-  },
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => {
     set(state => ({main: {...state.main, placeOfMedia}}));
   },
@@ -82,7 +70,12 @@ export const useMainStore = create<MainState>(set => ({
     set(state => ({main: {...state.main, hasInitByUrl}}));
   },
   setDefaultMain: () => {
-    set(() => ({main: defaultMain}));
+    set(state => ({
+      main: {
+        ...defaultMain,
+        currentUserLocation: state.main.currentUserLocation,
+      },
+    }));
   },
   startWatchingLocation: () => {
     const watchId = Geolocation.watchPosition(

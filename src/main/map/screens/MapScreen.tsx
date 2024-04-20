@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {Camera, MapView, setAccessToken} from '@rnmapbox/maps';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef} from 'react';
 import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import map_qr_scanner from '../../../assets/images/icons/map_qr_scanner.png';
@@ -21,8 +21,9 @@ setAccessToken(
 );
 
 export default function MapScreen({navigation}: {navigation: any}) {
-  const mapRef = useMainStore(state => state.main.mapRef);
-  const cameraRef = useMainStore(state => state.main.cameraRef);
+  const cameraRef = useRef<Camera>(null);
+  const setCamera = useTabMapStore(state => state.setCamera);
+  const camera = useTabMapStore(state => state.tabMap.camera);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
   const language = useUserStore(state => state.user.language);
   const currentUserLocation = useMainStore(
@@ -46,14 +47,6 @@ export default function MapScreen({navigation}: {navigation: any}) {
   );
   const setForceUpdateMapCamera = useTabMapStore(
     state => state.setForceUpdateMapCamera,
-  );
-  const zoomLevel = useTabMapStore(state => state.tabMap.zoomLevel);
-  const setZoomLevel = useTabMapStore(state => state.setZoomLevel);
-  const animationDuration = useTabMapStore(
-    state => state.tabMap.animationDuration,
-  );
-  const setAnimationDuration = useTabMapStore(
-    state => state.setAnimationDuration,
   );
 
   useEffect(() => {
@@ -91,14 +84,22 @@ export default function MapScreen({navigation}: {navigation: any}) {
   }, [markerSelected]);
 
   useEffect(() => {
+    cameraRef.current?.setCamera({
+      zoomLevel: camera.zoomLevel,
+      pitch: camera.pitch,
+      centerCoordinate: camera.centerCoordinate,
+      animationDuration: camera.animationDuration,
+    });
+  }, [camera]);
+
+  useEffect(() => {
     if (forceUpdateMapCamera) {
-      cameraRef?.current?.setCamera({
-        animationDuration: animationDuration || 2000,
-        zoomLevel: zoomLevel || 17,
+      setCamera({
+        zoomLevel: 17,
+        pitch: 0,
         centerCoordinate: mapCameraCoordinates,
+        animationDuration: 2000,
       });
-      setAnimationDuration(2000);
-      setZoomLevel(17);
       setForceUpdateMapCamera(false);
     }
   }, [mapCameraCoordinates, forceUpdateMapCamera]);
@@ -152,7 +153,6 @@ export default function MapScreen({navigation}: {navigation: any}) {
           width: Dimensions.get('window').width,
         }}>
         <MapView
-          ref={mapRef}
           styleURL="mapbox://styles/mapbox/standard"
           scaleBarEnabled={false}
           style={styles.mapView}>
@@ -167,18 +167,16 @@ export default function MapScreen({navigation}: {navigation: any}) {
           {currentUserLocation && <CurrentPositionMarker />}
           <Camera
             defaultSettings={{
-              centerCoordinate: mapCameraCoordinates || currentUserLocation,
-              zoomLevel: 10,
-              pitch: hasInitByUrl ? 60 : 0,
-              animationMode: 'flyTo',
-              animationDuration: 2000,
+              centerCoordinate: camera.centerCoordinate || [0, 0],
+              zoomLevel: camera.zoomLevel || 12,
+              pitch: camera.pitch || 0,
+              animationDuration: camera.animationDuration || 2000,
             }}
-            zoomLevel={17}
-            pitch={hasInitByUrl ? 60 : 0}
+            zoomLevel={camera.zoomLevel || 12}
+            pitch={camera.pitch || 0}
+            centerCoordinate={camera.centerCoordinate || [0, 0]}
+            animationDuration={camera.animationDuration || 2000}
             ref={cameraRef}
-            centerCoordinate={mapCameraCoordinates || currentUserLocation}
-            animationDuration={2000}
-            animationMode="flyTo"
           />
         </MapView>
         <MapScreenButton

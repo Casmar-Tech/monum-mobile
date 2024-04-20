@@ -6,19 +6,20 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../BottomTabNavigator';
 
 interface MapScreenButtonProps {
   onPress: () => void;
   image: ImageSourcePropType;
   additionalBottom?: number;
 }
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 60 : 70;
 
 export default function MapScreenButton({
   onPress,
   image,
   additionalBottom = 0,
 }: MapScreenButtonProps) {
+  const marginBottom = Platform.OS === 'android' ? 0 : 20;
   return (
     <TouchableOpacity
       style={[
@@ -28,6 +29,7 @@ export default function MapScreenButton({
             useSafeAreaInsets().bottom +
             BOTTOM_TAB_NAVIGATOR_HEIGHT +
             additionalBottom,
+          marginBottom,
         },
       ]}
       onPress={onPress}>

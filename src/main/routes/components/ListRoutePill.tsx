@@ -14,12 +14,12 @@ export default function ListRoutePill({route, onPress}: ListRoutePillProps) {
   return (
     <Pressable
       onPress={onPress}
-      onPressIn={() => setGlobalPressed(true)} // Se activa cuando el usuario comienza a presionar
-      onPressOut={() => setGlobalPressed(false)} // Se activa cuando el usuario suelta el presionado
+      onPressIn={() => setGlobalPressed(true)}
+      onPressOut={() => setGlobalPressed(false)}
       style={({pressed}) => [
         {
           paddingHorizontal: 12,
-          opacity: pressed ? 0.2 : 1, // También puedes manejar la opacidad aquí si solo necesitas cambios visuales
+          opacity: pressed ? 0.2 : 1,
         },
       ]}>
       <View style={styles.placeMediaPillContainer}>

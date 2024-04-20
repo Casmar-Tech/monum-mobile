@@ -24,12 +24,12 @@ import MapServices from '../../services/MapServices';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
 import {useMainStore} from '../../../../zustand/MainStore';
 import {useUserStore} from '../../../../zustand/UserStore';
+import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../../BottomTabNavigator';
 
 const {height} = Dimensions.get('screen');
 
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
-const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 100 : 140;
-const MAX_MARGIN_TOP = Platform.OS === 'android' ? 100 : 50;
+const MAX_MARGIN_TOP = 50;
+export const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 150 : 140;
 
 type GestureContext = {
   startY: number;
@@ -57,7 +57,6 @@ export default function MapPlaceDetail() {
     BOTTOM_TAB_NAVIGATOR_HEIGHT +
     BOTTOM_TAB_HEIGHT;
 
-  const [closeDetail, setCloseDetail] = useState(false);
   const position = useSharedValue(0);
 
   const importanceIcon = () => {
@@ -103,7 +102,8 @@ export default function MapPlaceDetail() {
           event.velocityY > 0
         ) {
           position.value = withTiming(0, {duration: 300}, () => {
-            runOnJS(setCloseDetail)(true);
+            runOnJS(setMarkerSelected)(null);
+            runOnJS(setShowPlaceDetailExpanded)(false);
             runOnJS(setTabBarVisible)(true);
           });
         } else {
@@ -112,7 +112,7 @@ export default function MapPlaceDetail() {
       } else {
         if (position.value < height / 2 || event.velocityY > 0) {
           position.value = withTiming(0, {duration: 300}, () => {
-            runOnJS(setCloseDetail)(true);
+            runOnJS(setMarkerSelected)(null);
             runOnJS(setShowPlaceDetailExpanded)(false);
             runOnJS(setTabBarVisible)(true);
           });
@@ -123,10 +123,6 @@ export default function MapPlaceDetail() {
     },
   });
   const animatedStyle = useAnimatedStyle(() => {
-    if (position.value === 0 && closeDetail === true) {
-      runOnJS(setMarkerSelected)(null);
-      runOnJS(setCloseDetail)(false);
-    }
     return {
       bottom: 0,
       height: position.value,
@@ -162,7 +158,7 @@ export default function MapPlaceDetail() {
 
   const closePlaceDetail = () => {
     position.value = withTiming(0, {duration: 300}, () => {
-      runOnJS(setCloseDetail)(true);
+      runOnJS(setMarkerSelected)(null);
       runOnJS(setShowPlaceDetailExpanded)(false);
       runOnJS(setTabBarVisible)(true);
     });
@@ -173,7 +169,7 @@ export default function MapPlaceDetail() {
       style={[
         styles.container,
         {
-          bottom: 0,
+          bottom: Platform.OS === 'ios' ? 0 : -40,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,

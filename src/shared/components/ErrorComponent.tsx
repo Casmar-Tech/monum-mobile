@@ -29,7 +29,10 @@ export default function ErrorComponent({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
+    marginTop: 30,
+    paddingBottom: 100,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',

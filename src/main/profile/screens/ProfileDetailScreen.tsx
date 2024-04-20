@@ -24,8 +24,7 @@ import {useMainStore} from '../../../zustand/MainStore';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 import GoogleAuthService from '../../../auth/services/GoogleAuthService';
-
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
+import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../BottomTabNavigator';
 
 type Props = {
   navigation: any;
@@ -34,7 +33,6 @@ type Props = {
 export default function ProfileScreen({navigation}: Props) {
   const onRetry = useQuery(GET_USER_BY_ID);
   const safeArea = useSafeAreaInsets();
-
   const user = useUserStore(state => state.user);
   const {permissions} = user;
   const hasPermissionToUpdateUser = permissions?.some(

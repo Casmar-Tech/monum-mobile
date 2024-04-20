@@ -28,7 +28,7 @@ export default function ScanScreen({navigation}: any) {
     state => state.setShowPlaceDetailExpanded,
   );
   const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
-  const cameraRef = useMainStore(state => state.main.cameraRef);
+  const setCamera = useTabMapStore(state => state.setCamera);
 
   const device = useCameraDevice('back');
 
@@ -91,13 +91,13 @@ export default function ScanScreen({navigation}: any) {
       isScanner ? setIsScanSuccess(true) : setIsManualSuccess(true);
       setTimeout(() => {
         navigation.navigate('MapScreen');
-        cameraRef?.current?.setCamera({
-          pitch: 60,
+        setCamera({
+          zoomLevel: 17,
+          pitch: 0,
           centerCoordinate: [
             placeData.address.coordinates.lng,
             placeData.address.coordinates.lat,
           ],
-          zoomLevel: 17,
           animationDuration: 2000,
         });
         setPlace(placeData);

@@ -47,6 +47,7 @@ function App() {
   const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
   const user = useUserStore(state => state.user);
   const setActiveTab = useMainStore(state => state.setActiveTab);
+  const setPitch = useTabMapStore(state => state.setPitch);
 
   const isAuthenticatedRef = useRef(isAuthenticated);
 
@@ -60,6 +61,7 @@ function App() {
         const [, placeId] = url.match(/place\/([^?]+)/) || [];
         if (placeId) {
           setHasInitByUrl(true);
+          setPitch(60);
           if (!isAuthenticatedRef.current) {
             const guestUser = await AuthServices.loginAsGuest();
             setUser(guestUser);

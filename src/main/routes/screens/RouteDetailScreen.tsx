@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {RouteDetailScreenProps} from '../navigator/RoutesNavigator';
 import {Camera, MapView} from '@rnmapbox/maps';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createRef, useEffect, useRef, useState} from 'react';
 import media_bubble_back from '../../../assets/images/icons/media_bubble_back.png';
 import {useQuery} from '@apollo/client';
 import {GET_ROUTE_DETAIL} from '../../../graphql/queries/routeQueries';
@@ -25,17 +25,21 @@ import IStop from '../../../shared/interfaces/IStop';
 import CenterCoordinatesButton from '../components/CenterCoordinatesButton';
 import CurrentPositionMarker from '../../map/components/CurrentPositionMarker';
 import LinearGradient from 'react-native-linear-gradient';
-import {useTabRouteStore} from '../../../zustand/TabRouteStore';
+import {useTabRouteStore, TabRouteState} from '../../../zustand/TabRouteStore';
 import {useMainStore} from '../../../zustand/MainStore';
 import {PERMISSIONS, RESULTS, check, request} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
 import CenterStopsButton from '../components/CenterStopsButton';
+import {CameraRef} from '@rnmapbox/maps/lib/typescript/src/components/Camera';
+import {IMarker} from '../../../shared/interfaces/IMarker';
 
 export default function RouteDetailScreen({
   navigation,
 }: RouteDetailScreenProps) {
-  const mapRef = useMainStore(state => state.main.mapRef);
-  const cameraRef = useMainStore(state => state.main.cameraRef);
+  const tabRouteCameraRef = useRef<CameraRef>(null);
+  const setTabRouteCameraRef = useTabRouteStore(state => state.setCameraRef);
+  const bounds = useTabRouteStore(state => state.bounds);
+  const setBounds = useTabRouteStore(state => state.setBounds);
   const routeOfCity = useTabRouteStore(state => state.routeOfCity);
   const scrollViewRef = useRef<ScrollView>(null);
   const currentUserLocation = useMainStore(
@@ -43,12 +47,10 @@ export default function RouteDetailScreen({
   );
   const [originalData, setOriginalData] = useState<any | null>(null);
   const [placesFromRoute, setPlacesFromRoute] = useState<IStop[]>();
-  const [centerCoordinates, setCenterCoordinates] = useState<[number, number]>([
-    0, 0,
-  ]);
   const markerSelected = useTabRouteStore(state => state.markerSelected);
   const markers = useTabRouteStore(state => state.markers);
   const setMarkers = useTabRouteStore(state => state.setMarkers);
+  const setMarkerSelected = useTabRouteStore(state => state.setMarkerSelected);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
 
   const routeCameraCoordinates = useTabRouteStore(
@@ -73,17 +75,7 @@ export default function RouteDetailScreen({
     },
   });
 
-  const centerStopsCamera = async () => {
-    // Calculate the center of the markers
-    const centerLat =
-      markers.reduce((acc, marker) => acc + marker.coordinates[1], 0) /
-      markers.length;
-    const centerLng =
-      markers.reduce((acc, marker) => acc + marker.coordinates[0], 0) /
-      markers.length;
-    setCenterCoordinates([centerLng, centerLat]);
-
-    // Find the limits of the markers and current user location
+  const calculateBounds = (markers: IMarker[]): TabRouteState['bounds'] => {
     let minLng = currentUserLocation
       ? currentUserLocation[0]
       : markers[0]?.coordinates[0];
@@ -104,22 +96,39 @@ export default function RouteDetailScreen({
       if (marker.coordinates[1] > maxLat) maxLat = marker.coordinates[1];
     });
 
-    const southWest = [minLng, minLat];
-    const northEast = [maxLng, maxLat];
-    cameraRef?.current?.fitBounds(southWest, northEast, 50, 500);
+    return {
+      sw: [minLng, minLat],
+      ne: [maxLng, maxLat],
+      padding: 60,
+    };
   };
+
+  const centerStopsCamera = async () => {
+    if (!tabRouteCameraRef.current) {
+      console.log('Camera not ready');
+      return;
+    }
+    const {sw, ne, padding} = calculateBounds(markers);
+    tabRouteCameraRef?.current?.fitBounds(sw, ne, padding, 500);
+  };
+
+  useEffect(() => {
+    setTabRouteCameraRef(tabRouteCameraRef);
+    return () => setTabRouteCameraRef(null);
+  }, []);
+
+  useEffect(() => {
+    if (markers.length > 0) {
+      const calculatedBounds = calculateBounds(markers);
+      setBounds(calculatedBounds);
+    }
+  }, [markers]);
 
   useEffect(() => {
     if (data) {
       setOriginalData(data);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (Array.isArray(markers) && markers.length > 0) {
-      centerStopsCamera();
-    }
-  }, [markers]);
 
   useEffect(() => {
     if (originalData) {
@@ -151,11 +160,10 @@ export default function RouteDetailScreen({
   }, [textSearch, originalData]);
 
   useEffect(() => {
-    // Inicializamos las referencias para los elementos de placesFromRoute solo si aún no existen
     placesFromRoute?.forEach(placeFromRoute => {
       const placeId = placeFromRoute.place.id;
       if (!pillRefs.get(placeId)) {
-        pillRefs.set(placeId, React.createRef());
+        pillRefs.set(placeId, createRef());
       }
     });
   }, [placesFromRoute]);
@@ -171,7 +179,9 @@ export default function RouteDetailScreen({
         }
         pillRefs.get(markerSelected)?.current?.expandPill();
         pillRefs.get(markerSelected)?.current?.highlightPill();
-        scrollViewRef.current?.scrollTo({y: height, animated: true});
+        setTimeout(() => {
+          scrollViewRef.current?.scrollTo({y: height, animated: true});
+        }, 300);
       }
     }
     scrollMarkers();
@@ -184,13 +194,14 @@ export default function RouteDetailScreen({
         currentUserLocation;
       if (coordinatesToSet) {
         setRouteCameraCoordinates(coordinatesToSet);
+        setForceUpdateRouteCamera(true);
       }
     }
   }, [markerSelected]);
 
   useEffect(() => {
     if (forceUpdateRouteCamera) {
-      cameraRef?.current?.setCamera({
+      tabRouteCameraRef?.current?.setCamera({
         animationDuration: 2000,
         zoomLevel: 17,
         centerCoordinate: routeCameraCoordinates,
@@ -256,7 +267,6 @@ export default function RouteDetailScreen({
           shadowRadius: 4,
         }}>
         <MapView
-          ref={mapRef}
           styleURL="mapbox://styles/mapbox/standard"
           scaleBarEnabled={false}
           style={styles.mapView}>
@@ -271,12 +281,29 @@ export default function RouteDetailScreen({
           {currentUserLocation && <CurrentPositionMarker />}
           <Camera
             defaultSettings={{
-              centerCoordinate: routeCameraCoordinates || currentUserLocation,
-              zoomLevel: 10,
+              centerCoordinate: currentUserLocation,
+              animationDuration: 1000,
               pitch: 0,
+              bounds: {
+                sw: bounds.sw,
+                ne: bounds.ne,
+                paddingBottom: bounds.padding,
+                paddingLeft: bounds.padding,
+                paddingRight: bounds.padding,
+                paddingTop: bounds.padding,
+              },
             }}
-            zoomLevel={10}
-            ref={cameraRef}
+            animationDuration={1000}
+            pitch={0}
+            bounds={{
+              sw: bounds.sw,
+              ne: bounds.ne,
+              paddingBottom: bounds.padding,
+              paddingLeft: bounds.padding,
+              paddingRight: bounds.padding,
+              paddingTop: bounds.padding,
+            }}
+            ref={tabRouteCameraRef}
           />
         </MapView>
         <CenterStopsButton onPress={async () => await centerStopsCamera()} />
@@ -303,7 +330,10 @@ export default function RouteDetailScreen({
             }}>
             <TouchableOpacity
               style={{padding: 10}}
-              onPress={() => navigation.goBack()}>
+              onPress={() => {
+                navigation.goBack();
+                setMarkerSelected(null);
+              }}>
               <Image
                 source={media_bubble_back}
                 style={{height: 14, width: 8}}
@@ -330,11 +360,11 @@ export default function RouteDetailScreen({
           style={{
             paddingTop: 5,
             width: '100%',
-            marginBottom: useSafeAreaInsets().bottom,
+            marginBottom: 20,
             marginTop: 10,
             paddingHorizontal: 12,
             backgroundColor: 'white',
-            flex: 1,
+            height: '100%',
           }}
           showsVerticalScrollIndicator={false}
           ref={scrollViewRef}>

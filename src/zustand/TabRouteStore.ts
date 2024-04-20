@@ -3,6 +3,7 @@ import IRouteComplete from '../shared/interfaces/IRouteComplete';
 import ICity from '../shared/interfaces/ICity';
 import IRouteOfCity from '../shared/interfaces/IRouteOfCity';
 import {IMarker} from '../shared/interfaces/IMarker';
+import {Camera} from '@rnmapbox/maps';
 
 export interface TabRouteState {
   routeOfCity: IRouteOfCity;
@@ -12,6 +13,12 @@ export interface TabRouteState {
   markers: IMarker[];
   routeCameraCoordinates: [number, number];
   forceUpdateRouteCamera: boolean;
+  cameraRef: React.RefObject<Camera>;
+  bounds: {
+    sw: [number, number];
+    ne: [number, number];
+    padding: number;
+  };
   setRouteOfCity: (route: IRouteOfCity) => void;
   setRouteComplete: (route: IRouteComplete) => void;
   setCity: (city: ICity) => void;
@@ -20,6 +27,12 @@ export interface TabRouteState {
   setDefaultTabRoute: () => void;
   setRouteCameraCoordinates: (routeCameraCoordinates: [number, number]) => void;
   setForceUpdateRouteCamera: (forceUpdateRouteCamera: boolean) => void;
+  setCameraRef: (cameraRef: React.RefObject<Camera>) => void;
+  setBounds: (bounds: {
+    sw: [number, number];
+    ne: [number, number];
+    padding: number;
+  }) => void;
 }
 
 const defaultRouteOfCity: IRouteOfCity = {
@@ -54,6 +67,12 @@ export const useTabRouteStore = create<TabRouteState>(set => ({
   markers: [],
   routeCameraCoordinates: [0, 0],
   forceUpdateRouteCamera: false,
+  cameraRef: null,
+  bounds: {
+    sw: [0, 0],
+    ne: [0, 0],
+    padding: 0,
+  },
   setRouteOfCity: (routeOfCity: IRouteOfCity) => {
     set(state => ({routeOfCity: {...state.routeOfCity, ...routeOfCity}}));
   },
@@ -81,9 +100,25 @@ export const useTabRouteStore = create<TabRouteState>(set => ({
       markers: [],
       routeCameraCoordinates: [0, 0],
       forceUpdateRouteCamera: false,
+      cameraRef: null,
+      bounds: {
+        sw: [0, 0],
+        ne: [0, 0],
+        padding: 0,
+      },
     }));
   },
   setRouteCameraCoordinates: (routeCameraCoordinates: [number, number]) => {
     set(() => ({routeCameraCoordinates}));
+  },
+  setCameraRef: (cameraRef: React.RefObject<Camera>) => {
+    set(() => ({cameraRef}));
+  },
+  setBounds: (bounds: {
+    sw: [number, number];
+    ne: [number, number];
+    padding: number;
+  }) => {
+    set(() => ({bounds}));
   },
 }));

@@ -7,8 +7,6 @@ import ICity from '../../../shared/interfaces/ICity';
 import {RouteProp} from '@react-navigation/native';
 import IRouteComplete from '../../../shared/interfaces/IRouteComplete';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
-import Mapbox, {Camera} from '@rnmapbox/maps';
-import React from 'react';
 
 export type RoutesStackParamList = {
   ListCities: undefined;
@@ -17,8 +15,6 @@ export type RoutesStackParamList = {
   };
   RouteDetail: {
     route: IRouteComplete;
-    mapRef: React.RefObject<Mapbox.MapView>;
-    cameraRef: React.RefObject<Camera>;
   };
 };
 

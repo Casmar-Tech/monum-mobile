@@ -15,7 +15,6 @@ import bottom_bar_config_inactive from '../assets/images/icons/bottom_bar_config
 import MediaComponent from './media/components/MediaComponent';
 import RoutesNavigator from './routes/navigator/RoutesNavigator';
 import ProfileNavigator from './profile/navigator/ProfileNavigator';
-import {Camera, MapView} from '@rnmapbox/maps';
 import TrackPlayer, {
   Event,
   useTrackPlayerEvents,
@@ -25,7 +24,7 @@ import {useMainStore} from '../zustand/MainStore';
 import VideoPlayer from './video/VideoPlayer';
 import MapNavigator from './map/navigator/MapNavigator';
 
-const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
+export const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 60;
 
 // Define un tipo para las rutas
 export type RootBottomTabList = {
@@ -81,21 +80,7 @@ function BottomTabNavigator() {
     }
   });
 
-  const mapRef = useRef<MapView>(null);
-  const cameraRef = useRef<Camera>(null);
-  const setMapRef = useMainStore(state => state.setMapRef);
-  const setCameraRef = useMainStore(state => state.setCameraRef);
   const videoPlayer = useMainStore(state => state.main.videoPlayer);
-
-  useEffect(() => {
-    setMapRef(mapRef);
-    setCameraRef(cameraRef);
-
-    return () => {
-      setMapRef(null);
-      setCameraRef(null);
-    };
-  }, []);
 
   useEffect(() => {
     if (navigationRef.current) {
