@@ -1,7 +1,6 @@
 // import axios from 'axios';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {changeLanguage, t} from 'i18next';
-import React from 'react';
+import {changeLanguage} from 'i18next';
 import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
 
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
@@ -14,6 +13,7 @@ import GoogleAuthService from '../services/GoogleAuthService';
 import {styles} from '../styles/LoginStyles';
 import {useUserStore} from '../../zustand/UserStore';
 import AuthServices from '../services/AuthServices';
+import {useTranslation} from 'react-i18next';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -28,6 +28,7 @@ export default function LoginScreen({navigation}: Props) {
   const setAuthToken = useUserStore(state => state.setAuthToken);
   const setUser = useUserStore(state => state.setUser);
   const setIsAuthenticated = useUserStore(state => state.setIsAuthenticated);
+  const {t} = useTranslation();
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.backgroundColor} />

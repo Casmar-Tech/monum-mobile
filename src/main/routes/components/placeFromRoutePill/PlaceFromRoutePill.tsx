@@ -15,14 +15,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import React, {forwardRef, useImperativeHandle, useState} from 'react';
+import {forwardRef, useImperativeHandle, useState} from 'react';
 import RoutePlaceMediaPill from './RoutePlaceMediaPill';
 import IMedia from '../../../../shared/interfaces/IMedia';
-import {t} from 'i18next';
 import IStop from '../../../../shared/interfaces/IStop';
 import {SheetManager} from 'react-native-actions-sheet';
 import place_detail_direction_white from '../../../../assets/images/icons/place_detail_direction_white.png';
 import {ImportanceIcon} from './ImportanceIcon';
+import {useTranslation} from 'react-i18next';
 
 type PlaceFromRoutePillProps = IStop & {
   style?: ViewStyle;
@@ -44,6 +44,7 @@ const PlaceFromRoutePill = forwardRef<
   const [expandedPill, setExpandedPill] = useState<boolean>(false);
   const [highlightedPill, setHighlightedPill] = useState<boolean>(false);
   const animationValue = useSharedValue(0);
+  const {t} = useTranslation();
 
   useImperativeHandle(ref, () => ({
     isExpanded: expandedPill,
@@ -220,7 +221,6 @@ const PlaceFromRoutePill = forwardRef<
                   borderWidth: 0.5,
                   borderColor: '#BDBDBD',
                   borderRadius: 0,
-                  marginHorizontal: -8,
                   marginBottom: 10,
                 }}
               />
@@ -273,7 +273,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 8,
     shadowColor: '#C0DCBE',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 1,
@@ -286,6 +285,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 17.5,
+    paddingHorizontal: 8,
   },
   placeNameText: {
     fontSize: 12,
@@ -313,6 +313,7 @@ const styles = StyleSheet.create({
   },
   placeMediaIntroContainer: {
     alignSelf: 'flex-start',
+    paddingHorizontal: 8,
   },
   placeMediaIntroText: {
     color: '#3F713B',

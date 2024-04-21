@@ -72,6 +72,14 @@ export default function MapPlaceDetail() {
     }
   };
 
+  const closePlaceDetail = () => {
+    position.value = withTiming(0, {duration: 300}, () => {
+      runOnJS(setMarkerSelected)(null);
+      runOnJS(setShowPlaceDetailExpanded)(false);
+      runOnJS(setTabBarVisible)(true);
+    });
+  };
+
   const panGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     GestureContext
@@ -101,21 +109,13 @@ export default function MapPlaceDetail() {
           position.value < BOTTOM_TOTAL_TAB_HEIGHT / 2 ||
           event.velocityY > 0
         ) {
-          position.value = withTiming(0, {duration: 300}, () => {
-            runOnJS(setMarkerSelected)(null);
-            runOnJS(setShowPlaceDetailExpanded)(false);
-            runOnJS(setTabBarVisible)(true);
-          });
+          runOnJS(closePlaceDetail)();
         } else {
           position.value = withTiming(BOTTOM_TOTAL_TAB_HEIGHT);
         }
       } else {
         if (position.value < height / 2 || event.velocityY > 0) {
-          position.value = withTiming(0, {duration: 300}, () => {
-            runOnJS(setMarkerSelected)(null);
-            runOnJS(setShowPlaceDetailExpanded)(false);
-            runOnJS(setTabBarVisible)(true);
-          });
+          runOnJS(closePlaceDetail)();
         } else {
           position.value = withTiming(height - MAX_MARGIN_TOP);
         }
@@ -155,14 +155,6 @@ export default function MapPlaceDetail() {
       position.value = withTiming(height - MAX_MARGIN_TOP, {duration: 300});
     }
   }, [showPlaceDetailExpanded, place]);
-
-  const closePlaceDetail = () => {
-    position.value = withTiming(0, {duration: 300}, () => {
-      runOnJS(setMarkerSelected)(null);
-      runOnJS(setShowPlaceDetailExpanded)(false);
-      runOnJS(setTabBarVisible)(true);
-    });
-  };
 
   return markerSelected ? (
     <View

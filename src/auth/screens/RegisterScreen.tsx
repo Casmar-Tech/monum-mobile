@@ -1,6 +1,4 @@
-// import axios from 'axios';
-import {t} from 'i18next';
-import React, {useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {
   View,
   Image,
@@ -9,7 +7,6 @@ import {
   TextInput,
   Animated,
 } from 'react-native';
-
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
 import password_eye from '../../assets/images/icons/password_eye.png';
 import password_eye_crossed from '../../assets/images/icons/password_eye_crossed.png';
@@ -20,6 +17,7 @@ import AuthServices from '../services/AuthServices';
 import {Text} from 'react-native';
 import {useUserStore} from '../../zustand/UserStore';
 import ErrorComponent from '../components/ErrorComponent';
+import {useTranslation} from 'react-i18next';
 
 export default function RegisterScreen() {
   const setAuthToken = useUserStore(state => state.setAuthToken);
@@ -31,6 +29,7 @@ export default function RegisterScreen() {
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const {t} = useTranslation();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

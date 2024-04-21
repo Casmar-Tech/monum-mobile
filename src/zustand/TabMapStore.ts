@@ -6,6 +6,7 @@ import {ISearchResult} from '../shared/interfaces/ISearchResult';
 
 export interface ITabMap {
   markerSelected: string | null;
+  lastMarkerSelected: string | null;
   place: IPlace | null;
   showPlaceDetailExpanded: boolean;
   mediasOfPlace: IMedia[] | undefined;
@@ -27,6 +28,7 @@ export interface ITabMap {
 
 export const defaultTabMap: ITabMap = {
   markerSelected: null,
+  lastMarkerSelected: null,
   place: null,
   showPlaceDetailExpanded: false,
   mediasOfPlace: undefined,
@@ -49,6 +51,7 @@ export const defaultTabMap: ITabMap = {
 interface TabMapState {
   tabMap: ITabMap;
   setMarkerSelected: (markerSelected: string | null) => void;
+  setLastMarkerSelected: (markerSelected: string | null) => void;
   setPlace: (place: IPlace | null) => void;
   setShowPlaceDetailExpanded: (showPlaceDetailExpanded: boolean) => void;
   setMediasOfPlace: (mediasOfPlace: IMedia[] | undefined) => void;
@@ -70,7 +73,16 @@ interface TabMapState {
 export const useTabMapStore = create<TabMapState>(set => ({
   tabMap: defaultTabMap,
   setMarkerSelected: (markerSelected: string | null) => {
-    set(state => ({tabMap: {...state.tabMap, markerSelected}}));
+    set(state => ({
+      tabMap: {
+        ...state.tabMap,
+        lastMarkerSelected: state.tabMap.markerSelected,
+        markerSelected,
+      },
+    }));
+  },
+  setLastMarkerSelected: (lastMarkerSelected: string | null) => {
+    set(state => ({tabMap: {...state.tabMap, lastMarkerSelected}}));
   },
   setPlace: (place: IPlace | null) => {
     set(state => ({tabMap: {...state.tabMap, place}}));

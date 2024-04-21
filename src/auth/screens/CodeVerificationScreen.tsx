@@ -11,11 +11,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
-import {t} from 'i18next';
 import logo_white from '../../assets/images/logos/logo_white.png';
 import PrimaryButton from '../components/PrimaryButton';
 import AuthServices from '../services/AuthServices';
 import ErrorComponent from '../components/ErrorComponent';
+import {useTranslation} from 'react-i18next';
 
 export default function CodeVerificationScreen({
   navigation,
@@ -24,7 +24,7 @@ export default function CodeVerificationScreen({
   const {email} = route.params;
   const [code, setCode] = useState('');
   const [error, setError] = useState<string | null>(null);
-
+  const {t} = useTranslation();
   const [counter, setCounter] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 

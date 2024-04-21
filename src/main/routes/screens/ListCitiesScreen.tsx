@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/client';
 import TextSearch from '../components/TextSearch';
-import {t} from 'i18next';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {GET_CITIES} from '../../../graphql/queries/routeQueries';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
@@ -12,8 +11,10 @@ import {ListCitiesScreenProps} from '../navigator/RoutesNavigator';
 import ListCityPill from '../components/ListCityPill';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 import {useUserStore} from '../../../zustand/UserStore';
+import {useTranslation} from 'react-i18next';
 
 export default function ListCitiesScreen({navigation}: ListCitiesScreenProps) {
+  const {t} = useTranslation();
   const setCity = useTabRouteStore(state => state.setCity);
   const safeAreaInsets = useSafeAreaInsets();
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);

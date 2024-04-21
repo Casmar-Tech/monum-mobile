@@ -1,4 +1,3 @@
-import {t} from 'i18next';
 import {
   Dimensions,
   Image,
@@ -13,6 +12,7 @@ import {useMainStore} from '../../../../zustand/MainStore';
 import {useRef} from 'react';
 import MediaPlayer from './MediaPlayer';
 import place_pre_detail_arrow_top from '../../../../assets/images/icons/place_pre_detail_arrow_top.png';
+import {useTranslation} from 'react-i18next';
 
 const {height} = Dimensions.get('window');
 
@@ -31,6 +31,7 @@ export default function MediaExpandedText({
   setIsFullExtended,
   setIsMain,
 }: MediaExpandedTextProps) {
+  const {t} = useTranslation();
   const currentTrack = useMainStore(state => state.main.currentTrack);
   const scrollRef = useRef<ScrollView>(null);
   return (

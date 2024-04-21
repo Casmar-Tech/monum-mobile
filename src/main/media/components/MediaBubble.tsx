@@ -55,7 +55,6 @@ export default function MediaBubble() {
   );
   const bottomSafeAreaInsets = useSafeAreaInsets().bottom;
   const [closeBubble, setCloseBubble] = useState(false);
-  const [maxTextWidth, setMaxTextWidth] = useState(0);
 
   const position = useSharedValue(width / 2);
   const panGestureEvent = useAnimatedGestureHandler<
@@ -135,12 +134,7 @@ export default function MediaBubble() {
                 resizeMode="cover"
               />
             </View>
-            <View
-              style={styles.mediaBubbleInfoContainer}
-              onLayout={e => {
-                const {width: newWidth} = e.nativeEvent.layout;
-                setMaxTextWidth(newWidth);
-              }}>
+            <View style={styles.mediaBubbleInfoContainer}>
               <View style={styles.mediaBubbleTitleContainer}>
                 <CarouselText text={currentTrack?.title || ''} />
               </View>
@@ -278,26 +272,27 @@ export default function MediaBubble() {
 const styles = StyleSheet.create({
   animatedContainer: {
     position: 'absolute',
-    shadowColor: 'black',
+    borderRadius: 12,
+    height: 70,
+    backgroundColor: '#CCD8CB',
+    shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 10,
-    borderRadius: 12,
-    height: 70,
   },
   mediaBubbleContainer: {
     width: '100%',
     height: 70,
     borderRadius: 12,
     flexDirection: 'row',
+    padding: 10,
     backgroundColor: '#CCD8CB',
-    elevation: 10,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 4,
-    padding: 10,
+    elevation: 10,
   },
   mediaBubbleImageContainer: {
     flex: 40,

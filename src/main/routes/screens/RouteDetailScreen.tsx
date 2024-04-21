@@ -256,11 +256,13 @@ export default function RouteDetailScreen({
   ).current;
 
   return (
-    <View style={{backgroundColor: 'white', flex: 1}}>
+    <View style={{flex: 1}}>
       <View
         style={{
           height: Dimensions.get('window').height * 0.4,
           width: Dimensions.get('window').width,
+          elevation: 5,
+          backgroundColor: 'white',
           shadowColor: '#000',
           shadowOffset: {width: 0, height: 2},
           shadowOpacity: 0.5,

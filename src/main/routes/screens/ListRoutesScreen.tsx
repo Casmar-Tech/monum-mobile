@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {ScrollView, View, StyleSheet} from 'react-native';
-import React from 'react';
 import {ListRoutesScreenProps} from '../navigator/RoutesNavigator';
 import {useQuery} from '@apollo/client';
 import {GET_ROUTES_OF_CITY} from '../../../graphql/queries/routeQueries';
@@ -11,12 +10,13 @@ import TextSearch from '../components/TextSearch';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 import ErrorComponent from '../../../shared/components/ErrorComponent';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import {t} from 'i18next';
 import ListRoutePill from '../components/ListRoutePill';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 import {useUserStore} from '../../../zustand/UserStore';
+import {useTranslation} from 'react-i18next';
 
 export default function ListRoutesScreen({navigation}: ListRoutesScreenProps) {
+  const {t} = useTranslation();
   const city = useTabRouteStore(state => state.city);
   const setRouteOfCity = useTabRouteStore(state => state.setRouteOfCity);
   const safeAreaInsets = useSafeAreaInsets();

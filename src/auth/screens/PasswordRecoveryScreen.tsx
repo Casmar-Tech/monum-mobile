@@ -1,6 +1,6 @@
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigator/AuthNavigator';
-import React, {useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {styles} from '../styles/LoginStyles';
 import {
   View,
@@ -11,11 +11,11 @@ import {
   Animated,
 } from 'react-native';
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
-import {t} from 'i18next';
 import logo_white from '../../assets/images/logos/logo_white.png';
 import PrimaryButton from '../components/PrimaryButton';
 import AuthServices from '../services/AuthServices';
 import ErrorComponent from '../components/ErrorComponent';
+import {useTranslation} from 'react-i18next';
 
 type PasswordRecoveryScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -29,6 +29,7 @@ type Props = {
 export default function PasswordRecoveryScreen({navigation}: Props) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const {t} = useTranslation();
 
   const shakeAnimation = useRef(new Animated.Value(0)).current;
 
@@ -101,9 +102,8 @@ export default function PasswordRecoveryScreen({navigation}: Props) {
               onPress={async () => {
                 try {
                   const emailToLower = email.toLowerCase();
-                  const response = await AuthServices.resetPassword(
-                    emailToLower,
-                  );
+                  const response =
+                    await AuthServices.resetPassword(emailToLower);
                   if (response) {
                     setError(null);
                     navigation.navigate('CodeVerification', {

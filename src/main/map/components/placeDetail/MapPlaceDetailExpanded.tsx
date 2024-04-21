@@ -1,4 +1,3 @@
-import {t} from 'i18next';
 import {
   Dimensions,
   Image,
@@ -20,6 +19,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import {useSharedValue} from 'react-native-reanimated';
 import {PaginationItem} from '../../../media/components/PaginationItem';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
+import {useTranslation} from 'react-i18next';
 
 const BORDER_RADIUS = 24;
 
@@ -32,6 +32,7 @@ export default function MapPlaceDetailExpanded({
   importanceIcon,
   closePlaceDetail,
 }: MapPlaceDetailExpandedProps) {
+  const {t} = useTranslation();
   const place = useTabMapStore(state => state.tabMap.place);
   const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
   const progressValue = useSharedValue<number>(0);
@@ -195,7 +196,7 @@ export default function MapPlaceDetailExpanded({
         </View>
         <ScrollView
           scrollEventThrottle={16}
-          style={{width: '100%'}}
+          style={{width: '100%', height: '100%'}}
           showsVerticalScrollIndicator={false}>
           {mediasOfPlace?.map((media: IMedia, i: number) => (
             <MediaOfPlacePill key={i} index={i} media={media} />
@@ -284,11 +285,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ECF3EC',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 15,
   },
   placeMediaIntroContainer: {
     paddingVertical: 10,
     alignSelf: 'flex-start',
+    paddingHorizontal: 15,
   },
   placeMediaIntroText: {
     color: '#3F713B',

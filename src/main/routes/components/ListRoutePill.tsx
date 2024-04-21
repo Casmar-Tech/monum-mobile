@@ -1,8 +1,8 @@
-import React, {StyleSheet, Text, Pressable, View} from 'react-native';
+import {StyleSheet, Text, Pressable, View} from 'react-native';
 import IRouteOfCity from '../../../shared/interfaces/IRouteOfCity';
-import {t} from 'i18next';
 import RatingPill from './RatingPill';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 
 interface ListRoutePillProps {
   route: IRouteOfCity;
@@ -11,6 +11,7 @@ interface ListRoutePillProps {
 
 export default function ListRoutePill({route, onPress}: ListRoutePillProps) {
   const [globalPressed, setGlobalPressed] = useState<boolean>(false);
+  const {t} = useTranslation();
   return (
     <Pressable
       onPress={onPress}
@@ -48,10 +49,6 @@ const styles = StyleSheet.create({
   placeMediaPillContainer: {
     width: '100%',
     height: 70,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
   },
   placeMediaPill: {
     height: 50,
@@ -63,6 +60,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
   placeMediaPillTitle: {
     fontSize: 14,

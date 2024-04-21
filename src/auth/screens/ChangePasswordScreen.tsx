@@ -11,20 +11,20 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
-import {t} from 'i18next';
 import logo_white from '../../assets/images/logos/logo_white.png';
 import password_eye from '../../assets/images/icons/password_eye.png';
 import password_eye_crossed from '../../assets/images/icons/password_eye_crossed.png';
 import PrimaryButton from '../components/PrimaryButton';
 import AuthServices from '../services/AuthServices';
 import ErrorComponent from '../components/ErrorComponent';
+import {useTranslation} from 'react-i18next';
 
 export default function ChangePasswordScreen({
   navigation,
   route,
 }: ChangePasswordScreenProps) {
   const {token} = route.params;
-
+  const {t} = useTranslation();
   const [newPassword, setNewPassword] = useState('');
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [confirmedNewPassword, setConfirmedNewPassword] = useState('');

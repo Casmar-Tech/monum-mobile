@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import text_search_delete from '../../../assets/images/icons/text_search_delete.png';
 import text_search_back from '../../../assets/images/icons/text_search_back.png';
-import {t} from 'i18next';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import {Platform} from 'react-native';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
@@ -21,6 +21,7 @@ interface TextSearchMapProps {
 export default function TextSearchMap({onPress}: TextSearchMapProps) {
   const textSearch = useTabMapStore(state => state.tabMap.textSearch);
   const setTextSearch = useTabMapStore(state => state.setTextSearch);
+  const {t} = useTranslation();
 
   return (
     <View

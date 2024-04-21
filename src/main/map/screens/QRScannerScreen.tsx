@@ -13,15 +13,15 @@ import {
   useCodeScanner,
 } from 'react-native-vision-camera';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {t} from 'i18next';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import MapServices from '../services/MapServices';
-import {useMainStore} from '../../../zustand/MainStore';
 import QRSpinner from '../components/QRSpinner';
 import QRSuccess from '../components/QRSuccess';
 import QRError from '../components/QRError';
+import {useTranslation} from 'react-i18next';
 
 export default function ScanScreen({navigation}: any) {
+  const {t} = useTranslation();
   const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
   const setPlace = useTabMapStore(state => state.setPlace);
   const setShowPlaceDetailExpanded = useTabMapStore(

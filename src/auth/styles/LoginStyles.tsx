@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 4,
-    elevation: 10, // Solo para Android
+    elevation: 10,
     marginVertical: 36,
   },
   primaryButtonText: {
@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 4,
-    elevation: 5, // Solo para Android
+    elevation: 5,
   },
   secondaryButtonLogo: {
     position: 'absolute',

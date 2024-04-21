@@ -14,7 +14,7 @@ import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useMainStore} from '../../../zustand/MainStore';
 import Geolocation from '@react-native-community/geolocation';
 import {useUserStore} from '../../../zustand/UserStore';
-import TextSearchMapScreen from '../components/TextSearchMapScreen';
+import TextSearchMapScreen from '../components/TextSearchMapDisabled';
 
 setAccessToken(
   'pk.eyJ1IjoieHBsb3JlYXIiLCJhIjoiY2xqMmU0Z3NyMGFxeTNwbzByNW90dmdxcSJ9.cMT52Rc64Z05YUGPIutXFw',

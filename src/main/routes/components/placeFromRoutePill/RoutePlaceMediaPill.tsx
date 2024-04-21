@@ -39,8 +39,8 @@ export default function RoutePlaceMediaPill({
     media.type === 'audio'
       ? place_detail_audio_media
       : media.type === 'video'
-      ? place_detail_video_media
-      : place_detail_text_media;
+        ? place_detail_video_media
+        : place_detail_text_media;
 
   const onPressAudio = async () => {
     try {
@@ -80,8 +80,8 @@ export default function RoutePlaceMediaPill({
         media.type === 'audio'
           ? onPressAudio
           : media.type === 'video'
-          ? onPressVideo
-          : undefined
+            ? onPressVideo
+            : undefined
       }
       style={style}>
       <View style={styles.placeMediaPillContainer}>
@@ -123,16 +123,11 @@ const styles = StyleSheet.create({
   placeMediaPillContainer: {
     width: '100%',
     height: 70,
-    shadowColor: '#C0DCBE',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 5,
+    paddingHorizontal: 8,
   },
   placeMediaPill: {
     height: 50,
     borderRadius: 12,
-    backgroundColor: 'white',
     marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -140,6 +135,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 5,
     paddingTop: 10,
+    backgroundColor: 'white',
+    shadowColor: '#C0DCBE',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 5,
   },
   placeMediaPillTitle: {
     fontSize: 12,
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   mediaPillRatingContainer: {
     position: 'absolute',
     top: 0,
-    left: 10,
+    left: 18,
     height: 20,
     width: 30,
     backgroundColor: '#3F713B',

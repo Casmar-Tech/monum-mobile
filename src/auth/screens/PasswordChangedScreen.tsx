@@ -2,11 +2,10 @@ import {styles} from '../styles/LoginStyles';
 import {View, Text, ImageBackground, Image} from 'react-native';
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
 import logo_white from '../../assets/images/logos/logo_white.png';
-import {t} from 'i18next';
-import React from 'react';
 import {RootStackParamList} from '../navigator/AuthNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
 import PrimaryButton from '../components/PrimaryButton';
+import {useTranslation} from 'react-i18next';
 
 type PasswordChangedScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -18,6 +17,7 @@ type Props = {
 };
 
 export default function PasswordChanged({navigation}: Props) {
+  const {t} = useTranslation();
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.backgroundColor} />

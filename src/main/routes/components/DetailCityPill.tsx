@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     height: 160,
     paddingVertical: 20,
     justifyContent: 'flex-start',
+    backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.25,

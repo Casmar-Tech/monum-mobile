@@ -3,7 +3,6 @@ import {Image, TouchableOpacity} from 'react-native';
 import {StyleSheet, View} from 'react-native';
 import {ProfileStackParamList} from '../navigator/ProfileNavigator';
 import media_bubble_back from '../../../assets/images/icons/media_bubble_back.png';
-import {t} from 'i18next';
 import {Text} from 'react-native';
 import {useState} from 'react';
 import ChangePasswordInput from '../components/ChangePasswordInput';
@@ -12,6 +11,7 @@ import {useMutation} from '@apollo/client';
 import {UPDATE_PASSWORD} from '../../../graphql/queries/userQueries';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
+import {useTranslation} from 'react-i18next';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   ProfileStackParamList,
@@ -25,6 +25,7 @@ type ProfileUpdatePasswordScreenProps = {
 export default function ProfileUpdatePasswordScreen({
   navigation,
 }: ProfileUpdatePasswordScreenProps) {
+  const {t} = useTranslation();
   const safeArea = useSafeAreaInsets();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

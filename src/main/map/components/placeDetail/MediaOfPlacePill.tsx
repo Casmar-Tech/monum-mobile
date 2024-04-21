@@ -32,8 +32,8 @@ export default function MediaOfPlacePill({
     media.type === 'audio'
       ? place_detail_audio_media
       : media.type === 'video'
-      ? place_detail_video_media
-      : place_detail_text_media;
+        ? place_detail_video_media
+        : place_detail_text_media;
 
   const onPressAudioAndText = async () => {
     try {
@@ -114,11 +114,7 @@ const styles = StyleSheet.create({
   placeMediaPillContainer: {
     width: '100%',
     height: 70,
-    shadowColor: '#C0DCBE',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 5,
+    paddingHorizontal: 15,
   },
   placeMediaPill: {
     height: 50,
@@ -131,6 +127,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 5,
     paddingTop: 10,
+    shadowColor: '#C0DCBE',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 5,
   },
   placeMediaPillTitle: {
     fontSize: 12,
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   mediaPillRatingContainer: {
     position: 'absolute',
     top: 0,
-    left: 10,
+    left: 25,
     height: 20,
     width: 30,
     backgroundColor: '#3F713B',

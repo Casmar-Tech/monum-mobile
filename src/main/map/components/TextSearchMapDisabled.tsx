@@ -1,18 +1,15 @@
 import {
   View,
   Image,
-  TextInput,
   StyleSheet,
   ViewStyle,
-  Platform,
   Pressable,
   Text,
   ActivityIndicator,
 } from 'react-native';
 import routes_text_search from '../../../assets/images/icons/routes_text_search.png';
-import {t} from 'i18next';
-import LinearGradient from 'react-native-linear-gradient';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
+import {useTranslation} from 'react-i18next';
 
 interface TextSearchMapDisabledProps {
   onPress: () => void;
@@ -25,6 +22,8 @@ export default function TextSearchMapDisabled({
   const textSearchIsLoading = useTabMapStore(
     state => state.tabMap.textSearchIsLoading,
   );
+  const {t} = useTranslation();
+
   return (
     <View
       style={{
@@ -62,7 +61,7 @@ export default function TextSearchMapDisabled({
                 fontFamily: 'Montserrat-Regular',
               }}
               numberOfLines={1}>
-              {textSearch || t('routes.search') || 'Search'}
+              {textSearch || t('routes.search')}
             </Text>
           </View>
           {textSearchIsLoading && (

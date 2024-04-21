@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import IUser from '../../../shared/interfaces/IUser';
 import {useMutation, useQuery} from '@apollo/client';
 import {
   GET_USER_BY_ID,
   UPDATE_USER,
 } from '../../../graphql/queries/userQueries';
-import {t, changeLanguage} from 'i18next';
+import {changeLanguage} from 'i18next';
 import ProfilePhotoComponent from '../components/ProfilePhoto';
 import LanguageSelector from '../components/LanguageSelector';
 import NameInput from '../components/NameInput';
@@ -25,12 +25,14 @@ import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 import GoogleAuthService from '../../../auth/services/GoogleAuthService';
 import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../BottomTabNavigator';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   navigation: any;
 };
 
 export default function ProfileScreen({navigation}: Props) {
+  const {t} = useTranslation();
   const onRetry = useQuery(GET_USER_BY_ID);
   const safeArea = useSafeAreaInsets();
   const user = useUserStore(state => state.user);
@@ -127,7 +129,6 @@ export default function ProfileScreen({navigation}: Props) {
       });
       setLanguage(provisionalLanguage);
       await changeLanguage(provisionalLanguage);
-
       await client.resetStore();
     } catch (error) {
       console.error('Error al actualizar el usuario:', error);

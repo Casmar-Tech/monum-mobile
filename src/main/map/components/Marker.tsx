@@ -15,6 +15,9 @@ import {useTabMapStore} from '../../../zustand/TabMapStore';
 export function MarkerComponent({id, coordinates, importance}: IMarker) {
   const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
+  const lastMarkerSelected = useTabMapStore(
+    state => state.tabMap.lastMarkerSelected,
+  );
   const [icon, setIcon] = useState(map_marker_importance_1);
   const dimensions = 50;
   const chooseIcon = () => {
@@ -44,8 +47,14 @@ export function MarkerComponent({id, coordinates, importance}: IMarker) {
   };
 
   useEffect(() => {
+    if (markerSelected === id || lastMarkerSelected === id) {
+      chooseIcon();
+    }
+  }, [markerSelected, lastMarkerSelected]);
+
+  useEffect(() => {
     chooseIcon();
-  }, [markerSelected]);
+  }, []);
 
   return (
     <MarkerView id={id} key={id} coordinate={coordinates}>

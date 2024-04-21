@@ -1,9 +1,9 @@
-import {t} from 'i18next';
 import {useEffect, useState} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Language} from '../../../shared/types/Language';
 import {useUserStore} from '../../../zustand/UserStore';
+import {useTranslation} from 'react-i18next';
 
 interface LanguageSelectorProps {
   setProvisionalLanguage: (string: Language) => void;
@@ -17,6 +17,7 @@ interface LanguageSelectorPill {
 export default function LanguageSelector({
   setProvisionalLanguage,
 }: LanguageSelectorProps) {
+  const {t} = useTranslation();
   const language = useUserStore(state => state.user.language);
   useEffect(() => {
     setValue(language);

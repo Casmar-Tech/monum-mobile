@@ -1,6 +1,6 @@
 // import axios from 'axios';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {changeLanguage, t} from 'i18next';
+import {changeLanguage} from 'i18next';
 import {useRef, useState} from 'react';
 import {
   View,
@@ -21,6 +21,7 @@ import {styles} from '../styles/LoginStyles';
 import AuthServices from '../services/AuthServices';
 import {useUserStore} from '../../zustand/UserStore';
 import ErrorComponent from '../components/ErrorComponent';
+import {useTranslation} from 'react-i18next';
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Login'
@@ -38,7 +39,7 @@ export default function LoginScreen({navigation}: Props) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const {t} = useTranslation();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
