@@ -127,9 +127,9 @@ export default function ProfileScreen({navigation}: Props) {
           },
         },
       });
+      await client.clearStore();
       setLanguage(provisionalLanguage);
       await changeLanguage(provisionalLanguage);
-      await client.resetStore();
     } catch (error) {
       console.error('Error al actualizar el usuario:', error);
     }
@@ -165,16 +165,20 @@ export default function ProfileScreen({navigation}: Props) {
     return (
       <ErrorComponent
         errorMessage={t('profile.errorUpdating')}
-        onRetry={async () =>
-          await updateUser({
-            variables: {
-              updateUserInput: {
-                id: provisionalUser.id,
-                username: provisionalUser.username,
+        onRetry={async () => {
+          try {
+            await updateUser({
+              variables: {
+                updateUserInput: {
+                  id: provisionalUser.id,
+                  username: provisionalUser.username,
+                },
               },
-            },
-          })
-        }
+            });
+          } catch (error) {
+            console.error('Error al actualizar el usuario:', error);
+          }
+        }}
       />
     );
   }
@@ -241,13 +245,18 @@ export default function ProfileScreen({navigation}: Props) {
               : t('profile.createMyAccount')
           }
           onPress={async () => {
-            (await GoogleSignin.isSignedIn()) && (await GoogleSignin.signOut());
-            await GoogleAuthService.configureGoogleSignIn();
-            await removeAuthToken();
-            setDefaultUser();
-            setDefaultMain();
-            setDefaultTabMap();
-            setDefaultTabRoute();
+            try {
+              (await GoogleSignin.isSignedIn()) &&
+                (await GoogleSignin.signOut());
+              await GoogleAuthService.configureGoogleSignIn();
+              await removeAuthToken();
+              setDefaultUser();
+              setDefaultMain();
+              setDefaultTabMap();
+              setDefaultTabRoute();
+            } catch (error) {
+              console.error('Error al cerrar sesión:', error);
+            }
           }}
         />
       </View>

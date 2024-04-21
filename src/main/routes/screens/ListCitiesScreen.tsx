@@ -27,13 +27,17 @@ export default function ListCitiesScreen({navigation}: ListCitiesScreenProps) {
 
   useEffect(() => {
     async function fetchCities() {
-      const response = await refetch();
-      if (response.data && response.data.cities) {
-        setCities(response.data?.cities || []);
+      try {
+        const response = await refetch();
+        if (response.data && response.data.cities) {
+          setCities(response.data?.cities || []);
+        }
+      } catch (error) {
+        console.error('Error trying to get cities:', error);
       }
     }
     fetchCities();
-  }, [textSearch, refetch]);
+  }, [textSearch, refetch, language]);
 
   return (
     <View style={styles.page}>

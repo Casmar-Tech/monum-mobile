@@ -1,4 +1,4 @@
-import {Platform, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {ISearchResult} from '../../../shared/interfaces/ISearchResult';
 import place_pre_detail_importance_1 from '../../../assets/images/icons/placeImportance/place_pre_detail_importance_1.png';
 import place_pre_detail_importance_2 from '../../../assets/images/icons/placeImportance/place_pre_detail_importance_2.png';
@@ -7,7 +7,6 @@ import search_result_city_has_monums from '../../../assets/images/icons/search_r
 import search_result_city_not_has_monums from '../../../assets/images/icons/search_result_city_not_has_monums.png';
 import {Image} from 'react-native';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
-import {useMainStore} from '../../../zustand/MainStore';
 import MapServices from '../services/MapServices';
 
 interface TextSearchMapResultPillProps {

@@ -70,10 +70,15 @@ export default function RoutePlaceMediaPill({
   };
 
   const onPressVideo = async () => {
-    await TrackPlayer.pause();
-    setVideoPlayer(true);
-    setVideoUrl(media.url);
+    try {
+      await TrackPlayer.pause();
+      setVideoPlayer(true);
+      setVideoUrl(media.url);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
   return (
     <TouchableOpacity
       onPress={

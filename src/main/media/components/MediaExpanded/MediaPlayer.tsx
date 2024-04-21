@@ -75,10 +75,14 @@ export default function MediaPlayer() {
             <TouchableOpacity
               style={styles.mediaPlayerButtons}
               onPress={async () => {
-                if (currentTrack?.mediaType !== 'text') {
-                  statePlayer === State.Paused
-                    ? await TrackPlayer.play()
-                    : await TrackPlayer.pause();
+                try {
+                  if (currentTrack?.mediaType !== 'text') {
+                    statePlayer === State.Paused
+                      ? await TrackPlayer.play()
+                      : await TrackPlayer.pause();
+                  }
+                } catch (e) {
+                  console.log(e);
                 }
               }}>
               <Image

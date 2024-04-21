@@ -32,6 +32,7 @@ import Geolocation from '@react-native-community/geolocation';
 import CenterStopsButton from '../components/CenterStopsButton';
 import {CameraRef} from '@rnmapbox/maps/lib/typescript/src/components/Camera';
 import {IMarker} from '../../../shared/interfaces/IMarker';
+import {useUserStore} from '../../../zustand/UserStore';
 
 export default function RouteDetailScreen({
   navigation,
@@ -41,6 +42,7 @@ export default function RouteDetailScreen({
   const bounds = useTabRouteStore(state => state.bounds);
   const setBounds = useTabRouteStore(state => state.setBounds);
   const routeOfCity = useTabRouteStore(state => state.routeOfCity);
+  const setRouteOfCity = useTabRouteStore(state => state.setRouteOfCity);
   const scrollViewRef = useRef<ScrollView>(null);
   const currentUserLocation = useMainStore(
     state => state.main.currentUserLocation,
@@ -51,6 +53,7 @@ export default function RouteDetailScreen({
   const markers = useTabRouteStore(state => state.markers);
   const setMarkers = useTabRouteStore(state => state.setMarkers);
   const setMarkerSelected = useTabRouteStore(state => state.setMarkerSelected);
+  const language = useUserStore(state => state.user.language);
   const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
 
   const routeCameraCoordinates = useTabRouteStore(
@@ -125,13 +128,22 @@ export default function RouteDetailScreen({
   }, [markers]);
 
   useEffect(() => {
-    if (data) {
-      setOriginalData(data);
+    async function fetchStops() {
+      try {
+        const response = await refetch();
+        if (response && response.data) {
+          setOriginalData(response.data || []);
+        }
+      } catch (error) {
+        console.error('Error trying to get stops:', error);
+      }
     }
-  }, [data]);
+    fetchStops();
+  }, [textSearch, refetch, language]);
 
   useEffect(() => {
     if (originalData) {
+      setRouteOfCity(originalData.route);
       const stops = originalData?.route?.stops;
       const filteredStops = textSearch
         ? stops.filter(
@@ -211,43 +223,47 @@ export default function RouteDetailScreen({
   }, [routeCameraCoordinates, forceUpdateRouteCamera]);
 
   const centerCoordinatesButtonAction = async () => {
-    let permissionCheck;
-    if (Platform.OS === 'ios') {
-      permissionCheck = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
-    } else {
-      permissionCheck = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
-    }
-
-    let permissionResult = await check(permissionCheck);
-
-    if (permissionResult === RESULTS.DENIED) {
-      permissionResult = await request(permissionCheck);
-    }
-
-    if (permissionResult === RESULTS.GRANTED) {
-      if (currentUserLocation) {
-        setRouteCameraCoordinates(currentUserLocation);
-        setForceUpdateRouteCamera(true);
+    try {
+      let permissionCheck;
+      if (Platform.OS === 'ios') {
+        permissionCheck = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
       } else {
-        Geolocation.getCurrentPosition(
-          (position: any) => {
-            const {longitude, latitude} = position.coords;
-            setCurrentUserLocation([longitude, latitude]);
-            setRouteCameraCoordinates([longitude, latitude]);
-            setForceUpdateRouteCamera(true);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 10000,
-          },
-        );
+        permissionCheck = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
       }
-    } else {
-      console.log('Permission not granted or not requestable.');
+
+      let permissionResult = await check(permissionCheck);
+
+      if (permissionResult === RESULTS.DENIED) {
+        permissionResult = await request(permissionCheck);
+      }
+
+      if (permissionResult === RESULTS.GRANTED) {
+        if (currentUserLocation) {
+          setRouteCameraCoordinates(currentUserLocation);
+          setForceUpdateRouteCamera(true);
+        } else {
+          Geolocation.getCurrentPosition(
+            (position: any) => {
+              const {longitude, latitude} = position.coords;
+              setCurrentUserLocation([longitude, latitude]);
+              setRouteCameraCoordinates([longitude, latitude]);
+              setForceUpdateRouteCamera(true);
+            },
+            (error: any) => {
+              console.log(error);
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 15000,
+              maximumAge: 10000,
+            },
+          );
+        }
+      } else {
+        console.log('Permission not granted or not requestable.');
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

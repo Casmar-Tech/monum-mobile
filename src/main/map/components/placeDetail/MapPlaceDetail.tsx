@@ -148,7 +148,7 @@ export default function MapPlaceDetail() {
       };
       fetchPlace();
     }
-  }, [markerSelected]);
+  }, [markerSelected, language]);
 
   useEffect(() => {
     if (place && showPlaceDetailExpanded) {

@@ -34,12 +34,20 @@ export const useUserStore = create<UserState>(set => ({
   user: undefinedUser,
   isAuthenticated: false,
   setAuthToken: async (token: string) => {
-    await AsyncStorage.setItem('authToken', token);
-    set(state => ({user: {...state.user, token}}));
+    try {
+      await AsyncStorage.setItem('authToken', token);
+      set(state => ({user: {...state.user, token}}));
+    } catch (error) {
+      console.error('Error saving authentication token:', error);
+    }
   },
   removeAuthToken: async () => {
-    await AsyncStorage.removeItem('authToken');
-    set(state => ({user: {...state.user, token: ''}}));
+    try {
+      await AsyncStorage.removeItem('authToken');
+      set(state => ({user: {...state.user, token: ''}}));
+    } catch (error) {
+      console.error('Error removing authentication token:', error);
+    }
   },
   setUser: (user: IUser) => {
     set(state => ({user: {...state.user, ...user}}));
@@ -51,7 +59,7 @@ export const useUserStore = create<UserState>(set => ({
     set(state => ({user: {...state.user, username}}));
   },
   setDefaultUser: async () => {
-    set(() => ({user: undefinedUser}));
+    set(state => ({user: {...undefinedUser, language: state.user.language}}));
     set(() => ({isAuthenticated: false}));
   },
   setIsAuthenticated: (isAuthenticated: boolean) => {

@@ -110,13 +110,17 @@ export default function ProfileUpdatePasswordScreen({
         <SecondaryButton
           text={t('profile.changePassword')}
           onPress={async () => {
-            await updatePassword({
-              variables: {
-                oldPassword: currentPassword,
-                newPassword: newPassword,
-              },
-            });
-            navigation.goBack();
+            try {
+              await updatePassword({
+                variables: {
+                  oldPassword: currentPassword,
+                  newPassword: newPassword,
+                },
+              });
+              navigation.goBack();
+            } catch (error) {
+              console.error('Error al cambiar la contraseña:', error);
+            }
           }}
           style={{marginBottom: safeArea.bottom + 100}}
           disabled={isDisabled()}

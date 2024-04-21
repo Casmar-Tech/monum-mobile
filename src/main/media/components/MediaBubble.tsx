@@ -107,8 +107,12 @@ export default function MediaBubble() {
 
   useEffect(() => {
     async function closePlayer() {
-      await TrackPlayer.reset();
-      setCloseBubble(true);
+      try {
+        await TrackPlayer.reset();
+        setCloseBubble(true);
+      } catch (e) {
+        console.log(e);
+      }
     }
     closeBubble && closePlayer();
   }, [closeBubble]);
@@ -187,9 +191,13 @@ export default function MediaBubble() {
                 <TouchableOpacity
                   style={styles.mediaBubblePlayerButtonsImageContainer}
                   onPress={async () => {
-                    statePlayer === State.Paused
-                      ? await TrackPlayer.play()
-                      : await TrackPlayer.pause();
+                    try {
+                      statePlayer === State.Paused
+                        ? await TrackPlayer.play()
+                        : await TrackPlayer.pause();
+                    } catch (e) {
+                      console.log(e);
+                    }
                   }}>
                   <Image
                     source={

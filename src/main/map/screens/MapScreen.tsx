@@ -51,22 +51,25 @@ export default function MapScreen({navigation}: {navigation: any}) {
 
   useEffect(() => {
     const fetchMarkers = async () => {
-      const markersData = await MapServices.getAllMarkers(
-        'importance',
-        'asc',
-        language,
-      );
-      setMarkers(
-        markersData.map(marker => ({
-          id: marker.id,
-          coordinates: [
-            marker.address.coordinates.lng,
-            marker.address.coordinates.lat,
-          ] as [number, number],
-          importance: marker.importance,
-          selected: marker.id === markerSelected,
-        })),
-      );
+      try {
+        const markersData = await MapServices.getAllMarkers(
+          'importance',
+          'asc',
+        );
+        setMarkers(
+          markersData.map(marker => ({
+            id: marker.id,
+            coordinates: [
+              marker.address.coordinates.lng,
+              marker.address.coordinates.lat,
+            ] as [number, number],
+            importance: marker.importance,
+            selected: marker.id === markerSelected,
+          })),
+        );
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchMarkers();
   }, []);
@@ -105,43 +108,47 @@ export default function MapScreen({navigation}: {navigation: any}) {
   }, [mapCameraCoordinates, forceUpdateMapCamera]);
 
   const centerCoordinatesButtonAction = async () => {
-    let permissionCheck;
-    if (Platform.OS === 'ios') {
-      permissionCheck = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
-    } else {
-      permissionCheck = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
-    }
-
-    let permissionResult = await check(permissionCheck);
-
-    if (permissionResult === RESULTS.DENIED) {
-      permissionResult = await request(permissionCheck);
-    }
-
-    if (permissionResult === RESULTS.GRANTED) {
-      if (currentUserLocation) {
-        setMapCameraCoordinates(currentUserLocation);
-        setForceUpdateMapCamera(true);
+    try {
+      let permissionCheck;
+      if (Platform.OS === 'ios') {
+        permissionCheck = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
       } else {
-        Geolocation.getCurrentPosition(
-          (position: any) => {
-            const {longitude, latitude} = position.coords;
-            setCurrentUserLocation([longitude, latitude]);
-            setMapCameraCoordinates([longitude, latitude]);
-            setForceUpdateMapCamera(true);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 10000,
-          },
-        );
+        permissionCheck = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
       }
-    } else {
-      console.log('Permission not granted or not requestable.');
+
+      let permissionResult = await check(permissionCheck);
+
+      if (permissionResult === RESULTS.DENIED) {
+        permissionResult = await request(permissionCheck);
+      }
+
+      if (permissionResult === RESULTS.GRANTED) {
+        if (currentUserLocation) {
+          setMapCameraCoordinates(currentUserLocation);
+          setForceUpdateMapCamera(true);
+        } else {
+          Geolocation.getCurrentPosition(
+            (position: any) => {
+              const {longitude, latitude} = position.coords;
+              setCurrentUserLocation([longitude, latitude]);
+              setMapCameraCoordinates([longitude, latitude]);
+              setForceUpdateMapCamera(true);
+            },
+            (error: any) => {
+              console.log(error);
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 15000,
+              maximumAge: 10000,
+            },
+          );
+        }
+      } else {
+        console.log('Permission not granted or not requestable.');
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 

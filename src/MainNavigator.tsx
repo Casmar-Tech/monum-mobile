@@ -37,7 +37,11 @@ function MainNavigator() {
 
   useEffect(() => {
     async function prepareTrackPlayer() {
-      await setupPlayerService();
+      try {
+        await setupPlayerService();
+      } catch (e) {
+        console.error('Error al preparar el reproductor de música', e);
+      }
     }
     prepareTrackPlayer();
   }, []);

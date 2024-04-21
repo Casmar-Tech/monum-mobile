@@ -44,7 +44,7 @@ export default function ListRoutesScreen({navigation}: ListRoutesScreenProps) {
       }
     }
     fetchRoutes();
-  }, [setRoutes]);
+  }, [setRoutes, language]);
   return (
     <SafeAreaView style={styles.page}>
       <DetailCityPill

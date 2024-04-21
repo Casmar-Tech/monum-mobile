@@ -66,10 +66,14 @@ export default function ScanScreen({navigation}: any) {
 
   useEffect(() => {
     async function requestPermission() {
-      const status = await Camera.requestCameraPermission();
-      console.log('Camera permission status:', status);
-      if (status === 'denied') {
-        Linking.openSettings();
+      try {
+        const status = await Camera.requestCameraPermission();
+        console.log('Camera permission status:', status);
+        if (status === 'denied') {
+          Linking.openSettings();
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
     requestPermission();
@@ -158,8 +162,12 @@ export default function ScanScreen({navigation}: any) {
           <TouchableOpacity
             style={styles.qrSearchButton}
             onPress={async () => {
-              await searchForCode(manualCode.toLowerCase(), false);
-              setIsLoading(false);
+              try {
+                await searchForCode(manualCode.toLowerCase(), false);
+                setIsLoading(false);
+              } catch (error) {
+                console.log(error);
+              }
             }}>
             <Text style={styles.qrSearchButtonText}>
               {t('qrScannerScreen.search')}

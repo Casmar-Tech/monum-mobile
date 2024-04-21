@@ -17,21 +17,25 @@ export default function DirectionSheet(props: SheetProps<'direction-sheet'>) {
 
   useEffect(() => {
     (async () => {
-      const result = await getApps({
-        latitude: props.payload?.coordinates.lat!,
-        longitude: props.payload?.coordinates.lng!,
-        title: props.payload?.label,
-        googleForceLatLon: false,
-        alwaysIncludeGoogle: true,
-        appsWhiteList: [
-          'google-maps',
-          'apple-maps',
-          'waze',
-          'uber',
-          'citymapper',
-        ],
-      });
-      setAvailableApps(result);
+      try {
+        const result = await getApps({
+          latitude: props.payload?.coordinates.lat!,
+          longitude: props.payload?.coordinates.lng!,
+          title: props.payload?.label,
+          googleForceLatLon: false,
+          alwaysIncludeGoogle: true,
+          appsWhiteList: [
+            'google-maps',
+            'apple-maps',
+            'waze',
+            'uber',
+            'citymapper',
+          ],
+        });
+        setAvailableApps(result);
+      } catch (error) {
+        console.error('Error getting apps', error);
+      }
     })();
   });
   return (

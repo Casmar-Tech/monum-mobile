@@ -18,14 +18,18 @@ export default function TextSearchScreen({navigation}: any) {
 
   useEffect(() => {
     const fetchSuggestions = async () => {
-      const suggestionsData = await MapServices.getMapSearcherResults(
-        {
-          lat: currentUserLocation ? currentUserLocation[1] : 0,
-          lng: currentUserLocation ? currentUserLocation[0] : 0,
-        },
-        textSearch,
-      );
-      setSearcherResults(suggestionsData || []);
+      try {
+        const suggestionsData = await MapServices.getMapSearcherResults(
+          {
+            lat: currentUserLocation ? currentUserLocation[1] : 0,
+            lng: currentUserLocation ? currentUserLocation[0] : 0,
+          },
+          textSearch,
+        );
+        setSearcherResults(suggestionsData || []);
+      } catch (error) {
+        console.log('error', error);
+      }
     };
     fetchSuggestions();
   }, [textSearch]);

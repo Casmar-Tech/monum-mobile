@@ -70,12 +70,16 @@ function BottomTabNavigator() {
       event.type === Event.PlaybackActiveTrackChanged &&
       event.track !== null
     ) {
-      const track = await TrackPlayer.getActiveTrack();
-      const index = await TrackPlayer.getActiveTrackIndex();
+      try {
+        const track = await TrackPlayer.getActiveTrack();
+        const index = await TrackPlayer.getActiveTrackIndex();
 
-      if (track !== null && index !== null) {
-        setCurrentTrack(track);
-        setCurrentTrackIndex(index);
+        if (track !== null && index !== null) {
+          setCurrentTrack(track);
+          setCurrentTrackIndex(index);
+        }
+      } catch (e) {
+        console.log(e);
       }
     }
   });

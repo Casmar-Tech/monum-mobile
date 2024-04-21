@@ -42,14 +42,18 @@ export default function LoginScreen({navigation}: Props) {
               imageSource={google_sign_in_logo}
               text={t('authScreens.loginWithGoogle')}
               onPress={async () => {
-                const user = await GoogleAuthService.signInWithGoogle();
-                if (user) {
-                  await setAuthToken(user.token || '');
-                  setUser(user);
-                  setIsAuthenticated(true);
-                  await changeLanguage(user.language || 'en_US');
-                } else {
-                  console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
+                try {
+                  const user = await GoogleAuthService.signInWithGoogle();
+                  if (user) {
+                    await setAuthToken(user.token || '');
+                    setUser(user);
+                    setIsAuthenticated(true);
+                    await changeLanguage(user.language || 'en_US');
+                  } else {
+                    console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
+                  }
+                } catch (error) {
+                  console.error('ERROR WHEN LOGGING IN WITH GOOGLE', error);
                 }
               }}
             />
@@ -63,14 +67,18 @@ export default function LoginScreen({navigation}: Props) {
             <SecondaryButton
               text={t('authScreens.loginAsGuest')}
               onPress={async () => {
-                const user = await AuthServices.loginAsGuest();
-                if (user) {
-                  await setAuthToken(user.token || '');
-                  setUser(user);
-                  setIsAuthenticated(true);
-                  await changeLanguage(user.language || 'en_US');
-                } else {
-                  console.error('ERROR WHEN LOGGING AS GUEST');
+                try {
+                  const user = await AuthServices.loginAsGuest();
+                  if (user) {
+                    await setAuthToken(user.token || '');
+                    setUser(user);
+                    setIsAuthenticated(true);
+                    await changeLanguage(user.language || 'en_US');
+                  } else {
+                    console.error('ERROR WHEN LOGGING AS GUEST');
+                  }
+                } catch (error) {
+                  console.error('ERROR WHEN LOGGING AS GUEST', error);
                 }
               }}
               style={{marginTop: 30}}

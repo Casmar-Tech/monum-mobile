@@ -175,8 +175,11 @@ class AuthService {
   }
 
   public async logout() {
-    await this.removeAuthToken();
-    // Add other steps required for logout, such as clearing the application state
+    try {
+      await this.removeAuthToken();
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   }
 
   public async isAuthenticated(): Promise<boolean> {
