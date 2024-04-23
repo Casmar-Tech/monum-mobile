@@ -2,7 +2,7 @@ import {ApolloClient, InMemoryCache, createHttpLink} from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = 'http://192.168.1.90:4000';
+const BASE_URL = 'https://api.monum.es';
 // Android http://10.0.2.2:4000
 // IOS http://127.0.0.1:4000
 // PROD https://api.monum.es

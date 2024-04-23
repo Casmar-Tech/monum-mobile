@@ -7,5 +7,8 @@
         <item name="android:windowIsTranslucent">true</item> <!-- Make the default splashScreen traparent to use
                                                              the react-native-splash screen package -->
     </style>
+    <style name="LaunchScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@layout/launch_screen</item>
+    </style>
 
 </resources>
