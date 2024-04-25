@@ -15,7 +15,6 @@ import {useQuery} from '@apollo/client';
 import {GET_ROUTE_DETAIL} from '../../../graphql/queries/routeQueries';
 import {MarkerComponent} from '../components/Marker';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import RatingPill from '../components/RatingPill';
 import TextSearch from '../components/TextSearch';
 import PlaceFromRoutePill, {
@@ -299,7 +298,7 @@ export default function RouteDetailScreen({
           {currentUserLocation && <CurrentPositionMarker />}
           <Camera
             defaultSettings={{
-              centerCoordinate: currentUserLocation,
+              centerCoordinate: currentUserLocation || undefined,
               animationDuration: 1000,
               pitch: 0,
               bounds: {

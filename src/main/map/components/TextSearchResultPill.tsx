@@ -60,7 +60,10 @@ export default function TextSearchMapResultPill({
         navigation.navigate('MapScreen');
         if (searcherResult.type === 'place') {
           setTextSearchIsLoading(true);
-          const placeData = await MapServices.getPlaceInfo(searcherResult.id);
+          const placeData = await MapServices.getPlaceInfo(
+            searcherResult.id,
+            'mapTextSearch',
+          );
           const mediasFetched = await MapServices.getPlaceMedia(
             searcherResult.id,
           );
@@ -73,7 +76,7 @@ export default function TextSearchMapResultPill({
           setTextSearchIsLoading(true);
           setPlace(null);
           setMarkerSelected(null);
-          setMediasOfPlace(null);
+          setMediasOfPlace(undefined);
           setShowPlaceDetailExpanded(false);
           setCamera({
             zoomLevel: 10,

@@ -13,7 +13,7 @@ export interface TabRouteState {
   markers: IMarker[];
   routeCameraCoordinates: [number, number];
   forceUpdateRouteCamera: boolean;
-  cameraRef: React.RefObject<Camera>;
+  cameraRef: React.RefObject<Camera> | null;
   bounds: {
     sw: [number, number];
     ne: [number, number];
@@ -27,7 +27,7 @@ export interface TabRouteState {
   setDefaultTabRoute: () => void;
   setRouteCameraCoordinates: (routeCameraCoordinates: [number, number]) => void;
   setForceUpdateRouteCamera: (forceUpdateRouteCamera: boolean) => void;
-  setCameraRef: (cameraRef: React.RefObject<Camera>) => void;
+  setCameraRef: (cameraRef: React.RefObject<Camera> | null) => void;
   setBounds: (bounds: {
     sw: [number, number];
     ne: [number, number];
@@ -111,7 +111,7 @@ export const useTabRouteStore = create<TabRouteState>(set => ({
   setRouteCameraCoordinates: (routeCameraCoordinates: [number, number]) => {
     set(() => ({routeCameraCoordinates}));
   },
-  setCameraRef: (cameraRef: React.RefObject<Camera>) => {
+  setCameraRef: (cameraRef: React.RefObject<Camera> | null) => {
     set(() => ({cameraRef}));
   },
   setBounds: (bounds: {

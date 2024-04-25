@@ -9,6 +9,7 @@ import {
 } from '../../../graphql/queries/placeQueries';
 import {GET_PLACE_MEDIA} from '../../../graphql/queries/mediaQueries';
 import {Language} from '../../../shared/types/Language';
+import {FromSupport} from '../../../shared/types/FromSupport';
 
 class MapServices {
   public async getMarkers(
@@ -59,12 +60,19 @@ class MapServices {
 
   public async getPlaceInfo(
     placeId: string,
+    fromSupport?: FromSupport,
     language?: Language,
   ): Promise<IPlace | null> {
     try {
       const response = await client.query({
         query: GET_PLACE_INFO,
-        variables: {placeId, imageSize: 'medium', language},
+        variables: {
+          placeId,
+          imageSize: 'medium',
+          language,
+          fromSupport,
+          isMobile: true,
+        },
       });
       return response.data?.place;
     } catch (error) {

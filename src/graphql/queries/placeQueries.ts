@@ -47,8 +47,20 @@ export const GET_ALL_MARKERS = gql`
 `;
 
 export const GET_PLACE_INFO = gql`
-  query Place($placeId: ID!, $imageSize: ImageSize, $language: Language) {
-    place(id: $placeId, imageSize: $imageSize, language: $language) {
+  query Place(
+    $placeId: ID!
+    $imageSize: ImageSize
+    $language: Language
+    $fromSupport: FromSupport
+    $isMobile: Boolean
+  ) {
+    place(
+      id: $placeId
+      imageSize: $imageSize
+      language: $language
+      fromSupport: $fromSupport
+      isMobile: $isMobile
+    ) {
       id
       name
       address {

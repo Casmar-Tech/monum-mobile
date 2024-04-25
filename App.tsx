@@ -56,7 +56,7 @@ function App() {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    async function handleOpenURL(url: string) {
+    async function handleOpenURL(url: string, isFromOutsideApp = false) {
       try {
         const [, placeId] = url.match(/place\/([^?]+)/) || [];
         if (placeId) {
@@ -87,8 +87,14 @@ function App() {
             })),
           );
           setActiveTab('Map');
+          const fromSupport = isFromOutsideApp
+            ? 'outsideQRAppClosed'
+            : 'outsideQRAppRunning';
+          const placeData = await MapServices.getPlaceInfo(
+            placeId,
+            fromSupport,
+          );
           setMarkerSelected(placeId);
-          const placeData = await MapServices.getPlaceInfo(placeId);
           setPlace(placeData);
           const mediasFetched = await MapServices.getPlaceMedia(placeId);
           setMediasOfPlace(mediasFetched);

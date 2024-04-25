@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import {
   PanGestureHandler,
@@ -20,7 +20,6 @@ import place_pre_detail_importance_3 from '../../../../assets/images/icons/place
 
 import MapPlaceDetailExpanded from './MapPlaceDetailExpanded';
 import MapPlaceDetailReduced from './MapPlaceDetailReduced';
-import MapServices from '../../services/MapServices';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
 import {useMainStore} from '../../../../zustand/MainStore';
 import {useUserStore} from '../../../../zustand/UserStore';
@@ -39,7 +38,6 @@ export default function MapPlaceDetail() {
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
   const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
   const place = useTabMapStore(state => state.tabMap.place);
-  const setPlace = useTabMapStore(state => state.setPlace);
   const showPlaceDetailExpanded = useTabMapStore(
     state => state.tabMap.showPlaceDetailExpanded,
   );
@@ -132,16 +130,6 @@ export default function MapPlaceDetail() {
   useEffect(() => {
     if (markerSelected) {
       const fetchPlace = async () => {
-        const placeData = await MapServices.getPlaceInfo(
-          markerSelected,
-          language,
-        );
-        setPlace(placeData);
-        const mediasFetched = await MapServices.getPlaceMedia(
-          markerSelected,
-          language,
-        );
-        setMediasOfPlace(mediasFetched);
         position.value = withTiming(BOTTOM_TOTAL_TAB_HEIGHT, {
           duration: 300,
         });

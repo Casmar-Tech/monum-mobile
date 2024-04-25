@@ -81,7 +81,8 @@ export default function ScanScreen({navigation}: any) {
 
   const searchForCode = async (placeId: string, isScanner: boolean) => {
     try {
-      const placeData = await MapServices.getPlaceInfo(placeId);
+      const fromSupport = isScanner ? 'insideQRScanned' : 'insideQRTexted';
+      const placeData = await MapServices.getPlaceInfo(placeId, fromSupport);
       if (!placeData) {
         setTimeout(() => {
           isScanner ? setIsScanError(true) : setIsManualError(true);

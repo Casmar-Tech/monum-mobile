@@ -1,6 +1,6 @@
 import {MarkerView} from '@rnmapbox/maps';
 import {useState} from 'react';
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 
 import map_marker_importance_1 from '../../../assets/images/icons/map_marker_importance_1.png';
@@ -11,9 +11,14 @@ import map_marker_importance_2_selected from '../../../assets/images/icons/map_m
 import map_marker_importance_3_selected from '../../../assets/images/icons/map_marker_importance_3_selected.png';
 import {IMarker} from '../../../shared/interfaces/IMarker';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
+import MapServices from '../services/MapServices';
+import {useUserStore} from '../../../zustand/UserStore';
 
 export function MarkerComponent({id, coordinates, importance}: IMarker) {
   const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
+  const language = useUserStore(state => state.user.language);
+  const setPlace = useTabMapStore(state => state.setPlace);
+  const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
   const lastMarkerSelected = useTabMapStore(
     state => state.tabMap.lastMarkerSelected,
@@ -59,8 +64,12 @@ export function MarkerComponent({id, coordinates, importance}: IMarker) {
   return (
     <MarkerView id={id} key={id} coordinate={coordinates}>
       <TouchableOpacity
-        onPress={() => {
+        onPress={async () => {
+          const placeData = await MapServices.getPlaceInfo(id, 'map', language);
+          setPlace(placeData);
           setMarkerSelected(id);
+          const mediasFetched = await MapServices.getPlaceMedia(id, language);
+          setMediasOfPlace(mediasFetched);
         }}
         style={{
           width: dimensions,
