@@ -136,6 +136,7 @@ export default function MapPlaceDetailExpanded({
           <View
             style={{
               flexDirection: 'row',
+              alignItems: 'center',
             }}>
             <TouchableOpacity
               onPress={() => {
