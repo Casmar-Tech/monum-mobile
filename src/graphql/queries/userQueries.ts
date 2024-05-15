@@ -168,3 +168,9 @@ export const UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD = gql`
     )
   }
 `;
+
+export const DELETE_HARD_MY_USER = gql`
+  mutation Mutation {
+    deleteHardMyUser
+  }
+`;

@@ -80,7 +80,11 @@
     "currentPassword": "Current password",
     "newPassword": "New password",
     "confirmedNewPassword": "Confirm new password",
-    "createMyAccount": "Create my account"
+    "createMyAccount": "Create my account",
+    "deleteMyAccount": "Delete my account",
+    "deleteMyAccountConfirmation": "Are you sure you want to delete your account? This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "languages": {
     "en_US": "English",

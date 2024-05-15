@@ -80,7 +80,11 @@
     "currentPassword": "Contraseña actual",
     "newPassword": "Nueva contraseña",
     "confirmedNewPassword": "Confirmar nueva contraseña",
-    "createMyAccount": "Crear mi cuenta"
+    "createMyAccount": "Crear mi cuenta",
+    "deleteMyAccount": "Eliminar mi cuenta",
+    "deleteMyAccountConfirmation": "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   },
   "languages": {
     "en_US": "Inglés",

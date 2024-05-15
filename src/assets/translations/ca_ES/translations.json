@@ -80,7 +80,11 @@
     "currentPassword": "Contrasenya actual",
     "newPassword": "Nova contrasenya",
     "confirmNewPassword": "Confirmar nova contrasenya",
-    "createMyAccount": "Crear el meu compte"
+    "createMyAccount": "Crear el meu compte",
+    "deleteMyAccount": "Eliminar el meu compte",
+    "deleteMyAccountConfirmation": "Estàs segur que vols eliminar el teu compte? Aquesta acció no es pot desfer.",
+    "cancel": "Cancel·lar",
+    "confirm": "Confirmar"
   },
   "languages": {
     "en_US": "Anglès",

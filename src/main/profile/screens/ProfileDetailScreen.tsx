@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import IUser from '../../../shared/interfaces/IUser';
 import {useMutation, useQuery} from '@apollo/client';
 import {
+  DELETE_HARD_MY_USER,
   GET_USER_BY_ID,
   UPDATE_USER,
 } from '../../../graphql/queries/userQueries';
@@ -26,6 +27,8 @@ import {useTabRouteStore} from '../../../zustand/TabRouteStore';
 import GoogleAuthService from '../../../auth/services/GoogleAuthService';
 import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../BottomTabNavigator';
 import {useTranslation} from 'react-i18next';
+import DeleteButton from '../components/DeleteButton';
+import ConfirmDeleteAccountButton from '../components/ConfirmDeleteAccountButton';
 
 type Props = {
   navigation: any;
@@ -59,6 +62,10 @@ export default function ProfileScreen({navigation}: Props) {
     state => state.setDefaultTabRoute,
   );
 
+  const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+
+  const isGuest = user.username && user.email ? false : true;
+
   const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
 
   const {data, loading, error} = useQuery(GET_USER_BY_ID, {
@@ -69,6 +76,11 @@ export default function ProfileScreen({navigation}: Props) {
     updateUser,
     {data: dataUpdated, loading: loadingUpdated, error: errorUpdated},
   ] = useMutation(UPDATE_USER);
+
+  const [
+    deleteHardMyUser,
+    {data: deleteHardMyUserData, loading: loadingDeleted, error: errorDeleted},
+  ] = useMutation(DELETE_HARD_MY_USER);
 
   // Actualizar el usuario si cambia la foto de perfil
   useEffect(() => {
@@ -184,6 +196,80 @@ export default function ProfileScreen({navigation}: Props) {
   }
   return (
     <View style={[styles.page, {paddingTop: safeArea.top + 20}]}>
+      <Modal
+        animationType="fade"
+        hardwareAccelerated={true}
+        transparent={true}
+        style={{flex: 1}}
+        visible={showDeleteAccountModal}
+        onRequestClose={() => {
+          setShowDeleteAccountModal(!showDeleteAccountModal);
+        }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          }}>
+          <View
+            style={{
+              margin: 20,
+              backgroundColor: 'white',
+              borderRadius: 20,
+              padding: 35,
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+            }}>
+            <Text
+              style={{
+                marginBottom: 30,
+                textAlign: 'center',
+                fontFamily: 'Montserrat-Regular',
+                fontSize: 18,
+              }}>
+              {t('profile.deleteMyAccountConfirmation')}
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{flex: 1, paddingHorizontal: 10}}>
+                <DeleteButton
+                  text={t('profile.cancel')}
+                  onPress={() =>
+                    setShowDeleteAccountModal(!showDeleteAccountModal)
+                  }
+                />
+              </View>
+              <View style={{flex: 1, paddingHorizontal: 10}}>
+                <ConfirmDeleteAccountButton
+                  text={t('profile.confirm')}
+                  onPress={async () => {
+                    try {
+                      await deleteHardMyUser();
+                      (await GoogleSignin.isSignedIn()) &&
+                        (await GoogleSignin.signOut());
+                      await GoogleAuthService.configureGoogleSignIn();
+                      await removeAuthToken();
+                      setDefaultUser();
+                      setDefaultMain();
+                      setDefaultTabMap();
+                      setDefaultTabRoute();
+                    } catch (error) {
+                      console.error('Error al cerrar sesión:', error);
+                    }
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View style={styles.profilePhotoContainer}>
         <ProfilePhotoComponent
           url={user.photo}
@@ -235,15 +321,13 @@ export default function ProfileScreen({navigation}: Props) {
         style={[
           styles.logoutButtonContainer,
           {
-            bottom: safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT,
+            bottom: isGuest
+              ? safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT
+              : safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT + 70,
           },
         ]}>
         <SecondaryButton
-          text={
-            user.username && user.email
-              ? t('profile.logout')
-              : t('profile.createMyAccount')
-          }
+          text={isGuest ? t('profile.createMyAccount') : t('profile.logout')}
           onPress={async () => {
             try {
               (await GoogleSignin.isSignedIn()) &&
@@ -260,6 +344,29 @@ export default function ProfileScreen({navigation}: Props) {
           }}
         />
       </View>
+      {!isGuest && (
+        <View
+          style={[
+            styles.deleteAccountButtonContainer,
+            {
+              bottom: safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT,
+            },
+          ]}>
+          <DeleteButton
+            text={t('profile.deleteMyAccount')}
+            onPress={async () => {
+              try {
+                setShowDeleteAccountModal(!showDeleteAccountModal);
+              } catch (error) {
+                console.error(
+                  'Error al mostrar el popup de confirmación:',
+                  error,
+                );
+              }
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -285,7 +392,11 @@ const styles = StyleSheet.create({
   },
   logoutButtonContainer: {
     position: 'absolute',
-
+    width: '100%',
+    paddingHorizontal: 30,
+  },
+  deleteAccountButtonContainer: {
+    position: 'absolute',
     width: '100%',
     paddingHorizontal: 30,
   },
