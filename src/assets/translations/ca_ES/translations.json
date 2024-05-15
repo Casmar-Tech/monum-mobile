@@ -44,7 +44,9 @@
     "passwordChangedTitle": "Contrasenya actualitzada!",
     "passwordChangedMessage": "La teva contrasenya ha estat actualitzada correctament. Ara pots accedir amb la teva nova contrasenya.",
     "passwordChangedButton": "Accedir",
-    "loginAsGuest": "Continuar com a convidat"
+    "loginAsGuest": "Continuar com a convidat",
+    "privacyPolicy": "Política de privacitat",
+    "pressToObtainInfoAbout": "Prem per obtenir més informació sobre"
   },
   "mapScreen": {
     "createdBy": "Creat per"

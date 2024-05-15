@@ -44,7 +44,9 @@
     "passwordChangedTitle": "Réinitialisation du mot de passe!",
     "passwordChangedMessage": "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant accéder à votre compte avec votre nouveau mot de passe.",
     "passwordChangedButton": "Accéder",
-    "loginAsGuest": "Continuer en tant qu'invité"
+    "loginAsGuest": "Continuer en tant qu'invité",
+    "privacyPolicy": "Politique de confidentialité",
+    "pressToObtainInfoAbout": "Appuyez pour obtenir des informations sur"
   },
   "mapScreen": {
     "createdBy": "Créé par"

@@ -44,7 +44,9 @@
     "passwordChangedTitle": "¡Contraseña restablecida!",
     "passwordChangedMessage": "Tu contraseña ha sido restablecida con éxito. Ahora puedes acceder a tu cuenta con tu nueva contraseña.",
     "passwordChangedButton": "Acceder",
-    "loginAsGuest": "Continuar como invitado"
+    "loginAsGuest": "Continuar como invitado",
+    "privacyPolicy": "Política de privacidad",
+    "pressToObtainInfoAbout": "Pulsa para obtener más información sobre"
   },
   "mapScreen": {
     "createdBy": "Creado por"

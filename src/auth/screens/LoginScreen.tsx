@@ -1,7 +1,13 @@
 // import axios from 'axios';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {changeLanguage} from 'i18next';
-import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  Linking,
+} from 'react-native';
 
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
 import google_sign_in_logo from '../../assets/images/logos/google_sign_in_logo.png';
@@ -103,6 +109,19 @@ export default function LoginScreen({navigation}: Props) {
               <Text style={styles.companyText}>
                 {t('authScreens.footerText')}
               </Text>
+            </View>
+            <View style={styles.privacyContainer}>
+              <Text style={styles.privacyText}>
+                {t('authScreens.pressToObtainInfoAbout')}{' '}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  Linking.openURL('https://www.monum.es/privacy');
+                }}>
+                <Text style={styles.privacyButtonText}>
+                  {t('authScreens.privacyPolicy')}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
