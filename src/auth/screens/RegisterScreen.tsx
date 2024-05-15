@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TextInput,
   Animated,
+  Linking,
 } from 'react-native';
 import background_monuments from '../../assets/images/backgrounds/background_monuments.png';
 import password_eye from '../../assets/images/icons/password_eye.png';
@@ -197,6 +198,19 @@ export default function RegisterScreen() {
               <Text style={styles.companyText}>
                 {t('authScreens.footerText')}
               </Text>
+            </View>
+            <View style={styles.privacyContainer}>
+              <Text style={styles.privacyText}>
+                {t('authScreens.pressToObtainInfoAbout')}{' '}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  Linking.openURL('https://www.monum.es/privacy');
+                }}>
+                <Text style={styles.privacyButtonText}>
+                  {t('authScreens.privacyPolicy')}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Animated.View>
