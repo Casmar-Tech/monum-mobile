@@ -4,6 +4,6 @@
 
     <application
         android:usesCleartextTraffic="true"
-        tools:targetApi="32"
+        tools:targetApi="33"
         tools:ignore="GoogleAppIndexingWarning"/>
 </manifest>
