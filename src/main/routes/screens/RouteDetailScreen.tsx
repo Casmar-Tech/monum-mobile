@@ -365,13 +365,11 @@ export default function RouteDetailScreen({
               {routeOfCity.title}
             </Text>
           </View>
-          <RatingPill number={routeOfCity.rating || 0} />
+          {routeOfCity.rating && (
+            <RatingPill number={routeOfCity.rating || 0} />
+          )}
         </View>
-        <TextSearch
-          style={{paddingHorizontal: 15}}
-          setTextSearch={setTextSearch}
-          textSearch={textSearch}
-        />
+        <TextSearch setTextSearch={setTextSearch} textSearch={textSearch} />
         <ScrollView
           key={0}
           style={{

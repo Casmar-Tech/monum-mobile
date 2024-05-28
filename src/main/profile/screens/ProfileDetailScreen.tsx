@@ -40,6 +40,7 @@ export default function ProfileScreen({navigation}: Props) {
   const safeArea = useSafeAreaInsets();
   const user = useUserStore(state => state.user);
   const {permissions} = user;
+  console.log('permissions', permissions);
   const hasPermissionToUpdateUser = permissions?.some(
     permission =>
       permission.action.includes('update') && permission.entity === 'user',
@@ -195,7 +196,7 @@ export default function ProfileScreen({navigation}: Props) {
     );
   }
   return (
-    <View style={[styles.page, {paddingTop: safeArea.top + 20}]}>
+    <View style={[styles.page, {paddingTop: safeArea.top + 10}]}>
       <Modal
         animationType="fade"
         hardwareAccelerated={true}

@@ -28,7 +28,6 @@ export default function ListRoutesScreen({navigation}: ListRoutesScreenProps) {
     variables: {
       cityId: city.id,
       textSearch: textSearch || '',
-      language: language,
     },
   });
 
@@ -56,7 +55,7 @@ export default function ListRoutesScreen({navigation}: ListRoutesScreenProps) {
         <TextSearch
           setTextSearch={setTextSearch}
           textSearch={textSearch}
-          style={{marginTop: 15, paddingHorizontal: 15}}
+          style={{marginTop: 15}}
         />
         {loading ? (
           <LoadingSpinner />

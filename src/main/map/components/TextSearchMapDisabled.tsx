@@ -43,24 +43,17 @@ export default function TextSearchMapDisabled({
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Image source={routes_text_search} style={styles.image} />
+            <Image
+              source={routes_text_search}
+              style={styles.image}
+              resizeMode="contain"
+            />
           </View>
           <View
             style={{
               width: '100%',
-              height: '100%',
-              justifyContent: 'center',
             }}>
-            <Text
-              style={{
-                color: '#3F713B',
-                marginRight: 50,
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 16,
-                fontFamily: 'Montserrat-Regular',
-              }}
-              numberOfLines={1}>
+            <Text style={styles.textInput} numberOfLines={1}>
               {textSearch || t('routes.search')}
             </Text>
           </View>
@@ -89,7 +82,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     height: 42,
     width: '100%',
     zIndex: 999,
@@ -99,10 +92,10 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  image: {width: 20, height: 20},
+  image: {width: 22, height: 22, marginRight: 10},
   textInput: {
     color: '#3F713B',
-    paddingRight: 50,
+    marginRight: 50,
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 16,

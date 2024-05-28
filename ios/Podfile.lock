@@ -1023,9 +1023,9 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - react-native-orientation-locker (1.6.0):
+  - react-native-orientation-locker (1.7.0):
     - React-Core
-  - react-native-safe-area-context (4.9.0):
+  - react-native-safe-area-context (4.10.1):
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
@@ -1206,14 +1206,14 @@ PODS:
     - React-perflogger (= 0.73.6)
   - RNCAsyncStorage (1.23.1):
     - React-Core
-  - RNDeviceInfo (10.13.1):
+  - RNDeviceInfo (10.14.0):
     - React-Core
-  - RNFBApp (19.2.2):
+  - RNFBApp (19.3.0):
     - Firebase/CoreOnly (= 10.24.0)
     - React-Core
   - RNFlashList (1.6.4):
     - React-Core
-  - RNGestureHandler (2.16.0):
+  - RNGestureHandler (2.16.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1231,29 +1231,30 @@ PODS:
     - TOCropViewController
   - RNLocalize (3.1.0):
     - React-Core
-  - rnmapbox-maps (10.1.19):
+  - rnmapbox-maps (10.1.24):
     - MapboxMaps (= 11.0.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.1.19)
+    - rnmapbox-maps/DynamicLibrary (= 10.1.24)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.1.19):
+  - rnmapbox-maps/DynamicLibrary (10.1.24):
     - MapboxMaps (= 11.0.0)
     - React
     - React-Core
     - Turf
   - RNPermissions (4.1.5):
     - React-Core
-  - RNReanimated (3.8.1):
+  - RNReanimated (3.11.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNScreens (3.30.1):
+  - RNScreens (3.31.1):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNVectorIcons (10.0.3):
+    - React-RCTImage
+  - RNVectorIcons (10.1.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1563,8 +1564,8 @@ SPEC CHECKSUMS:
   React-Mapbuffer: d81d930c1b7f4db284e1d721fe7fdc99230ca108
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-geolocation: a2d03a79332e5bdcd6a295eaf4e04318abf0152f
-  react-native-orientation-locker: 4409c5b12b65f942e75449872b4f078b6f27af81
-  react-native-safe-area-context: 962141233f99bc8287b8dc50357f9e1fad77d872
+  react-native-orientation-locker: 5819fd23ca89cbac0d736fb4314745f62716d517
+  react-native-safe-area-context: d84fb7b437da22c1cb4965e5f08af2bb99bf317e
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-track-player: 6313a3d5ce21726577f26551f801a9ff03a96407
   react-native-video: 79a186e378d327b6c08bc3982c17ef455c6bd75c
@@ -1589,18 +1590,18 @@ SPEC CHECKSUMS:
   React-utils: a45dd70919baff681d43a4a457e9884ef96b4581
   ReactCommon: e168ee1704806f10f47ee8c7f825b5850b18eaea
   RNCAsyncStorage: 9fdd15bfacec112394e11e7091b1a19148d82cd7
-  RNDeviceInfo: 5362eb14292ef9b0a68fb56851adf7884f1e64bc
-  RNFBApp: 614f1621b49db54ebd258df8c45427370d8d84a2
+  RNDeviceInfo: 39751cf70ae0a9b86cc132182b324a0567c08df8
+  RNFBApp: dd35ba8340b89c36e42c4c137915c01d3c792143
   RNFlashList: fdb9685feadd9b11b3723ddd49f5acd33c773feb
-  RNGestureHandler: 0c8b0283d2aff561162b2f55c604d2f1f8e2c4ea
+  RNGestureHandler: bbb04bccfd972fc228f7307815ccd11f47324605
   RNGoogleSignin: e1a0d29bf8376297b7dca598b3167279fc3d1eca
   RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
   RNLocalize: d5e3547e2819087374da2879c2000b0947d0352a
-  rnmapbox-maps: 04fdf09ce004b83522ea09adef485d8a2e0bfa82
+  rnmapbox-maps: 5ac685eebf81e946d4bc020bc31761a941b121ef
   RNPermissions: d9ee389837b1480085b9f9e9ced10d531fb81041
-  RNReanimated: de95bb2cf26ccfa2b6fdf7e1a57158fb5c9d9515
-  RNScreens: 97a2a32820e632c5978d75250afa397ed9053910
-  RNVectorIcons: 81e919c3a9e56e4916f9e74cfe9cd2e489146f08
+  RNReanimated: 3c15d836bc232658f355d404b17e2a3f9046fe6c
+  RNScreens: f0e300a3be13eff48f8afb0b5c6fc558c9369b03
+  RNVectorIcons: b307b181c8e98d633d416d36421d515cf2fe9e31
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SwiftAudioEx: f6aa653770f3a0d3851edaf8d834a30aee4a7646
   TOCropViewController: bf38459e9da6efe414de22087ebd5c530640f4bd

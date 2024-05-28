@@ -45,7 +45,7 @@ export default function ListCitiesScreen({navigation}: ListCitiesScreenProps) {
         <TextSearch
           setTextSearch={setTextSearch}
           textSearch={textSearch}
-          style={{paddingHorizontal: 15, marginTop: 60}}
+          style={{marginTop: 60}}
         />
         {loading ? (
           <LoadingSpinner />

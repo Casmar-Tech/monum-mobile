@@ -97,18 +97,20 @@ export default function MediaOfPlacePill({
             />
           </View>
         </View>
-        <View style={styles.mediaPillRatingContainer}>
-          <Text style={styles.mediaPillRatingText}>
-            {`${media.rating.toFixed(1)}`}
-          </Text>
-          <View>
-            <Image
-              source={place_detail_media_rating_star}
-              style={styles.mediaPillRatingImage}
-              resizeMode="contain"
-            />
+        {media.rating && (
+          <View style={styles.mediaPillRatingContainer}>
+            <Text style={styles.mediaPillRatingText}>
+              {`${media.rating.toFixed(1)}`}
+            </Text>
+            <View>
+              <Image
+                source={place_detail_media_rating_star}
+                style={styles.mediaPillRatingImage}
+                resizeMode="contain"
+              />
+            </View>
           </View>
-        </View>
+        )}
       </View>
     </TouchableOpacity>
   );

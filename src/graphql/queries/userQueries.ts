@@ -1,11 +1,5 @@
 import {gql} from '@apollo/client';
 
-export const VERIFY_TOKEN_QUERY = gql`
-  query VerifyToken {
-    verifyToken
-  }
-`;
-
 export const REGISTER_USER = gql`
   mutation RegisterUser($registerInput: RegisterInput!) {
     registerUser(registerInput: $registerInput) {

@@ -15,8 +15,8 @@ export const GET_CITIES = gql`
 `;
 
 export const GET_ROUTES_OF_CITY = gql`
-  query Routes($cityId: ID!, $language: Language) {
-    routes(cityId: $cityId, language: $language) {
+  query Routes($cityId: ID!, $textSearch: String) {
+    routes(cityId: $cityId, textSearch: $textSearch) {
       id
       title
       description

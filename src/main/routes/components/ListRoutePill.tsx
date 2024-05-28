@@ -31,15 +31,17 @@ export default function ListRoutePill({route, onPress}: ListRoutePillProps) {
             {`${route.stopsCount} ${t('routes.stops')}`}
           </Text>
         </View>
-        <RatingPill
-          number={route.rating || 0}
-          additionalStyle={{
-            position: 'absolute',
-            top: 0,
-            left: 10,
-            opacity: globalPressed ? 0.2 : 1,
-          }}
-        />
+        {route.rating && (
+          <RatingPill
+            number={route.rating || 0}
+            additionalStyle={{
+              position: 'absolute',
+              top: 0,
+              left: 10,
+              opacity: globalPressed ? 0.2 : 1,
+            }}
+          />
+        )}
       </View>
     </Pressable>
   );

@@ -191,18 +191,27 @@ export default function MediaExpanded() {
                 resizeMode="contain"
               />
             </Pressable>
-            <View style={styles.mediaPillRatingContainer}>
-              <Text style={styles.mediaPillRating}>
-                {`${currentTrack?.rating?.toFixed(1)}`}
-              </Text>
-              <View>
-                <Image
-                  source={place_detail_media_rating_star}
-                  style={{width: 10, height: 10}}
-                  resizeMode="contain"
-                />
+            {currentTrack?.rating ? (
+              <View style={styles.mediaPillRatingContainer}>
+                <Text style={styles.mediaPillRating}>
+                  {`${currentTrack?.rating?.toFixed(1)}`}
+                </Text>
+                <View>
+                  <Image
+                    source={place_detail_media_rating_star}
+                    style={{width: 10, height: 10}}
+                    resizeMode="contain"
+                  />
+                </View>
               </View>
-            </View>
+            ) : (
+              <View
+                style={{
+                  marginTop: -13,
+                  height: 26,
+                }}
+              />
+            )}
             <View style={{paddingHorizontal: 12}}>
               <MediaPlayer />
             </View>

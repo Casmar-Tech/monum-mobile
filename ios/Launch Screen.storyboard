@@ -22,16 +22,16 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="figures.png" translatesAutoresizingMaskIntoConstraints="NO" id="rXx-0A-MzJ">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="background_monuments.png" translatesAutoresizingMaskIntoConstraints="NO" id="EO5-IH-f09">
+                                <rect key="frame" x="0.0" y="-386" width="393" height="1624"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="monum_logo_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="uT6-Cy-1i8">
-                                <rect key="frame" x="108" y="277" width="176" height="176"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="logo_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ybx-V5-QC5">
+                                <rect key="frame" x="65" y="379" width="270" height="252"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="white_text_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="Yhb-GD-8PZ">
-                                <rect key="frame" x="65" y="461" width="270" height="88"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="monum_logo_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="zgk-DS-iye">
+                                <rect key="frame" x="114" y="286" width="165" height="165"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -51,9 +51,9 @@
     </scenes>
     <color key="tintColor" systemColor="systemGreenColor"/>
     <resources>
-        <image name="figures.png" width="750" height="1624"/>
+        <image name="background_monuments.png" width="750" height="1624"/>
+        <image name="logo_white.png" width="776" height="252"/>
         <image name="monum_logo_white.png" width="400" height="400"/>
-        <image name="white_text_logo.png" width="776" height="252"/>
         <systemColor name="systemGreenColor">
             <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

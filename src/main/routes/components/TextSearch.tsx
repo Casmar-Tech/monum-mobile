@@ -1,7 +1,15 @@
-import {View, Image, TextInput, StyleSheet, ViewStyle} from 'react-native';
+import {
+  View,
+  Image,
+  TextInput,
+  StyleSheet,
+  ViewStyle,
+  Platform,
+} from 'react-native';
 import routes_text_search from '../../../assets/images/icons/routes_text_search.png';
 import {t} from 'i18next';
 import LinearGradient from 'react-native-linear-gradient';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 interface TextSearchProps {
   textSearch: string | undefined;
@@ -19,6 +27,8 @@ export default function TextSearch({
         style,
         {
           width: '100%',
+          paddingHorizontal: 15,
+          alignSelf: 'center',
         },
       ]}>
       <View style={styles.container}>
@@ -28,27 +38,26 @@ export default function TextSearch({
           colors={['#3C6AF62E', '#3F713B14']}
           style={styles.linearGradient}
         />
-        <View
-          style={{
-            marginRight: 5,
-            width: 30,
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Image
-            source={routes_text_search}
-            style={styles.image}
-            resizeMode="contain"
-          />
-        </View>
-        <View style={{width: '100%'}}>
+        <TouchableOpacity>
+          <View
+            style={{
+              marginRight: Platform.OS === 'ios' ? 5 : 2,
+              width: 30,
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Image source={routes_text_search} style={styles.image} />
+          </View>
+        </TouchableOpacity>
+        <View style={{width: '100%', height: '100%', justifyContent: 'center'}}>
           <TextInput
             placeholder={t('routes.search') || 'Search'}
             placeholderTextColor="#3F713B"
             value={textSearch}
             onChangeText={setTextSearch}
             style={styles.textInput}
+            numberOfLines={1}
           />
         </View>
       </View>
@@ -60,18 +69,18 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F4FFF4',
     borderRadius: 12,
-    justifyContent: undefined,
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 15,
     height: 42,
-    width: '100%',
-    zIndex: 999,
+    opacity: 1,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 10,
+    zIndex: 2,
+    width: '100%',
   },
   linearGradient: {
     position: 'absolute',
@@ -84,7 +93,7 @@ const styles = StyleSheet.create({
   image: {width: 22, height: 22, marginRight: 10},
   textInput: {
     color: '#3F713B',
-    paddingRight: 50,
+    marginRight: 50,
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 16,

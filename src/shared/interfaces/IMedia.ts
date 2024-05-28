@@ -6,7 +6,7 @@ export default interface IMedia {
   position?: number;
   title: string;
   text?: string;
-  rating: number;
+  rating?: number;
   url: string;
   type: string;
   place?: IPlace;

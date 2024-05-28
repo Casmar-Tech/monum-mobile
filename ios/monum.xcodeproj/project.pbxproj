@@ -20,9 +20,9 @@
 		6D05AC33475B476BB60DCCEB /* Montserrat-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1A0B03D08E6410D8D043762 /* Montserrat-VariableFont_wght.ttf */; };
 		72341F0F2292403996E26789 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF65186D7539417E9379FF0F /* Montserrat-SemiBold.ttf */; };
 		C0850D6F2BD7065800C270A3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0850D6E2BD7065800C270A3 /* Launch Screen.storyboard */; };
-		C0850D752BD708DD00C270A3 /* figures.png in Resources */ = {isa = PBXBuildFile; fileRef = C0850D742BD708DD00C270A3 /* figures.png */; };
-		C0850D802BD82D7D00C270A3 /* monum_logo_white.png in Resources */ = {isa = PBXBuildFile; fileRef = C0850D7E2BD82D7D00C270A3 /* monum_logo_white.png */; };
-		C0850D812BD82D7D00C270A3 /* white_text_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C0850D7F2BD82D7D00C270A3 /* white_text_logo.png */; };
+		C0DA590E2C047A2600FE7590 /* background_monuments.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DA590D2C047A2600FE7590 /* background_monuments.png */; };
+		C0DA59102C047AB900FE7590 /* logo_white.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DA590F2C047AB900FE7590 /* logo_white.png */; };
+		C0DA59142C047C3600FE7590 /* monum_logo_white.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DA59132C047C3600FE7590 /* monum_logo_white.png */; };
 		C3623AE1717487DB048B0E73 /* Pods_monum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DFF4D140243D5DADD16754 /* Pods_monum.framework */; };
 		ECA3FF7CFAA14858A5CFF750 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38F38BB9DBB840898264BAF5 /* Montserrat-Regular.ttf */; };
 /* End PBXBuildFile section */
@@ -60,9 +60,9 @@
 		802CAF5FAE52B5908789E42E /* Pods-monum-monumTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monum-monumTests.debug.xcconfig"; path = "Target Support Files/Pods-monum-monumTests/Pods-monum-monumTests.debug.xcconfig"; sourceTree = "<group>"; };
 		90DFF4D140243D5DADD16754 /* Pods_monum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_monum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0850D6E2BD7065800C270A3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		C0850D742BD708DD00C270A3 /* figures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = figures.png; path = ../../../figures.png; sourceTree = "<group>"; };
-		C0850D7E2BD82D7D00C270A3 /* monum_logo_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monum_logo_white.png; path = ../../../monum_logo_white.png; sourceTree = "<group>"; };
-		C0850D7F2BD82D7D00C270A3 /* white_text_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = white_text_logo.png; path = ../../../white_text_logo.png; sourceTree = "<group>"; };
+		C0DA590D2C047A2600FE7590 /* background_monuments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background_monuments.png; path = ../src/assets/images/backgrounds/background_monuments.png; sourceTree = "<group>"; };
+		C0DA590F2C047AB900FE7590 /* logo_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_white.png; path = ../src/assets/images/logos/logo_white.png; sourceTree = "<group>"; };
+		C0DA59132C047C3600FE7590 /* monum_logo_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monum_logo_white.png; path = ../src/assets/images/logos/monum_logo_white.png; sourceTree = "<group>"; };
 		E1A0B03D08E6410D8D043762 /* Montserrat-VariableFont_wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-VariableFont_wght.ttf"; path = "../src/assets/fonts/Montserrat-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED84FC706DA8A536C0EC9E4B /* Pods_monum_monumTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_monum_monumTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,9 +109,9 @@
 		13B07FAE1A68108700A75B9A /* monum */ = {
 			isa = PBXGroup;
 			children = (
-				C0850D7E2BD82D7D00C270A3 /* monum_logo_white.png */,
-				C0850D7F2BD82D7D00C270A3 /* white_text_logo.png */,
-				C0850D742BD708DD00C270A3 /* figures.png */,
+				C0DA590F2C047AB900FE7590 /* logo_white.png */,
+				C0DA590D2C047A2600FE7590 /* background_monuments.png */,
+				C0DA59132C047C3600FE7590 /* monum_logo_white.png */,
 				C0850D6E2BD7065800C270A3 /* Launch Screen.storyboard */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -289,15 +289,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				1123A4A92B55E5DB0003A6CB /* GoogleService-Info.plist in Resources */,
-				C0850D802BD82D7D00C270A3 /* monum_logo_white.png in Resources */,
+				C0DA59142C047C3600FE7590 /* monum_logo_white.png in Resources */,
+				C0DA59102C047AB900FE7590 /* logo_white.png in Resources */,
+				C0DA590E2C047A2600FE7590 /* background_monuments.png in Resources */,
 				1165DB982BC59DCC00C5A67E /* PrivacyInfo.xcprivacy in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C0850D6F2BD7065800C270A3 /* Launch Screen.storyboard in Resources */,
 				ECA3FF7CFAA14858A5CFF750 /* Montserrat-Regular.ttf in Resources */,
 				72341F0F2292403996E26789 /* Montserrat-SemiBold.ttf in Resources */,
 				6D05AC33475B476BB60DCCEB /* Montserrat-VariableFont_wght.ttf in Resources */,
-				C0850D752BD708DD00C270A3 /* figures.png in Resources */,
-				C0850D812BD82D7D00C270A3 /* white_text_logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
