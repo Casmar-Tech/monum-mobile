@@ -72,6 +72,32 @@ export const LOGIN_GOOGLE_USER = gql`
   }
 `;
 
+export const LOGIN_APPLE_USER = gql`
+  mutation LoginAppleUser($loginAppleInput: LoginAppleInput!) {
+    loginAppleUser(loginAppleInput: $loginAppleInput) {
+      id
+      email
+      username
+      createdAt
+      googleId
+      token
+      name
+      language
+      photo
+      hasPassword
+      roleId
+      thirdPartyAccount
+      thirdPartyEmail
+      permissions {
+        action
+        entity
+        max
+        min
+      }
+    }
+  }
+`;
+
 export const LOGIN_USER_AS_GUEST = gql`
   mutation LoginUserAsGuest($deviceId: String!, $language: String!) {
     loginUserAsGuest(deviceId: $deviceId, language: $language) {

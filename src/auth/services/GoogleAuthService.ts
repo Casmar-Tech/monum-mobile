@@ -35,8 +35,6 @@ class GoogleAuthService {
       }
     }
   }
-
-  // Otros métodos relacionados con el inicio de sesión con Google...
 }
 
 export default new GoogleAuthService();

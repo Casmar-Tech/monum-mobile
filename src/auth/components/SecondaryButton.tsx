@@ -1,10 +1,11 @@
-import React from 'react';
 import {
   Text,
   Image,
   TouchableOpacity,
   ImageSourcePropType,
   GestureResponderEvent,
+  View,
+  ViewStyle,
 } from 'react-native';
 
 import {styles} from '../styles/LoginStyles';
@@ -13,7 +14,7 @@ interface SecondaryButtonProps {
   imageSource?: ImageSourcePropType;
   text: string;
   onPress: (event: GestureResponderEvent) => void;
-  style?: object;
+  style?: ViewStyle;
 }
 
 export default function SecondaryButton({
@@ -28,11 +29,23 @@ export default function SecondaryButton({
       style={[styles.secondaryButton, style]}
       onPress={onPress}>
       {imageSource && (
-        <Image
-          source={imageSource}
-          style={styles.secondaryButtonLogo}
-          resizeMode="contain"
-        />
+        <View
+          style={{
+            position: 'absolute',
+            left: 9,
+            width: 30,
+            height: 30,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 15,
+          }}>
+          <Image
+            source={imageSource}
+            style={styles.secondaryButtonLogo}
+            resizeMode="contain"
+          />
+        </View>
       )}
       <Text style={styles.secondaryButtonText}>{text}</Text>
     </TouchableOpacity>

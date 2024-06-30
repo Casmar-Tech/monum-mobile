@@ -40,7 +40,6 @@ export default function ProfileScreen({navigation}: Props) {
   const safeArea = useSafeAreaInsets();
   const user = useUserStore(state => state.user);
   const {permissions} = user;
-  console.log('permissions', permissions);
   const hasPermissionToUpdateUser = permissions?.some(
     permission =>
       permission.action.includes('update') && permission.entity === 'user',
@@ -65,7 +64,8 @@ export default function ProfileScreen({navigation}: Props) {
 
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
 
-  const isGuest = user.username && user.email ? false : true;
+  const isGuest =
+    user.username && (user.email || user.thirdPartyEmail) ? false : true;
 
   const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
 
@@ -305,7 +305,7 @@ export default function ProfileScreen({navigation}: Props) {
         )}
         <PrimaryButton text={t('profile.update')} onPress={handleUpdatePress} />
 
-        {user.username && user.email && (
+        {!isGuest && (
           <Text style={styles.textCreatedAt}>{`${t(
             'profile.createdAt',
           )} ${new Date(provisionalUser.createdAt).toLocaleDateString(

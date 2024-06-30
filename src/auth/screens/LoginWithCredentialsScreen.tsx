@@ -23,9 +23,10 @@ import AuthServices from '../services/AuthServices';
 import {useUserStore} from '../../zustand/UserStore';
 import ErrorComponent from '../components/ErrorComponent';
 import {useTranslation} from 'react-i18next';
+
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Login'
+  'LoginWithCredentials'
 >;
 
 type Props = {

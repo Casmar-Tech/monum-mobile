@@ -15,6 +15,7 @@
   },
   "authScreens": {
     "loginWithGoogle": "Continuar amb Google",
+    "loginWithApple": "Continuar amb Apple",
     "loginWithCredentials": "Continuar amb un altre correu",
     "notRegistered": "Encara no estàs registrat?",
     "register": "Registra't",

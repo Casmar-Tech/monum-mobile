@@ -9,10 +9,12 @@ import {
   VERIFICATE_CODE,
   UPDATE_PASSWORD_WITHOUT_OLD_PASSWORD,
   LOGIN_USER_AS_GUEST,
+  LOGIN_APPLE_USER,
 } from '../../graphql/queries/userQueries';
 import {getDeviceId} from 'react-native-device-info';
 import {getLocales} from 'react-native-localize';
 import deviceLanguageToLanguage from '../../shared/functions/utils';
+import {AppleAuthRequestResponse} from '@invertase/react-native-apple-authentication';
 
 interface LoginGoogle {
   email: string;
@@ -92,6 +94,41 @@ class AuthService {
       });
       const user = response.data?.loginGoogleUser;
       return user;
+    } catch (error) {
+      console.error('Error al realizar el inicio de sesión:', error);
+      return null;
+    }
+  }
+
+  public async loginWithApple({
+    nonce,
+    user,
+    fullName,
+    identityToken,
+    email,
+  }: AppleAuthRequestResponse): Promise<IUser | null> {
+    try {
+      const deviceLanguage = getLocales()[0].languageCode;
+      const language = deviceLanguageToLanguage(deviceLanguage);
+      const name =
+        fullName && fullName.givenName
+          ? `${fullName?.givenName} ${fullName?.familyName}`
+          : null;
+      const response = await client.mutate({
+        mutation: LOGIN_APPLE_USER,
+        variables: {
+          loginAppleInput: {
+            nonce,
+            user,
+            name,
+            identityToken,
+            email,
+            language,
+          },
+        },
+      });
+      const userResponse = response.data?.loginAppleUser;
+      return userResponse;
     } catch (error) {
       console.error('Error al realizar el inicio de sesión:', error);
       return null;

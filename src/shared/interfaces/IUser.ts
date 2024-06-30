@@ -15,4 +15,6 @@ export default interface IUser {
   hasPassword?: boolean;
   permissions?: IPermission[];
   deviceId?: string;
+  thirdPartyAccount?: 'google' | 'apple';
+  thirdPartyEmail?: string;
 }

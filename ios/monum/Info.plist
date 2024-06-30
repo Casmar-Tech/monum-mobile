@@ -54,18 +54,18 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
+	<string>$(PRODUCT_NAME) necesita acceder a tu cámara para permitirte tomar fotos y videos que puedes compartir en la aplicación.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Show the location on map.</string>
+	<string>$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición actual en el mapa y mejorar las recomendaciones de lugares cercanos.</string>
 	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
 	<dict>
 		<key>Show current location on map.</key>
 		<string>Show current location on map.</string>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Show current location on map.</string>
+	<string>$(PRODUCT_NAME) usará tu ubicación actual para mostrar tu posición en el mapa y mejorar tu experiencia en la app.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Take some pictures of the phone.</string>
+	<string>$(PRODUCT_NAME) necesita acceso a tu biblioteca de fotos para permitirte subir imágenes y videos desde tu galería.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Regular.ttf</string>

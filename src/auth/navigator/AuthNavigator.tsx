@@ -1,9 +1,8 @@
 import {NavigationContainer, RouteProp} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
-import {StatusBar} from 'react-native';
+import {Platform, StatusBar} from 'react-native';
 
-import LoginScreen from '../screens/LoginScreen';
 import LoginWithCredentialsScreen from '../screens/LoginWithCredentialsScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import SplashScreen from 'react-native-splash-screen';
@@ -11,6 +10,10 @@ import PasswordRecoveryScreen from '../screens/PasswordRecoveryScreen';
 import CodeVerificationScreen from '../screens/CodeVerificationScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import PasswordChangedScreen from '../screens/PasswordChangedScreen';
+const LoginScreen =
+  Platform.OS === 'ios'
+    ? require('../screens/LoginScreenApple').default
+    : require('../screens/LoginScreenAndroid').default;
 
 // Define un tipo para las rutas
 export type RootStackParamList = {
