@@ -1,7 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Camera, MapView, setAccessToken} from '@rnmapbox/maps';
-import {useEffect, useRef} from 'react';
-import {Dimensions, Platform, StyleSheet, View} from 'react-native';
+import {Camera, FillLayer, MapView, setAccessToken} from '@rnmapbox/maps';
+import {Camera as DeviceCamera} from 'react-native-vision-camera';
+import {useEffect, useRef, useState} from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Linking,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import map_qr_scanner from '../../../assets/images/icons/map_qr_scanner.png';
 import map_center_coordinates from '../../../assets/images/icons/map_center_coordinates.png';
@@ -20,6 +28,7 @@ setAccessToken(
 );
 
 export default function MapScreen({navigation}: {navigation: any}) {
+  const [isLoading, setIsLoading] = useState(false);
   const cameraRef = useRef<Camera>(null);
   const setCamera = useTabMapStore(state => state.setCamera);
   const camera = useTabMapStore(state => state.tabMap.camera);
@@ -35,7 +44,6 @@ export default function MapScreen({navigation}: {navigation: any}) {
   const setMapCameraCoordinates = useTabMapStore(
     state => state.setMapCameraCoordinates,
   );
-  const hasInitByUrl = useMainStore(state => state.main.hasInitByUrl);
 
   const setCurrentUserLocation = useMainStore(
     state => state.setCurrentUserLocation,
@@ -121,27 +129,24 @@ export default function MapScreen({navigation}: {navigation: any}) {
       }
 
       if (permissionResult === RESULTS.GRANTED) {
-        if (currentUserLocation) {
-          setMapCameraCoordinates(currentUserLocation);
-          setForceUpdateMapCamera(true);
-        } else {
-          Geolocation.getCurrentPosition(
-            (position: any) => {
-              const {longitude, latitude} = position.coords;
-              setCurrentUserLocation([longitude, latitude]);
-              setMapCameraCoordinates([longitude, latitude]);
-              setForceUpdateMapCamera(true);
-            },
-            (error: any) => {
-              console.log(error);
-            },
-            {
-              enableHighAccuracy: true,
-              timeout: 15000,
-              maximumAge: 10000,
-            },
-          );
-        }
+        setIsLoading(true);
+        Geolocation.getCurrentPosition(
+          (position: any) => {
+            const {longitude, latitude} = position.coords;
+            setCurrentUserLocation([longitude, latitude]);
+            setMapCameraCoordinates([longitude, latitude]);
+            setForceUpdateMapCamera(true);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 10000,
+          },
+        );
+        setIsLoading(false);
       } else {
         console.log('Permission not granted or not requestable.');
       }
@@ -150,17 +155,31 @@ export default function MapScreen({navigation}: {navigation: any}) {
     }
   };
 
+  const mapStyleUrl =
+    Platform.OS === 'ios'
+      ? 'mapbox://styles/mapbox/standard'
+      : 'mapbox://styles/mapbox/streets-v12';
+
+  const mapWidth =
+    Platform.OS === 'ios'
+      ? Dimensions.get('screen').width
+      : Dimensions.get('screen').width - 1;
+
   return (
     <View style={styles.mapContainer}>
       <View
         style={{
-          height: Dimensions.get('window').height,
-          width: Dimensions.get('window').width,
+          flex: 1,
         }}>
         <MapView
-          styleURL="mapbox://styles/mapbox/standard"
+          styleURL={mapStyleUrl}
           scaleBarEnabled={false}
-          style={styles.mapView}>
+          preferredFramesPerSecond={60}
+          attributionEnabled={false}
+          style={{
+            flex: 1,
+            width: mapWidth,
+          }}>
           {markers.map(marker => (
             <MarkerComponent
               key={marker.id}
@@ -183,23 +202,55 @@ export default function MapScreen({navigation}: {navigation: any}) {
             animationDuration={camera.animationDuration || 2000}
             ref={cameraRef}
           />
+          <FillLayer
+            id="background"
+            style={{
+              backgroundColor: 'white',
+            }}
+          />
         </MapView>
-        <MapScreenButton
-          onPress={() => navigation.navigate('QRScannerScreen')}
-          image={map_qr_scanner}
-          additionalBottom={60}
-        />
-        <MapScreenButton
-          onPress={async () => await centerCoordinatesButtonAction()}
-          image={map_center_coordinates}
-        />
-        <MapPlaceDetail />
-        <TextSearchMapScreen
-          onPress={() => {
-            navigation.navigate('TextSearchScreen');
-          }}
-        />
       </View>
+      <MapScreenButton
+        onPress={async () => {
+          try {
+            const status = await DeviceCamera.requestCameraPermission();
+            console.log('Camera permission status:', status);
+            if (status === 'denied') {
+              Linking.openSettings();
+            }
+          } catch (error) {
+            console.log(error);
+          }
+          navigation.navigate('QRScannerScreen');
+        }}
+        image={map_qr_scanner}
+        additionalBottom={60}
+      />
+      <MapScreenButton
+        onPress={async () => await centerCoordinatesButtonAction()}
+        image={map_center_coordinates}
+      />
+      <MapPlaceDetail />
+      <TextSearchMapScreen
+        onPress={() => {
+          navigation.navigate('TextSearchScreen');
+        }}
+      />
+      {isLoading && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+          }}>
+          <ActivityIndicator size="large" color="#3F713B" />
+        </View>
+      )}
     </View>
   );
 }
@@ -207,9 +258,6 @@ export default function MapScreen({navigation}: {navigation: any}) {
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
-    height: Dimensions.get('screen').height,
-    width: Dimensions.get('screen').width,
-    marginBottom: -24,
+    backgroundColor: 'white',
   },
-  mapView: {flex: 1, color: 'white'},
 });

@@ -2,6 +2,7 @@ import {
   Dimensions,
   Image,
   ImageSourcePropType,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -214,6 +215,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
+    top: Platform.OS === 'ios' ? 0 : -20,
   },
   imageContainer: {
     height: 200,

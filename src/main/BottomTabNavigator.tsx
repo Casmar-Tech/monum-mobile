@@ -162,7 +162,11 @@ function BottomTabNavigator() {
 
   return (
     <NavigationContainer independent={true} ref={navigationRef}>
-      <StatusBar translucent barStyle="dark-content" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
       <Tab.Navigator
         initialRouteName="Map"
         screenOptions={{

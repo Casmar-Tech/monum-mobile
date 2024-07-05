@@ -270,6 +270,16 @@ export default function RouteDetailScreen({
     new Map(),
   ).current;
 
+  const mapStyleUrl =
+    Platform.OS === 'ios'
+      ? 'mapbox://styles/mapbox/standard'
+      : 'mapbox://styles/mapbox/streets-v12';
+
+  const mapWidth =
+    Platform.OS === 'ios'
+      ? Dimensions.get('screen').width
+      : Dimensions.get('screen').width - 1;
+
   return (
     <View style={{flex: 1}}>
       <View
@@ -284,9 +294,15 @@ export default function RouteDetailScreen({
           shadowRadius: 4,
         }}>
         <MapView
-          styleURL="mapbox://styles/mapbox/standard"
+          styleURL={mapStyleUrl}
           scaleBarEnabled={false}
-          style={styles.mapView}>
+          logoEnabled={false}
+          preferredFramesPerSecond={60}
+          attributionEnabled={false}
+          style={{
+            flex: 1,
+            width: mapWidth,
+          }}>
           {markers.map(marker => (
             <MarkerComponent
               key={marker.id}
@@ -415,7 +431,6 @@ export default function RouteDetailScreen({
 }
 
 const styles = StyleSheet.create({
-  mapView: {color: 'white', flex: 1},
   contentContainer: {
     paddingHorizontal: 15,
     alignItems: 'center',
