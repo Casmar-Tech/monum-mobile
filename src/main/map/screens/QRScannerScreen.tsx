@@ -43,6 +43,7 @@ export default function ScanScreen({navigation}: any) {
   const [scanErrorMessage, setScanErrorMessage] = useState('');
 
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [hasCameraPermission, setHasCameraPermission] = useState(false);
 
   useEffect(() => {
     let timer: any;
@@ -68,10 +69,7 @@ export default function ScanScreen({navigation}: any) {
     async function requestPermission() {
       try {
         const status = await Camera.requestCameraPermission();
-        console.log('Camera permission status:', status);
-        if (status === 'denied') {
-          Linking.openSettings();
-        }
+        setHasCameraPermission(status === 'granted');
       } catch (error) {
         console.log(error);
       }
@@ -200,7 +198,7 @@ export default function ScanScreen({navigation}: any) {
           width: '100%',
           position: 'relative',
         }}>
-        {device == null ? (
+        {device == null || !hasCameraPermission ? (
           <View
             style={{
               width: '100%',

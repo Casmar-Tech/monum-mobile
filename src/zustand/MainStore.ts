@@ -5,7 +5,6 @@ import IPlace from '../shared/interfaces/IPlace';
 import Geolocation from '@react-native-community/geolocation';
 
 export interface IMain {
-  isTabBarVisible: boolean;
   activeTab: string;
   statePlayer: State;
   placeOfMedia: IPlace | null;
@@ -19,7 +18,6 @@ export interface IMain {
 }
 
 export const defaultMain: IMain = {
-  isTabBarVisible: true,
   activeTab: 'Map',
   statePlayer: State.Paused,
   placeOfMedia: null,
@@ -34,7 +32,6 @@ export const defaultMain: IMain = {
 
 interface MainState {
   main: IMain;
-  setTabBarVisible: (isTabBarVisible: boolean) => void;
   setActiveTab: (activeTab: string) => void;
   setStatePlayer: (statePlayer: State) => void;
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => void;
@@ -51,9 +48,6 @@ interface MainState {
 
 export const useMainStore = create<MainState>(set => ({
   main: defaultMain,
-  setTabBarVisible: (isTabBarVisible: boolean) => {
-    set(state => ({main: {...state.main, isTabBarVisible}}));
-  },
   setActiveTab: (activeTab: string) => {
     set(state => ({main: {...state.main, activeTab}}));
   },

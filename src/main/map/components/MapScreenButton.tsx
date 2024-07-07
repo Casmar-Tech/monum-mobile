@@ -1,7 +1,6 @@
 import {
   Image,
   ImageSourcePropType,
-  Platform,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
@@ -19,7 +18,7 @@ export default function MapScreenButton({
   image,
   additionalBottom = 0,
 }: MapScreenButtonProps) {
-  const marginBottom = Platform.OS === 'android' ? 0 : 20;
+  const marginBottom = 0;
   return (
     <TouchableOpacity
       style={[

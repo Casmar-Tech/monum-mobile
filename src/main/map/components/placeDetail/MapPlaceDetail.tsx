@@ -45,9 +45,7 @@ export default function MapPlaceDetail() {
     state => state.setShowPlaceDetailExpanded,
   );
   const mediasOfPlace = useTabMapStore(state => state.tabMap.mediasOfPlace);
-  const setMediasOfPlace = useTabMapStore(state => state.setMediasOfPlace);
 
-  const setTabBarVisible = useMainStore(state => state.setTabBarVisible);
   const language = useUserStore(state => state.user.language);
 
   const BOTTOM_TOTAL_TAB_HEIGHT =
@@ -74,7 +72,6 @@ export default function MapPlaceDetail() {
     position.value = withTiming(0, {duration: 300}, () => {
       runOnJS(setMarkerSelected)(null);
       runOnJS(setShowPlaceDetailExpanded)(false);
-      runOnJS(setTabBarVisible)(true);
     });
   };
 
@@ -149,7 +146,7 @@ export default function MapPlaceDetail() {
       style={[
         styles.container,
         {
-          bottom: Platform.OS === 'ios' ? 0 : -40,
+          bottom: -80,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,

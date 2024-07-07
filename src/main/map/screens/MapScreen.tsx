@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Camera, FillLayer, MapView, setAccessToken} from '@rnmapbox/maps';
+import {Camera, MapView, setAccessToken} from '@rnmapbox/maps';
 import {Camera as DeviceCamera} from 'react-native-vision-camera';
 import {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
-  Linking,
   Platform,
   StyleSheet,
   View,
@@ -28,7 +27,8 @@ setAccessToken(
 );
 
 export default function MapScreen({navigation}: {navigation: any}) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCoordinates, setIsLoadingCoordinates] = useState(true);
+  const [isLoadingMap, setIsLoadingMap] = useState(true);
   const cameraRef = useRef<Camera>(null);
   const setCamera = useTabMapStore(state => state.setCamera);
   const camera = useTabMapStore(state => state.tabMap.camera);
@@ -129,7 +129,6 @@ export default function MapScreen({navigation}: {navigation: any}) {
       }
 
       if (permissionResult === RESULTS.GRANTED) {
-        setIsLoading(true);
         Geolocation.getCurrentPosition(
           (position: any) => {
             const {longitude, latitude} = position.coords;
@@ -146,7 +145,6 @@ export default function MapScreen({navigation}: {navigation: any}) {
             maximumAge: 10000,
           },
         );
-        setIsLoading(false);
       } else {
         console.log('Permission not granted or not requestable.');
       }
@@ -154,6 +152,20 @@ export default function MapScreen({navigation}: {navigation: any}) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    async function prepareWhenAuthenticated() {
+      if (
+        !currentUserLocation ||
+        !mapCameraCoordinates ||
+        camera.centerCoordinate
+      ) {
+        await centerCoordinatesButtonAction();
+        setIsLoadingCoordinates(false);
+      }
+    }
+    prepareWhenAuthenticated();
+  }, []);
 
   const mapStyleUrl =
     Platform.OS === 'ios'
@@ -179,7 +191,9 @@ export default function MapScreen({navigation}: {navigation: any}) {
           style={{
             flex: 1,
             width: mapWidth,
-          }}>
+          }}
+          onWillStartLoadingMap={() => setIsLoadingMap(true)}
+          onDidFinishLoadingMap={() => setIsLoadingMap(false)}>
           {markers.map(marker => (
             <MarkerComponent
               key={marker.id}
@@ -202,22 +216,12 @@ export default function MapScreen({navigation}: {navigation: any}) {
             animationDuration={camera.animationDuration || 2000}
             ref={cameraRef}
           />
-          <FillLayer
-            id="background"
-            style={{
-              backgroundColor: 'white',
-            }}
-          />
         </MapView>
       </View>
       <MapScreenButton
         onPress={async () => {
           try {
-            const status = await DeviceCamera.requestCameraPermission();
-            console.log('Camera permission status:', status);
-            if (status === 'denied') {
-              Linking.openSettings();
-            }
+            await DeviceCamera.requestCameraPermission();
           } catch (error) {
             console.log(error);
           }
@@ -236,7 +240,7 @@ export default function MapScreen({navigation}: {navigation: any}) {
           navigation.navigate('TextSearchScreen');
         }}
       />
-      {isLoading && (
+      {(isLoadingCoordinates || isLoadingMap) && (
         <View
           style={{
             position: 'absolute',

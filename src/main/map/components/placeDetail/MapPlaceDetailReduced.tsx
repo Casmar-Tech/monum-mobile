@@ -20,7 +20,6 @@ interface MapPlaceDetailReducedProps {
 export default function MapPlaceDetailReduced({
   importanceIcon,
 }: MapPlaceDetailReducedProps) {
-  const setTabBarVisible = useMainStore(state => state.setTabBarVisible);
   const setShowPlaceDetailExpanded = useTabMapStore(
     state => state.setShowPlaceDetailExpanded,
   );
@@ -36,7 +35,6 @@ export default function MapPlaceDetailReduced({
       <TouchableWithoutFeedback
         onPress={() => {
           setShowPlaceDetailExpanded(true);
-          setTabBarVisible(false);
         }}>
         <View>
           <View style={styles.arrowContainer}>

@@ -44,7 +44,6 @@ const Tab = createBottomTabNavigator<RootBottomTabList>();
 function BottomTabNavigator() {
   const navigationRef = useRef<NavigationContainerRef<RootBottomTabList>>(null);
   const bottomSafeArea = useSafeAreaInsets().bottom;
-  const isTabBarVisible = useMainStore(state => state.main.isTabBarVisible);
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
   const placeOfMedia = useMainStore(state => state.main.placeOfMedia);
   const showPlaceDetailExpanded = useTabMapStore(
@@ -200,7 +199,7 @@ function BottomTabNavigator() {
             tabBarStyle: [
               styles.map,
               {
-                display: isTabBarVisible ? 'flex' : 'none',
+                display: 'flex',
                 height: bottomSafeArea + BOTTOM_TAB_NAVIGATOR_HEIGHT,
               },
             ],
