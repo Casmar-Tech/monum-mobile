@@ -1,4 +1,4 @@
-$RNMapboxMapsVersion = '= 11.0.0'
+# $RNMapboxMapsVersion = '= 11.0.0'
 
 # Resolve react_native_pods.rb with node to allow for hoisting
 def node_require(script)
@@ -49,7 +49,7 @@ setup_permissions([
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+# flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
