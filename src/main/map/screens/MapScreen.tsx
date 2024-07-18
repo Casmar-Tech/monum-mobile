@@ -122,29 +122,37 @@ export default function MapScreen({navigation}: {navigation: any}) {
         permissionCheck = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
       }
 
+      console.log('Checking permissions...');
       let permissionResult = await check(permissionCheck);
 
+      console.log('Permission result:', permissionResult);
       if (permissionResult === RESULTS.DENIED) {
         permissionResult = await request(permissionCheck);
       }
 
       if (permissionResult === RESULTS.GRANTED) {
-        Geolocation.getCurrentPosition(
-          (position: any) => {
-            const {longitude, latitude} = position.coords;
-            setCurrentUserLocation([longitude, latitude]);
-            setMapCameraCoordinates([longitude, latitude]);
-            setForceUpdateMapCamera(true);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 10000,
-          },
-        );
+        if (currentUserLocation) {
+          setMapCameraCoordinates(currentUserLocation);
+          setForceUpdateMapCamera(true);
+        } else {
+          Geolocation.getCurrentPosition(
+            (position: any) => {
+              const {longitude, latitude} = position.coords;
+              console.log('Current position:', position);
+              setCurrentUserLocation([longitude, latitude]);
+              setMapCameraCoordinates([longitude, latitude]);
+              setForceUpdateMapCamera(true);
+            },
+            (error: any) => {
+              console.log(error);
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 15000,
+              maximumAge: 10000,
+            },
+          );
+        }
       } else {
         console.log('Permission not granted or not requestable.');
       }
@@ -166,6 +174,16 @@ export default function MapScreen({navigation}: {navigation: any}) {
     }
     prepareWhenAuthenticated();
   }, []);
+
+  useEffect(() => {
+    async function recalculateCurrentLocation() {
+      await centerCoordinatesButtonAction();
+      setIsLoadingCoordinates(false);
+    }
+    if (!currentUserLocation) {
+      recalculateCurrentLocation();
+    }
+  }, [currentUserLocation]);
 
   const mapStyleUrl =
     Platform.OS === 'ios'

@@ -35,7 +35,9 @@ interface MainState {
   setActiveTab: (activeTab: string) => void;
   setStatePlayer: (statePlayer: State) => void;
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => void;
-  setCurrentUserLocation: (currentUserLocation: [number, number]) => void;
+  setCurrentUserLocation: (
+    currentUserLocation: [number, number] | null,
+  ) => void;
   setHasInitByUrl: (hasInitByUrl: boolean) => void;
   setDefaultMain: () => void;
   startWatchingLocation: () => void;
@@ -57,7 +59,7 @@ export const useMainStore = create<MainState>(set => ({
   setPlaceOfMedia: (placeOfMedia: IPlace | null) => {
     set(state => ({main: {...state.main, placeOfMedia}}));
   },
-  setCurrentUserLocation: (currentUserLocation: [number, number]) => {
+  setCurrentUserLocation: (currentUserLocation: [number, number] | null) => {
     set(state => ({main: {...state.main, currentUserLocation}}));
   },
   setHasInitByUrl: (hasInitByUrl: boolean) => {

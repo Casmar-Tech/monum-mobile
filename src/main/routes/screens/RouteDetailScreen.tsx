@@ -78,18 +78,10 @@ export default function RouteDetailScreen({
   });
 
   const calculateBounds = (markers: IMarker[]): TabRouteState['bounds'] => {
-    let minLng = currentUserLocation
-      ? currentUserLocation[0]
-      : markers[0]?.coordinates[0];
-    let maxLng = currentUserLocation
-      ? currentUserLocation[0]
-      : markers[0]?.coordinates[0];
-    let minLat = currentUserLocation
-      ? currentUserLocation[1]
-      : markers[0]?.coordinates[1];
-    let maxLat = currentUserLocation
-      ? currentUserLocation[1]
-      : markers[0]?.coordinates[1];
+    let minLng = 90;
+    let maxLng = 0;
+    let minLat = 90;
+    let maxLat = 0;
 
     markers.forEach(marker => {
       if (marker.coordinates[0] < minLng) minLng = marker.coordinates[0];
@@ -230,8 +222,10 @@ export default function RouteDetailScreen({
         permissionCheck = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
       }
 
+      console.log('Checking permissions...');
       let permissionResult = await check(permissionCheck);
 
+      console.log('Permission result:', permissionResult);
       if (permissionResult === RESULTS.DENIED) {
         permissionResult = await request(permissionCheck);
       }
@@ -244,6 +238,7 @@ export default function RouteDetailScreen({
           Geolocation.getCurrentPosition(
             (position: any) => {
               const {longitude, latitude} = position.coords;
+              console.log('Current position:', position);
               setCurrentUserLocation([longitude, latitude]);
               setRouteCameraCoordinates([longitude, latitude]);
               setForceUpdateRouteCamera(true);
@@ -262,9 +257,27 @@ export default function RouteDetailScreen({
         console.log('Permission not granted or not requestable.');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+
+  useEffect(() => {
+    async function prepareWhenAuthenticated() {
+      if (!currentUserLocation || !routeCameraCoordinates) {
+        await centerCoordinatesButtonAction();
+      }
+    }
+    prepareWhenAuthenticated();
+  }, []);
+
+  useEffect(() => {
+    async function recalculateCurrentLocation() {
+      await centerCoordinatesButtonAction();
+    }
+    if (!currentUserLocation) {
+      recalculateCurrentLocation();
+    }
+  }, [currentUserLocation]);
 
   const pillRefs = useRef<Map<string, React.RefObject<PlaceFromRoutePillRef>>>(
     new Map(),

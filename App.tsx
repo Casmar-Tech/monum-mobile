@@ -161,7 +161,7 @@ function App() {
         }
       } catch (error) {
         console.error('Error obtaining geolocation:', error);
-        setCurrentUserLocation([2.820167, 41.977381]);
+        setCurrentUserLocation(null);
       }
     }
     prepareWhenAuthenticated();
