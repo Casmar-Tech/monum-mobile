@@ -12,6 +12,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import place_pre_detail_importance_1 from '../../../../assets/images/icons/placeImportance/place_pre_detail_importance_1.png';
@@ -21,7 +22,6 @@ import place_pre_detail_importance_3 from '../../../../assets/images/icons/place
 import MapPlaceDetailExpanded from './MapPlaceDetailExpanded';
 import MapPlaceDetailReduced from './MapPlaceDetailReduced';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
-import {useMainStore} from '../../../../zustand/MainStore';
 import {useUserStore} from '../../../../zustand/UserStore';
 import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../../BottomTabNavigator';
 
@@ -154,7 +154,16 @@ export default function MapPlaceDetail() {
         },
       ]}>
       <PanGestureHandler onGestureEvent={panGestureEvent}>
-        <Animated.View style={[styles.animatedContainer, animatedStyle]}>
+        <Animated.View
+          style={[
+            styles.animatedContainer,
+            animatedStyle,
+            {
+              backgroundColor: showPlaceDetailExpanded
+                ? 'transparent'
+                : 'white',
+            },
+          ]}>
           {showPlaceDetailExpanded && place && Array.isArray(mediasOfPlace) ? (
             <MapPlaceDetailExpanded
               importanceIcon={importanceIcon()}
@@ -179,7 +188,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    backgroundColor: 'white',
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,

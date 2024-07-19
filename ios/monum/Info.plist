@@ -54,7 +54,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) necesita acceder a tu cámara para permitirte tomar fotos y videos que puedes compartir en la aplicación.</string>
+	<string>$(PRODUCT_NAME) necesita acceder a tu cámara para poder escanear QRs que interactuan con nuestra app, redireccionandote a Monums específicos.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición actual en el mapa y mejorar las recomendaciones de lugares cercanos.</string>
 	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
