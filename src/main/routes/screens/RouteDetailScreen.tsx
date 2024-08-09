@@ -283,10 +283,7 @@ export default function RouteDetailScreen({
     new Map(),
   ).current;
 
-  const mapStyleUrl =
-    Platform.OS === 'ios'
-      ? 'mapbox://styles/mapbox/standard'
-      : 'mapbox://styles/mapbox/streets-v12';
+  const mapStyleUrl = 'mapbox://styles/mapbox/streets-v12';
 
   const mapWidth =
     Platform.OS === 'ios'
