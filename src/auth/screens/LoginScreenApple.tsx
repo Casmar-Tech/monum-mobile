@@ -17,13 +17,11 @@ import BouncyLogo from '../components/BouncyLogo';
 import SecondaryButton from '../components/SecondaryButton';
 import SeparatorComponent from '../components/SeparatorComponent';
 import {RootStackParamList} from '../navigator/AuthNavigator';
-import GoogleAuthService from '../services/GoogleAuthService';
 import {styles} from '../styles/LoginStyles';
 import {useUserStore} from '../../zustand/UserStore';
 import AuthServices from '../services/AuthServices';
 import {useTranslation} from 'react-i18next';
 import {useEffect} from 'react';
-import AppleAuthService from '../services/AppleAuthService';
 import appleAuth from '@invertase/react-native-apple-authentication';
 import ButtonWithLogo from '../components/ButtonWithLogo';
 
@@ -58,50 +56,6 @@ export default function LoginScreenApple({navigation}: Props) {
             <BouncyLogo />
           </View>
           <View style={styles.buttonContainer}>
-            <ButtonWithLogo
-              imageSource={google_sign_in_logo}
-              text={t('authScreens.loginWithGoogle')}
-              style={{backgroundColor: 'white'}}
-              textColor="black"
-              onPress={async () => {
-                try {
-                  const user = await GoogleAuthService.signInWithGoogle();
-                  if (user) {
-                    await setAuthToken(user.token || '');
-                    setUser(user);
-                    setIsAuthenticated(true);
-                    await changeLanguage(user.language || 'en_US');
-                  } else {
-                    console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
-                  }
-                } catch (error) {
-                  console.error('ERROR WHEN LOGGING IN WITH GOOGLE', error);
-                }
-              }}
-            />
-
-            <ButtonWithLogo
-              imageSource={apple_sign_in_logo}
-              text={t('authScreens.loginWithApple')}
-              style={{marginTop: 30, backgroundColor: 'black'}}
-              onPress={async () => {
-                try {
-                  const user = await AppleAuthService.signInWithApple();
-                  if (user) {
-                    await setAuthToken(user.token || '');
-                    setUser(user);
-                    setIsAuthenticated(true);
-                    await changeLanguage(user.language || 'en_US');
-                  } else {
-                    console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
-                  }
-                } catch (error) {
-                  console.error('ERROR WHEN LOGGING IN WITH GOOGLE', error);
-                }
-              }}
-            />
-
-            <SeparatorComponent />
             <SecondaryButton
               text={t('authScreens.loginWithCredentials')}
               onPress={() => {

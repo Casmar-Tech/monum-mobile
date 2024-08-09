@@ -15,7 +15,6 @@ import BouncyLogo from '../components/BouncyLogo';
 import SecondaryButton from '../components/SecondaryButton';
 import SeparatorComponent from '../components/SeparatorComponent';
 import {RootStackParamList} from '../navigator/AuthNavigator';
-import GoogleAuthService from '../services/GoogleAuthService';
 import {styles} from '../styles/LoginStyles';
 import {useUserStore} from '../../zustand/UserStore';
 import AuthServices from '../services/AuthServices';
@@ -45,28 +44,6 @@ export default function LoginScreenAndroid({navigation}: Props) {
             <BouncyLogo />
           </View>
           <View style={styles.buttonContainer}>
-            <ButtonWithLogo
-              imageSource={google_sign_in_logo}
-              text={t('authScreens.loginWithGoogle')}
-              style={{backgroundColor: 'white'}}
-              textColor="black"
-              onPress={async () => {
-                try {
-                  const user = await GoogleAuthService.signInWithGoogle();
-                  if (user) {
-                    await setAuthToken(user.token || '');
-                    setUser(user);
-                    setIsAuthenticated(true);
-                    await changeLanguage(user.language || 'en_US');
-                  } else {
-                    console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
-                  }
-                } catch (error) {
-                  console.error('ERROR WHEN LOGGING IN WITH GOOGLE', error);
-                }
-              }}
-            />
-            <SeparatorComponent />
             <SecondaryButton
               text={t('authScreens.loginWithCredentials')}
               onPress={() => {

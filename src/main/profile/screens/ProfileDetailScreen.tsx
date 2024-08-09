@@ -19,12 +19,10 @@ import ErrorComponent from '../../../shared/components/ErrorComponent';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Language} from '../../../shared/types/Language';
 import client from '../../../graphql/connection';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useUserStore} from '../../../zustand/UserStore';
 import {useMainStore} from '../../../zustand/MainStore';
 import {useTabMapStore} from '../../../zustand/TabMapStore';
 import {useTabRouteStore} from '../../../zustand/TabRouteStore';
-import GoogleAuthService from '../../../auth/services/GoogleAuthService';
 import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../BottomTabNavigator';
 import {useTranslation} from 'react-i18next';
 import DeleteButton from '../components/DeleteButton';
@@ -253,9 +251,6 @@ export default function ProfileScreen({navigation}: Props) {
                   onPress={async () => {
                     try {
                       await deleteHardMyUser();
-                      (await GoogleSignin.isSignedIn()) &&
-                        (await GoogleSignin.signOut());
-                      await GoogleAuthService.configureGoogleSignIn();
                       await removeAuthToken();
                       setDefaultUser();
                       setDefaultMain();
@@ -331,9 +326,6 @@ export default function ProfileScreen({navigation}: Props) {
           text={isGuest ? t('profile.createMyAccount') : t('profile.logout')}
           onPress={async () => {
             try {
-              (await GoogleSignin.isSignedIn()) &&
-                (await GoogleSignin.signOut());
-              await GoogleAuthService.configureGoogleSignIn();
               await removeAuthToken();
               setDefaultUser();
               setDefaultMain();

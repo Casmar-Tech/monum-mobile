@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import {useEffect, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
-import GoogleAuthService from './src/auth/services/GoogleAuthService';
 import MainNavigator from './src/MainNavigator';
 import {ApolloProvider} from '@apollo/client';
 import client from './src/graphql/connection';
@@ -108,11 +107,9 @@ function App() {
 
     const initializeApp = async () => {
       try {
-        await GoogleAuthService.configureGoogleSignIn();
         Geolocation.setRNConfiguration({
           skipPermissionRequests: false,
         });
-
         let initialURL = await Linking.getInitialURL();
         if (initialURL) {
           await handleOpenURL(initialURL);
