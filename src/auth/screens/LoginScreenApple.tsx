@@ -93,10 +93,10 @@ export default function LoginScreenApple({navigation}: Props) {
                     setIsAuthenticated(true);
                     await changeLanguage(user.language || 'en_US');
                   } else {
-                    console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
+                    console.error('ERROR WHEN LOGGING IN WITH APPLE');
                   }
                 } catch (error) {
-                  console.error('ERROR WHEN LOGGING IN WITH GOOGLE', error);
+                  console.error('ERROR WHEN LOGGING IN WITH APPLE', error);
                 }
               }}
             />
