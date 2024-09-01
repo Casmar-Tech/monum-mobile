@@ -12,6 +12,7 @@ import {UPDATE_PASSWORD} from '../../../graphql/queries/userQueries';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 import {useTranslation} from 'react-i18next';
+import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../BottomTabNavigator';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   ProfileStackParamList,
@@ -122,7 +123,7 @@ export default function ProfileUpdatePasswordScreen({
               console.error('Error al cambiar la contraseña:', error);
             }
           }}
-          style={{marginBottom: safeArea.bottom + 100}}
+          style={{marginBottom: safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT}}
           disabled={isDisabled()}
         />
       </View>

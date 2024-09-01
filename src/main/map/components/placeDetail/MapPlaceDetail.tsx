@@ -23,11 +23,9 @@ import MapPlaceDetailExpanded from './MapPlaceDetailExpanded';
 import MapPlaceDetailReduced from './MapPlaceDetailReduced';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
 import {useUserStore} from '../../../../zustand/UserStore';
-import {BOTTOM_TAB_NAVIGATOR_HEIGHT} from '../../../BottomTabNavigator';
 
 const {height} = Dimensions.get('screen');
 
-const MAX_MARGIN_TOP = 50;
 export const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 150 : 140;
 
 type GestureContext = {
@@ -35,6 +33,7 @@ type GestureContext = {
 };
 
 export default function MapPlaceDetail() {
+  const MAX_MARGIN_TOP = useSafeAreaInsets().top - 20;
   const markerSelected = useTabMapStore(state => state.tabMap.markerSelected);
   const setMarkerSelected = useTabMapStore(state => state.setMarkerSelected);
   const place = useTabMapStore(state => state.tabMap.place);
@@ -48,10 +47,7 @@ export default function MapPlaceDetail() {
 
   const language = useUserStore(state => state.user.language);
 
-  const BOTTOM_TOTAL_TAB_HEIGHT =
-    useSafeAreaInsets().bottom +
-    BOTTOM_TAB_NAVIGATOR_HEIGHT +
-    BOTTOM_TAB_HEIGHT;
+  const BOTTOM_TOTAL_TAB_HEIGHT = 230;
 
   const position = useSharedValue(0);
 
@@ -117,6 +113,7 @@ export default function MapPlaceDetail() {
       }
     },
   });
+
   const animatedStyle = useAnimatedStyle(() => {
     return {
       bottom: 0,
@@ -148,8 +145,6 @@ export default function MapPlaceDetail() {
         {
           bottom: -80,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
           top: showPlaceDetailExpanded ? 0 : undefined,
         },
       ]}>

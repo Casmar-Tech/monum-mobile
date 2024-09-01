@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import {SheetManager} from 'react-native-actions-sheet';
-import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import place_detail_arrow_bottom_white from '../../../../assets/images/icons/place_detail_arrow_bottom_white.png';
 import place_detail_direction_white from '../../../../assets/images/icons/place_detail_direction_white.png';
@@ -21,6 +20,7 @@ import {useSharedValue} from 'react-native-reanimated';
 import {PaginationItem} from '../../../media/components/PaginationItem';
 import {useTabMapStore} from '../../../../zustand/TabMapStore';
 import {useTranslation} from 'react-i18next';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const BORDER_RADIUS = 24;
 
@@ -43,171 +43,189 @@ export default function MapPlaceDetailExpanded({
   if (!place) {
     return null;
   }
+
   return (
-    <View style={styles.container}>
-      <ScrollView
-        scrollEventThrottle={16}
-        style={{width: '100%', height: '100%', backgroundColor: 'transparent'}}
-        showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            height: heightImage,
-            width: '100%',
-            backgroundColor: 'transparent',
-          }}>
-          <Carousel
-            loop
-            style={{
-              borderTopLeftRadius: BORDER_RADIUS,
-              borderTopRightRadius: BORDER_RADIUS,
-              height: 200,
-            }}
-            width={width}
-            data={imagesUrl}
-            scrollAnimationDuration={500}
-            onProgressChange={(_, absoluteProgress) =>
-              (progressValue.value = absoluteProgress)
-            }
-            renderItem={({index}) => (
-              <View style={styles.imageContainer}>
-                <Image
-                  source={{
-                    uri: imagesUrl[index],
-                  }}
-                  resizeMode="cover"
-                  style={styles.image}
-                />
-              </View>
-            )}
-          />
-        </View>
-        {!!progressValue && (
+    <View style={{borderTopLeftRadius: 24, borderTopRightRadius: 24}}>
+      <View style={{borderTopLeftRadius: 24, borderTopRightRadius: 24}}>
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          bounces={false}
+          nestedScrollEnabled>
           <View
             style={{
-              position: 'absolute',
-              top: 200 - 20,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: imagesUrl.length * 20 <= 100 ? imagesUrl.length * 20 : 100,
-              alignSelf: 'center',
+              width: '100%',
+              height: '150%',
+              backgroundColor: 'transparent',
+              borderTopLeftRadius: 24,
+              borderTopRightRadius: 24,
             }}>
-            {imagesUrl.map((_, index) => {
-              return (
-                <PaginationItem
-                  animValue={progressValue}
-                  index={index}
-                  key={index}
-                  length={imagesUrl.length}
-                />
-              );
-            })}
-          </View>
-        )}
-        <Pressable style={styles.arrowContainer} onPress={closePlaceDetail}>
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 0, y: 1}}
-            colors={['rgba(3, 32, 0, 1)', 'rgba(3, 32, 0, 0)']}
-            style={styles.linearGradient}
-          />
-          <Image
-            source={place_detail_arrow_bottom_white}
-            style={styles.arrowIcon}
-            resizeMode="contain"
-          />
-        </Pressable>
-        <View style={styles.infoContainer}>
-          <View style={styles.basicInfoConatiner}>
-            <View style={{maxWidth: '70%'}}>
-              <Text numberOfLines={2} style={styles.placeName}>
-                {place?.name}
-              </Text>
-              <Text
-                style={
-                  styles.placeAddress
-                }>{`${place?.address.city}, ${place?.address.country}`}</Text>
-              <View style={styles.createdByContainer}>
-                <Text numberOfLines={2} style={styles.createdByText}>{`${t(
-                  'mapScreen.createdBy',
-                )}: ${place?.createdBy.username}`}</Text>
-                {place?.createdBy?.photo && (
-                  <Image
-                    style={styles.createdByIcon}
-                    resizeMode="contain"
-                    source={{uri: place?.createdBy.photo}}
-                  />
-                )}
-              </View>
-            </View>
             <View
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
+                height: heightImage,
+                width: '100%',
+                backgroundColor: 'transparent',
+                borderTopLeftRadius: 24,
+                borderTopRightRadius: 24,
               }}>
-              <TouchableOpacity
-                onPress={() => {
-                  SheetManager.show('direction-sheet', {
-                    payload: {
-                      coordinates: place?.address?.coordinates,
-                      label: place?.name,
-                    },
-                  });
+              <Carousel
+                loop
+                style={{
+                  borderTopLeftRadius: BORDER_RADIUS,
+                  borderTopRightRadius: BORDER_RADIUS,
+                  height: 200,
+                }}
+                width={width}
+                data={imagesUrl}
+                scrollAnimationDuration={500}
+                onProgressChange={(_, absoluteProgress) =>
+                  (progressValue.value = absoluteProgress)
+                }
+                renderItem={({index}) => (
+                  <View style={styles.imageContainer}>
+                    <Image
+                      source={{
+                        uri: imagesUrl[index],
+                      }}
+                      resizeMode="cover"
+                      style={styles.image}
+                    />
+                  </View>
+                )}
+              />
+            </View>
+            {!!progressValue && (
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 200 - 20,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  width:
+                    imagesUrl.length * 20 <= 100 ? imagesUrl.length * 20 : 100,
+                  alignSelf: 'center',
                 }}>
+                {imagesUrl.map((_, index) => {
+                  return (
+                    <PaginationItem
+                      animValue={progressValue}
+                      index={index}
+                      key={index}
+                      length={imagesUrl.length}
+                    />
+                  );
+                })}
+              </View>
+            )}
+
+            <View style={styles.infoContainer}>
+              <View style={styles.basicInfoConatiner}>
+                <View style={{maxWidth: '70%'}}>
+                  <Text numberOfLines={2} style={styles.placeName}>
+                    {place?.name}
+                  </Text>
+                  <Text
+                    style={
+                      styles.placeAddress
+                    }>{`${place?.address.city}, ${place?.address.country}`}</Text>
+                  <View style={styles.createdByContainer}>
+                    <Text numberOfLines={2} style={styles.createdByText}>{`${t(
+                      'mapScreen.createdBy',
+                    )}: ${place?.createdBy.username}`}</Text>
+                    {place?.createdBy?.photo && (
+                      <Image
+                        style={styles.createdByIcon}
+                        resizeMode="contain"
+                        source={{uri: place?.createdBy.photo}}
+                      />
+                    )}
+                  </View>
+                </View>
                 <View
                   style={{
-                    width: 36,
-                    height: 36,
-                    marginRight: 10,
-                    justifyContent: 'flex-end',
+                    flexDirection: 'row',
                     alignItems: 'center',
                   }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      SheetManager.show('direction-sheet', {
+                        payload: {
+                          coordinates: place?.address?.coordinates,
+                          label: place?.name,
+                        },
+                      });
+                    }}>
+                    <View
+                      style={{
+                        width: 36,
+                        height: 36,
+                        marginRight: 10,
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                      }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          backgroundColor: '#3F713B',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: 18,
+                        }}>
+                        <Image
+                          source={place_detail_direction_white}
+                          style={styles.directionIcon}
+                          resizeMode="contain"
+                        />
+                      </View>
+                    </View>
+                  </TouchableOpacity>
                   <View
                     style={{
                       width: 36,
-                      height: 36,
-                      backgroundColor: '#3F713B',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 18,
+                      height: 43,
                     }}>
                     <Image
-                      source={place_detail_direction_white}
-                      style={styles.directionIcon}
+                      source={importanceIcon}
+                      style={styles.importanceIcon}
                       resizeMode="contain"
                     />
                   </View>
                 </View>
-              </TouchableOpacity>
-              <View
-                style={{
-                  width: 36,
-                  height: 43,
-                }}>
-                <Image
-                  source={importanceIcon}
-                  style={styles.importanceIcon}
-                  resizeMode="contain"
-                />
+              </View>
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.descriptionText}>{place?.description}</Text>
+              </View>
+            </View>
+            <View style={styles.placeMediaContainer}>
+              <View style={styles.placeMediaIntroContainer}>
+                <Text style={styles.placeMediaIntroText}>
+                  {t('placeDetailExpanded.mediaIntro')}
+                </Text>
+              </View>
+              <View style={{width: '100%', height: '100%'}}>
+                {mediasOfPlace?.map((media: IMedia, i: number) => (
+                  <MediaOfPlacePill key={i} index={i} media={media} />
+                ))}
               </View>
             </View>
           </View>
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionText}>{place?.description}</Text>
-          </View>
-        </View>
-        <View style={styles.placeMediaContainer}>
-          <View style={styles.placeMediaIntroContainer}>
-            <Text style={styles.placeMediaIntroText}>
-              {t('placeDetailExpanded.mediaIntro')}
-            </Text>
-          </View>
-          <View style={{width: '100%', height: '100%'}}>
-            {mediasOfPlace?.map((media: IMedia, i: number) => (
-              <MediaOfPlacePill key={i} index={i} media={media} />
-            ))}
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
+      <Pressable style={styles.arrowContainer} onPress={closePlaceDetail}>
+        <LinearGradient
+          start={{x: 0, y: 0}}
+          end={{x: 0, y: 1}}
+          colors={['rgba(3, 32, 0, 1)', 'rgba(3, 32, 0, 0)']}
+          style={styles.linearGradient}
+        />
+        <Image
+          source={place_detail_arrow_bottom_white}
+          style={styles.arrowIcon}
+          resizeMode="contain"
+        />
+      </Pressable>
     </View>
   );
 }
@@ -216,16 +234,18 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: 'transparent',
+    backgroundColor: '#ECF3EC',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    top: Platform.OS === 'ios' ? 0 : -20,
+    top: Platform.OS === 'ios' ? 0 : 20,
   },
   imageContainer: {
     height: 200,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
   },
   image: {
     width: '100%',
@@ -234,10 +254,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: BORDER_RADIUS,
   },
   arrowContainer: {
-    top: 0,
+    top: Platform.OS === 'ios' ? 0 : 20,
     position: 'absolute',
     width: '100%',
-    height: 40,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     borderTopLeftRadius: BORDER_RADIUS,

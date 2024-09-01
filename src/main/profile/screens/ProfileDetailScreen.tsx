@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
-import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Modal, StyleSheet, Text, View} from 'react-native';
 import IUser from '../../../shared/interfaces/IUser';
 import {useMutation, useQuery} from '@apollo/client';
 import {
@@ -34,7 +34,10 @@ type Props = {
   navigation: any;
 };
 
+const height = Dimensions.get('window').height;
+
 export default function ProfileScreen({navigation}: Props) {
+  const height = Dimensions.get('window').height;
   const {t} = useTranslation();
   const onRetry = useQuery(GET_USER_BY_ID);
   const safeArea = useSafeAreaInsets();
@@ -196,7 +199,14 @@ export default function ProfileScreen({navigation}: Props) {
     );
   }
   return (
-    <View style={[styles.page, {paddingTop: safeArea.top + 10}]}>
+    <View
+      style={[
+        styles.page,
+        {
+          paddingTop: safeArea.top,
+          paddingBottom: safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT - 10,
+        },
+      ]}>
       <Modal
         animationType="fade"
         hardwareAccelerated={true}
@@ -271,103 +281,107 @@ export default function ProfileScreen({navigation}: Props) {
           </View>
         </View>
       </Modal>
-      <View style={styles.profilePhotoContainer}>
-        <ProfilePhotoComponent
-          url={user.photo}
-          username={provisionalUser.username}
-          setNewPhoto={newPhoto => setPhotoBase64(newPhoto)}
-        />
-      </View>
-      <View style={styles.inputsContainer}>
-        {provisionalUser.username && (
-          <NameInput
-            labelText={labelText('username')}
-            value={provisionalUser.username}
-            setValue={(newUsername: string) => {
-              setProvisionalUser(prevUser => ({
-                ...prevUser,
-                username: newUsername,
-              }));
-            }}
-          />
-        )}
-        <LanguageSelector setProvisionalLanguage={setProvisionalLanguage} />
-      </View>
-      <View style={styles.updateButtonContainer}>
-        {user.hasPassword && hasPermissionToUpdateUser && (
-          <SecondaryButton
-            text={t('profile.changePassword')}
-            onPress={() => {
-              navigation.navigate('ProfileUpdatePassword');
-            }}
-            style={{marginTop: 20}}
-          />
-        )}
-        <PrimaryButton text={t('profile.update')} onPress={handleUpdatePress} />
-
-        {!isGuest && (
-          <Text style={styles.textCreatedAt}>{`${t(
-            'profile.createdAt',
-          )} ${new Date(provisionalUser.createdAt).toLocaleDateString(
-            applicationLanguage.replace('_', '-') || 'en-US',
-            {
-              day: 'numeric',
-              month: 'short',
-              year: 'numeric',
-            },
-          )}`}</Text>
-        )}
-      </View>
       <View
-        style={[
-          styles.logoutButtonContainer,
-          {
-            bottom: isGuest
-              ? safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT
-              : safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT + 70,
-          },
-        ]}>
-        <SecondaryButton
-          text={isGuest ? t('profile.createMyAccount') : t('profile.logout')}
-          onPress={async () => {
-            try {
-              (await GoogleSignin.isSignedIn()) &&
-                (await GoogleSignin.signOut());
-              await GoogleAuthService.configureGoogleSignIn();
-              await removeAuthToken();
-              setDefaultUser();
-              setDefaultMain();
-              setDefaultTabMap();
-              setDefaultTabRoute();
-            } catch (error) {
-              console.error('Error al cerrar sesión:', error);
-            }
-          }}
-        />
-      </View>
-      {!isGuest && (
-        <View
-          style={[
-            styles.deleteAccountButtonContainer,
-            {
-              bottom: safeArea.bottom + BOTTOM_TAB_NAVIGATOR_HEIGHT,
-            },
-          ]}>
-          <DeleteButton
-            text={t('profile.deleteMyAccount')}
-            onPress={async () => {
-              try {
-                setShowDeleteAccountModal(!showDeleteAccountModal);
-              } catch (error) {
-                console.error(
-                  'Error al mostrar el popup de confirmación:',
-                  error,
-                );
-              }
-            }}
-          />
+        style={{
+          flex: 1,
+          justifyContent: 'space-between',
+          height: '100%',
+          width: '100%',
+        }}>
+        <View>
+          <View style={styles.profilePhotoContainer}>
+            <ProfilePhotoComponent
+              url={user.photo}
+              username={provisionalUser.username}
+              setNewPhoto={newPhoto => setPhotoBase64(newPhoto)}
+            />
+          </View>
+          <View style={styles.inputsContainer}>
+            {(provisionalUser.username !== null ||
+              provisionalUser.username !== undefined) && (
+              <NameInput
+                labelText={labelText('username')}
+                value={provisionalUser.username}
+                setValue={(newUsername: string) => {
+                  setProvisionalUser(prevUser => ({
+                    ...prevUser,
+                    username: newUsername,
+                  }));
+                }}
+              />
+            )}
+            <LanguageSelector setProvisionalLanguage={setProvisionalLanguage} />
+          </View>
+          <View style={styles.updateButtonContainer}>
+            {user.hasPassword && hasPermissionToUpdateUser && (
+              <SecondaryButton
+                text={t('profile.changePassword')}
+                onPress={() => {
+                  navigation.navigate('ProfileUpdatePassword');
+                }}
+                style={{marginTop: height < 700 ? 10 : 20}}
+              />
+            )}
+            <PrimaryButton
+              text={t('profile.update')}
+              onPress={handleUpdatePress}
+            />
+
+            {!isGuest && (
+              <Text style={styles.textCreatedAt}>{`${t(
+                'profile.createdAt',
+              )} ${new Date(provisionalUser.createdAt).toLocaleDateString(
+                applicationLanguage.replace('_', '-') || 'en-US',
+                {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                },
+              )}`}</Text>
+            )}
+          </View>
         </View>
-      )}
+        <View>
+          <View style={[styles.logoutButtonContainer]}>
+            <SecondaryButton
+              text={
+                isGuest ? t('profile.createMyAccount') : t('profile.logout')
+              }
+              onPress={async () => {
+                try {
+                  (await GoogleSignin.isSignedIn()) &&
+                    (await GoogleSignin.signOut());
+                  await GoogleAuthService.configureGoogleSignIn();
+                  await removeAuthToken();
+                  setDefaultUser();
+                  setDefaultMain();
+                  setDefaultTabMap();
+                  setDefaultTabRoute();
+                } catch (error) {
+                  console.error('Error al cerrar sesión:', error);
+                }
+              }}
+            />
+          </View>
+          {!isGuest && (
+            <View style={[styles.deleteAccountButtonContainer]}>
+              <DeleteButton
+                text={t('profile.deleteMyAccount')}
+                onPress={async () => {
+                  try {
+                    setShowDeleteAccountModal(!showDeleteAccountModal);
+                  } catch (error) {
+                    console.error(
+                      'Error al mostrar el popup de confirmación:',
+                      error,
+                    );
+                  }
+                }}
+              />
+            </View>
+          )}
+        </View>
+      </View>
     </View>
   );
 }
@@ -379,25 +393,29 @@ const styles = StyleSheet.create({
     elevation: 0,
     backgroundColor: 'white',
   },
-  profilePhotoContainer: {paddingVertical: '10%'},
+  profilePhotoContainer: {
+    paddingVertical: '8%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   inputsContainer: {width: '100%', zIndex: 10},
   updateButtonContainer: {
     width: '100%',
     paddingHorizontal: 30,
   },
   textCreatedAt: {
-    fontSize: 16,
+    fontSize: height < 700 ? 12 : 16,
     color: '#3F713B',
     fontFamily: 'Montserrat-Regular',
     textAlign: 'center',
   },
   logoutButtonContainer: {
-    position: 'absolute',
     width: '100%',
     paddingHorizontal: 30,
   },
   deleteAccountButtonContainer: {
-    position: 'absolute',
+    marginTop: height < 700 ? 10 : 20,
     width: '100%',
     paddingHorizontal: 30,
   },

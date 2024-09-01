@@ -3,7 +3,10 @@ import {
   TouchableOpacity,
   GestureResponderEvent,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
+
+const height = Dimensions.get('window').height;
 
 interface DeleteButtonProps {
   text: string;
@@ -30,7 +33,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 24,
-    height: 48,
+    height: height < 700 ? 36 : 48,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: height < 700 ? 14 : 18,
     color: '#BF1C39',
     fontFamily: 'Montserrat-Regular',
   },

@@ -17,8 +17,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoContainer: {
-    paddingTop: 50,
-    height: 250,
+    paddingTop: '10%',
+    height: '30%',
     alignItems: 'center',
     justifyContent: 'center',
   },

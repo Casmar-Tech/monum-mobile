@@ -1,11 +1,13 @@
-import React from 'react';
 import {
   Text,
   TouchableOpacity,
   GestureResponderEvent,
   StyleSheet,
   ViewStyle,
+  Dimensions,
 } from 'react-native';
+
+const height = Dimensions.get('window').height;
 
 interface SecondaryButtonProps {
   text: string;
@@ -34,7 +36,7 @@ export default function SecondaryButton({
 const styles = StyleSheet.create({
   button: {
     borderRadius: 24,
-    height: 48,
+    height: height < 700 ? 36 : 48,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: height < 700 ? 14 : 18,
     color: '#032000',
     fontFamily: 'Montserrat-Regular',
   },

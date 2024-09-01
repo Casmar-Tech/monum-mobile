@@ -225,11 +225,13 @@ export default function ScanScreen({navigation}: any) {
               height: 350,
               justifyContent: 'center',
               alignItems: 'center',
+              position: 'relative',
             }}>
             <Camera
               style={{
                 width: '100%',
                 height: '100%',
+                position: 'relative',
               }}
               device={device}
               isActive={true}

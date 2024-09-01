@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 15,
-    marginTop: '5%',
+    marginTop: '2%',
     zIndex: 10,
     position: 'relative',
   },
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
   dropDownContainer: {
     paddingHorizontal: 5,
     borderColor: '#3F713B3D',
-    marginVertical: 10,
   },
   dropDown: {
     paddingHorizontal: 15,
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 12,
     height: 48,
-    marginVertical: 10,
+    marginVertical: 5,
   },
 
   dropDownText: {

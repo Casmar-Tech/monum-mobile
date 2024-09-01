@@ -1,10 +1,10 @@
-import React from 'react';
-import {Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
 
 interface PrimaryButtonProps {
   text: string;
   onPress: () => void;
 }
+const height = Dimensions.get('window').height;
 
 export default function PrimaryButton({text, onPress}: PrimaryButtonProps) {
   return (
@@ -20,7 +20,7 @@ export default function PrimaryButton({text, onPress}: PrimaryButtonProps) {
 const styles = StyleSheet.create({
   button: {
     borderRadius: 24,
-    height: 48,
+    height: height < 700 ? 36 : 48,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     marginVertical: '5%',
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: height < 700 ? 14 : 18,
     color: 'white',
     fontFamily: 'Montserrat-Regular',
   },
