@@ -49,12 +49,16 @@ function MainNavigator() {
   const conditionToRender =
     Platform.OS === 'ios' ? loading || isLoading : loading;
 
+  const linking = {
+    prefixes: ['https://monum.mobile.es', 'monum.mobile.es://'],
+  };
+
   if (conditionToRender) {
     return <LoadingSpinner />;
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <MainStack.Navigator screenOptions={{headerShown: false}}>
         {isAuthenticated ? (
           <MainStack.Screen name="Main" component={BottomTabNavigator} />

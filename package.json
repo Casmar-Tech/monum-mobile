@@ -8,7 +8,7 @@
     "start": "react-native start",
     "ios": "react-native run-ios --simulator=\"iPhone 15 Pro Max\"",
     "ios:debug": "ENVFILE=.env.debug npm run ios -- --mode \"Debug\"",
-    "ios:device": "ENVFILE=.env.debug react-native run-ios --device \"iPad\"",
+    "ios:device": "ENVFILE=.env.debug react-native run-ios --device=\"iPhone\" --mode Debug",
     "ios:release": "ENVFILE=.env.release npm run ios -- --mode \"Release\"",
     "ios:build:release": "ENVFILE=.env.release npx react-native build-ios --mode= \"Release\"",
     "android": "react-native run-android",
